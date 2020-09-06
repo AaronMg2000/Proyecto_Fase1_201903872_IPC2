@@ -1,0 +1,13 @@
+﻿.Mi-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+.bg-celeste-75 {
+    background-color: rgba(151,150,190,0.75);
+}

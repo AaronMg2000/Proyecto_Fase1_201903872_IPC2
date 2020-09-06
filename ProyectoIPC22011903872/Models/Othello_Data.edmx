@@ -66,7 +66,7 @@
           <Property Name="Usuario" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Contraseña" Type="varchar" MaxLength="25" Nullable="false" />
           <Property Name="Fecha_nacimiento" Type="date" Nullable="false" />
-          <Property Name="Correo_Electronico" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Correo_Electronico" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <Association Name="FK__BLOQUEO__Codigo___2D27B809">
           <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
@@ -263,7 +263,7 @@
           <Property Name="Usuario1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Contraseña" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Fecha_nacimiento" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Correo_Electronico" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correo_Electronico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="BLOQUEO" Relationship="Self.FK__BLOQUEO__Codigo___2D27B809" FromRole="USUARIO" ToRole="BLOQUEO" />
           <NavigationProperty Name="BLOQUEO1" Relationship="Self.FK__BLOQUEO__Codigo___2E1BDC42" FromRole="USUARIO" ToRole="BLOQUEO" />
           <NavigationProperty Name="PAIS" Relationship="Self.FK__USUARIO__Correo___286302EC" FromRole="USUARIO" ToRole="PAIS" />

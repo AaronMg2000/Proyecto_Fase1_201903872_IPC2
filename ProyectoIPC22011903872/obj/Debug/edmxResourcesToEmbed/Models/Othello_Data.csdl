@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OthelloModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="BLOQUEO">
+    <Key>
+      <PropertyRef Name="Codigo_Bloqueo" />
+    </Key>
+    <Property Name="Codigo_Bloqueo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Codigo_Usuario_1" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Usuario_Bloqueado" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.FK__BLOQUEO__Codigo___2D27B809" FromRole="BLOQUEO" ToRole="USUARIO" />
+    <NavigationProperty Name="USUARIO1" Relationship="Self.FK__BLOQUEO__Codigo___2E1BDC42" FromRole="BLOQUEO" ToRole="USUARIO" />
+  </EntityType>
+  <EntityType Name="MOVIMIENTO">
+    <Key>
+      <PropertyRef Name="Codigo_Movimiento" />
+    </Key>
+    <Property Name="Codigo_Movimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Codigo_Partida" Type="Int32" Nullable="false" />
+    <Property Name="Fila" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+    <Property Name="Columna" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+    <Property Name="Color_Pieza" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="PARTIDA" Relationship="Self.FK__MOVIMIENT__Codig__398D8EEE" FromRole="MOVIMIENTO" ToRole="PARTIDA" />
+  </EntityType>
+  <EntityType Name="PAIS">
+    <Key>
+      <PropertyRef Name="codigo_Pais" />
+    </Key>
+    <Property Name="codigo_Pais" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="ISO3" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.FK__USUARIO__Correo___286302EC" FromRole="PAIS" ToRole="USUARIO" />
+  </EntityType>
+  <EntityType Name="PARTIDA">
+    <Key>
+      <PropertyRef Name="Codigo_Partida" />
+    </Key>
+    <Property Name="Codigo_Partida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Codigo_Usuario_1" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Usuario_2" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Torneo" Type="Int32" />
+    <Property Name="Ganador" Type="Int32" Nullable="false" />
+    <Property Name="TIPO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Punteo_1" Type="Int32" />
+    <Property Name="Punteo_2" Type="Int32" />
+    <Property Name="Blanca" Type="Int32" Nullable="false" />
+    <Property Name="Negra" Type="Int32" Nullable="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="MOVIMIENTO" Relationship="Self.FK__MOVIMIENT__Codig__398D8EEE" FromRole="PARTIDA" ToRole="MOVIMIENTO" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.FK__PARTIDA__Codigo___33D4B598" FromRole="PARTIDA" ToRole="USUARIO" />
+    <NavigationProperty Name="USUARIO1" Relationship="Self.FK__PARTIDA__Codigo___34C8D9D1" FromRole="PARTIDA" ToRole="USUARIO" />
+    <NavigationProperty Name="TORNEO" Relationship="Self.FK__PARTIDA__Codigo___35BCFE0A" FromRole="PARTIDA" ToRole="TORNEO" />
+  </EntityType>
+  <EntityType Name="TORNEO">
+    <Key>
+      <PropertyRef Name="Codigo_Torneo" />
+    </Key>
+    <Property Name="Codigo_Torneo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fecha_inicio" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="PARTIDA" Relationship="Self.FK__PARTIDA__Codigo___35BCFE0A" FromRole="TORNEO" ToRole="PARTIDA" />
+  </EntityType>
+  <EntityType Name="USUARIO">
+    <Key>
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Codigo_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Codigo_Pais" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Usuario1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contraseña" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Fecha_nacimiento" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Correo_Electronico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="BLOQUEO" Relationship="Self.FK__BLOQUEO__Codigo___2D27B809" FromRole="USUARIO" ToRole="BLOQUEO" />
+    <NavigationProperty Name="BLOQUEO1" Relationship="Self.FK__BLOQUEO__Codigo___2E1BDC42" FromRole="USUARIO" ToRole="BLOQUEO" />
+    <NavigationProperty Name="PAIS" Relationship="Self.FK__USUARIO__Correo___286302EC" FromRole="USUARIO" ToRole="PAIS" />
+    <NavigationProperty Name="PARTIDA" Relationship="Self.FK__PARTIDA__Codigo___33D4B598" FromRole="USUARIO" ToRole="PARTIDA" />
+    <NavigationProperty Name="PARTIDA1" Relationship="Self.FK__PARTIDA__Codigo___34C8D9D1" FromRole="USUARIO" ToRole="PARTIDA" />
+  </EntityType>
+  <Association Name="FK__BLOQUEO__Codigo___2D27B809">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="BLOQUEO" Type="Self.BLOQUEO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Principal>
+      <Dependent Role="BLOQUEO">
+        <PropertyRef Name="Codigo_Usuario_1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BLOQUEO__Codigo___2E1BDC42">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="BLOQUEO" Type="Self.BLOQUEO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Principal>
+      <Dependent Role="BLOQUEO">
+        <PropertyRef Name="Codigo_Usuario_Bloqueado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MOVIMIENT__Codig__398D8EEE">
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="1" />
+    <End Role="MOVIMIENTO" Type="Self.MOVIMIENTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PARTIDA">
+        <PropertyRef Name="Codigo_Partida" />
+      </Principal>
+      <Dependent Role="MOVIMIENTO">
+        <PropertyRef Name="Codigo_Partida" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__USUARIO__Correo___286302EC">
+    <End Role="PAIS" Type="Self.PAIS" Multiplicity="1" />
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PAIS">
+        <PropertyRef Name="codigo_Pais" />
+      </Principal>
+      <Dependent Role="USUARIO">
+        <PropertyRef Name="Codigo_Pais" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__Codigo___33D4B598">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="Codigo_Usuario_1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__Codigo___34C8D9D1">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="Codigo_Usuario_2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__Codigo___35BCFE0A">
+    <End Role="TORNEO" Type="Self.TORNEO" Multiplicity="0..1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TORNEO">
+        <PropertyRef Name="Codigo_Torneo" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="Codigo_Torneo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OthelloEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BLOQUEO" EntityType="Self.BLOQUEO" />
+    <EntitySet Name="MOVIMIENTO" EntityType="Self.MOVIMIENTO" />
+    <EntitySet Name="PAIS" EntityType="Self.PAIS" />
+    <EntitySet Name="PARTIDA" EntityType="Self.PARTIDA" />
+    <EntitySet Name="TORNEO" EntityType="Self.TORNEO" />
+    <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
+    <AssociationSet Name="FK__BLOQUEO__Codigo___2D27B809" Association="Self.FK__BLOQUEO__Codigo___2D27B809">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="BLOQUEO" EntitySet="BLOQUEO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BLOQUEO__Codigo___2E1BDC42" Association="Self.FK__BLOQUEO__Codigo___2E1BDC42">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="BLOQUEO" EntitySet="BLOQUEO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MOVIMIENT__Codig__398D8EEE" Association="Self.FK__MOVIMIENT__Codig__398D8EEE">
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+      <End Role="MOVIMIENTO" EntitySet="MOVIMIENTO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__USUARIO__Correo___286302EC" Association="Self.FK__USUARIO__Correo___286302EC">
+      <End Role="PAIS" EntitySet="PAIS" />
+      <End Role="USUARIO" EntitySet="USUARIO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__Codigo___33D4B598" Association="Self.FK__PARTIDA__Codigo___33D4B598">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__Codigo___34C8D9D1" Association="Self.FK__PARTIDA__Codigo___34C8D9D1">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__Codigo___35BCFE0A" Association="Self.FK__PARTIDA__Codigo___35BCFE0A">
+      <End Role="TORNEO" EntitySet="TORNEO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

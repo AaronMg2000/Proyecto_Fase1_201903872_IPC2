@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OthelloModelStoreContainer" CdmEntityContainer="OthelloEntities">
+    <EntitySetMapping Name="BLOQUEO">
+      <EntityTypeMapping TypeName="OthelloModel.BLOQUEO">
+        <MappingFragment StoreEntitySet="BLOQUEO">
+          <ScalarProperty Name="Codigo_Bloqueo" ColumnName="Codigo_Bloqueo" />
+          <ScalarProperty Name="Codigo_Usuario_1" ColumnName="Codigo_Usuario_1" />
+          <ScalarProperty Name="Codigo_Usuario_Bloqueado" ColumnName="Codigo_Usuario_Bloqueado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MOVIMIENTO">
+      <EntityTypeMapping TypeName="OthelloModel.MOVIMIENTO">
+        <MappingFragment StoreEntitySet="MOVIMIENTO">
+          <ScalarProperty Name="Codigo_Movimiento" ColumnName="Codigo_Movimiento" />
+          <ScalarProperty Name="Codigo_Partida" ColumnName="Codigo_Partida" />
+          <ScalarProperty Name="Fila" ColumnName="Fila" />
+          <ScalarProperty Name="Columna" ColumnName="Columna" />
+          <ScalarProperty Name="Color_Pieza" ColumnName="Color_Pieza" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PAIS">
+      <EntityTypeMapping TypeName="OthelloModel.PAIS">
+        <MappingFragment StoreEntitySet="PAIS">
+          <ScalarProperty Name="codigo_Pais" ColumnName="codigo_Pais" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="ISO3" ColumnName="ISO3" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PARTIDA">
+      <EntityTypeMapping TypeName="OthelloModel.PARTIDA">
+        <MappingFragment StoreEntitySet="PARTIDA">
+          <ScalarProperty Name="Codigo_Partida" ColumnName="Codigo_Partida" />
+          <ScalarProperty Name="Codigo_Usuario_1" ColumnName="Codigo_Usuario_1" />
+          <ScalarProperty Name="Codigo_Usuario_2" ColumnName="Codigo_Usuario_2" />
+          <ScalarProperty Name="Codigo_Torneo" ColumnName="Codigo_Torneo" />
+          <ScalarProperty Name="Ganador" ColumnName="Ganador" />
+          <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+          <ScalarProperty Name="Punteo_1" ColumnName="Punteo_1" />
+          <ScalarProperty Name="Punteo_2" ColumnName="Punteo_2" />
+          <ScalarProperty Name="Blanca" ColumnName="Blanca" />
+          <ScalarProperty Name="Negra" ColumnName="Negra" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TORNEO">
+      <EntityTypeMapping TypeName="OthelloModel.TORNEO">
+        <MappingFragment StoreEntitySet="TORNEO">
+          <ScalarProperty Name="Codigo_Torneo" ColumnName="Codigo_Torneo" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="USUARIO">
+      <EntityTypeMapping TypeName="OthelloModel.USUARIO">
+        <MappingFragment StoreEntitySet="USUARIO">
+          <ScalarProperty Name="Codigo_Usuario" ColumnName="Codigo_Usuario" />
+          <ScalarProperty Name="Codigo_Pais" ColumnName="Codigo_Pais" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="Usuario1" ColumnName="Usuario" />
+          <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+          <ScalarProperty Name="Fecha_nacimiento" ColumnName="Fecha_nacimiento" />
+          <ScalarProperty Name="Correo_Electronico" ColumnName="Correo_Electronico" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
