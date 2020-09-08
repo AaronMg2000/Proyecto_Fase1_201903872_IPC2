@@ -23,6 +23,7 @@ namespace ProyectoIPC22011903872.Models
         public int Codigo_Torneo { get; set; }
         public string Nombre { get; set; }
         public System.DateTime fecha_inicio { get; set; }
+        public string TIPO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PARTIDA> PARTIDA { get; set; }

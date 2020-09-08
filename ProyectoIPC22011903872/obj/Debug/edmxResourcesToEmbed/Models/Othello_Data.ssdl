@@ -23,8 +23,8 @@
       <PropertyRef Name="codigo_Pais" />
     </Key>
     <Property Name="codigo_Pais" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nombre" Type="varchar" MaxLength="25" />
-    <Property Name="ISO3" Type="varchar" MaxLength="20" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ISO3" Type="varchar" MaxLength="20" Nullable="false" />
   </EntityType>
   <EntityType Name="PARTIDA">
     <Key>
@@ -42,13 +42,24 @@
     <Property Name="Negra" Type="int" Nullable="false" />
     <Property Name="Fecha" Type="date" Nullable="false" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <EntityType Name="TORNEO">
     <Key>
       <PropertyRef Name="Codigo_Torneo" />
     </Key>
     <Property Name="Codigo_Torneo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="fecha_inicio" Type="date" Nullable="false" />
+    <Property Name="TIPO" Type="varchar" MaxLength="15" />
   </EntityType>
   <EntityType Name="USUARIO">
     <Key>
@@ -59,7 +70,7 @@
     <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Usuario" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="Contraseña" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="Contraseña" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Fecha_nacimiento" Type="date" Nullable="false" />
     <Property Name="Correo_Electronico" Type="varchar" MaxLength="100" Nullable="false" />
   </EntityType>
@@ -152,6 +163,7 @@
     <EntitySet Name="MOVIMIENTO" EntityType="Self.MOVIMIENTO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PAIS" EntityType="Self.PAIS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PARTIDA" EntityType="Self.PARTIDA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TORNEO" EntityType="Self.TORNEO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__BLOQUEO__Codigo___2D27B809" Association="Self.FK__BLOQUEO__Codigo___2D27B809">

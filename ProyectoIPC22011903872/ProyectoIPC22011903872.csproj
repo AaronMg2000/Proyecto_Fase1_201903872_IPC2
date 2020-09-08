@@ -162,12 +162,17 @@
     <Compile Include="Models\PARTIDA.cs">
       <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>Othello_Data.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TORNEO.cs">
       <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\USUARIO.cs">
       <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\addUserViewModel.cs" />
+    <Compile Include="Models\ViewModels\getPaisViewModel.cs" />
     <Compile Include="Models\ViewModels\getUserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -333,6 +338,8 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Registrar.cshtml" />
+    <Content Include="Views\Shared\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

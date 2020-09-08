@@ -4,13 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6e76aa43eb374b8f84d20dae1152acd0" Name="Diagram1">
-        <EntityTypeShape EntityType="OthelloModel.BLOQUEO" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.MOVIMIENTO" Width="1.5" PointX="10.5" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.PAIS" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+      <Diagram DiagramId="584679e95cd747cd9b791cdde82aa18e" Name="Diagram1">
+        <EntityTypeShape EntityType="OthelloModel.BLOQUEO" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.MOVIMIENTO" Width="1.5" PointX="10.5" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.PAIS" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="OthelloModel.PARTIDA" Width="1.5" PointX="8.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="OthelloModel.TORNEO" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.USUARIO" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.USUARIO" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
         <AssociationConnector Association="OthelloModel.FK__BLOQUEO__Codigo___2D27B809" ManuallyRouted="false" />
         <AssociationConnector Association="OthelloModel.FK__BLOQUEO__Codigo___2E1BDC42" ManuallyRouted="false" />
         <AssociationConnector Association="OthelloModel.FK__MOVIMIENT__Codig__398D8EEE" ManuallyRouted="false" />

@@ -29,6 +29,7 @@ namespace ProyectoIPC22011903872.Models
         public virtual DbSet<MOVIMIENTO> MOVIMIENTO { get; set; }
         public virtual DbSet<PAIS> PAIS { get; set; }
         public virtual DbSet<PARTIDA> PARTIDA { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TORNEO> TORNEO { get; set; }
         public virtual DbSet<USUARIO> USUARIO { get; set; }
     }

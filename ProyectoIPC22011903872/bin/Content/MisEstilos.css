@@ -11,3 +11,31 @@
 .bg-celeste-75 {
     background-color: rgba(151,150,190,0.75);
 }
+
+.redondear {
+    border-radius: 20px;
+}
+
+.btt-yellow {
+    color: #fff;
+    background-color: #FFC107;
+    border-color: #FFC107;
+}
+
+.borde-amarillo {
+    border-bottom-width: 3px;
+    border-bottom-color: yellow;
+}
+
+.btt-yellow:hover {
+    color: #fff;
+    background-color: #FFCF3F;
+    border-color: #FFCF3F;
+}
+
+.btt-secondary:focus, .btn-secondary.focus {
+    color: #fff;
+    background-color: #FFCF3F;
+    border-color: #FFCF3F;
+    box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
+}
