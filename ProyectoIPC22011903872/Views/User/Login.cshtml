@@ -14,9 +14,17 @@
                 <form action="/User/Validar" method="post">
                     <div class="form-group text-white">
                         <input type="text" name="Usuario" id="Usuario" required placeholder="Usuario" class="form-control" />
+                        @if (!string.IsNullOrEmpty(ViewBag.Usuario))
+                        {
+                            <span class="field-validation-error text-danger" data-valmsg-for="Usuario" data-valmsg-replace="true">@ViewBag.Usuario</span>
+                        }
                     </div>
                     <div class="form-group text-white">
                         <input type="password" name="password" id="password" required placeholder="Contraseña" class="form-control" />
+                        @if (!string.IsNullOrEmpty(ViewBag.Contraseña))
+                        {
+                            <span class="field-validation-error text-danger" data-valmsg-for="Usuario" data-valmsg-replace="true">@ViewBag.Contraseña</span>
+                        }
                     </div>
                     <div class="form-group text-white">
                         <div class="row">
@@ -26,7 +34,7 @@
                             <div class="w-100"></div>
                             <div class="col-12">
                                 @Html.ActionLink("Registrarse", "Registrar", "User", new { @class = "btn btn-dark btn-block redondear mb-2" })
-                            </div>
+                                </div>
                         </div>
                     </div>
                 </form>

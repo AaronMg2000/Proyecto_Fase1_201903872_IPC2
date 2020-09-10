@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+}
+
+<div class="row justify-content-center align-content-center" style="height:85vh">
+    <div class="col col-md-4">
+        <div class="card bg-transparent">
+            <div class="card-header" style="background-color:rgba(255, 255, 255,0.57)">
+                <h1 style="font-family: Script MT" class="text-white display-2 font-weight-bold text-center borde-texto">Othello</h1>
+            </div>
+            <div class="card-body" style="background-color:rgba(255, 255, 255,0.57)">
+                <div class="mb-5">
+                    @Html.ActionLink("Nueva Partida", "Index", "Partida", "Partida", new { @class = "btn btt-yellow btn-block redondear font-weight-bold" })
+                </div>
+                <div class="mb-5">
+                    @Html.ActionLink("Torneos", "Index", "Principal", new { @class = "btn btt-n1 btn-block redondear font-weight-bold" })
+                </div>
+                <div class="mb-5">
+                    @Html.ActionLink("Reportes", "Index", "Principal", new { @class = "btn btt-n2 btn-block redondear font-weight-bold" })
+                </div>
+                <div class="mb-5">
+                    @Html.ActionLink("¿Comó Jugar?", "Index", "Principal", new { @class = "btn btn-dark btn-block redondear font-weight-bold" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

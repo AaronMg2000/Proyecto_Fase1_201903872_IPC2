@@ -16,29 +16,68 @@
                 <div class="card-header bg-secondary text-white text-center">
                     Formulario de Registro
                 </div>
-                <div class="card-body">
-                    @Html.LabelFor(d => d.Nombre, "Nombre")
-                    @Html.TextBoxFor(d => d.Nombre, "", new { @class = "form-control" })
-                    @Html.LabelFor(d => d.Apellido, "Apellido")
-                    @Html.TextBoxFor(d => d.Apellido, "", new { @class = "form-control" })
-                    @Html.LabelFor(d => d.Usuario, "Usuario")
-                    @Html.TextBoxFor(d => d.Usuario, "", new { @class = "form-control" })
-                    @Html.LabelFor(d => d.Correo_Electronico, "Correo_Electronico")
-                    @Html.TextBoxFor(d => d.Correo_Electronico, "", new { @class = "form-control" , @type="email"})
-                    @Html.LabelFor(d => d.Password, "Contraseña")
-                    @Html.TextBoxFor(d => d.Password, "", new { @class = "form-control", @type = "password" })
-                    @Html.LabelFor(d => d.RePassword, "Confirmar Contreseña")
-                    @Html.TextBoxFor(d => d.RePassword, "", new { @class = "form-control", @type = "password" })
-                    @Html.LabelFor(d => d.Fecha_nacimiento, "Fecha de Nacimiento")
-                    @Html.TextBoxFor(d => d.Fecha_nacimiento, "", new { @class = "form-control", @type = "date" })
-                    @Html.LabelFor(d => d.Codigo_Pais, "Pais")
-                    <select class="form-control" data-val="true" data-val-number="El campo Codigo_Pais debe ser un número." data-val-required="El campo Codigo_Pais es obligatorio." id="Codigo_Pais" name="Codigo_Pais">
-                        <option value="">Seleccione uno</option>
-                        @foreach (var pais in ViewBag.Paises)
+                <div class="card-body scroll-Registrar">
+                    <div class="form-group m-0">
+                        @Html.LabelFor(d => d.Nombre, "Nombre")
+                        @Html.TextBoxFor(d => d.Nombre, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Nombre, null, new { @class = "text-danger" })
+                        
+                    </div>
+                    <div class="form-group m-0">
+                        @Html.LabelFor(d => d.Apellido, "Apellido")
+                        @Html.TextBoxFor(d => d.Apellido, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Apellido, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group m-0">
+                        @Html.LabelFor(d => d.Usuario, "Usuario")
+                        @Html.TextBoxFor(d => d.Usuario, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Usuario, null, new { @class = "text-danger" })
+                        @if (!string.IsNullOrEmpty(ViewBag.mensajeUsuario))
                         {
-                            <option value="@pais.codigo">@pais.nombre | @pais.ISO3</option>
+                            <span class="field-validation-error text-danger" data-valmsg-for="Usuario" data-valmsg-replace="true">El Usuario ya se encuentra registrado.</span>
                         }
-                    </select>
+                    </div>
+                    <div class="form-group m-0">
+                        @Html.LabelFor(d => d.Correo_Electronico, "Correo_Electronico")
+                        @Html.TextBoxFor(d => d.Correo_Electronico, "", new { @class = "form-control", @type = "email" })
+                        @Html.ValidationMessageFor(x => x.Correo_Electronico, null, new { @class = "text-danger" })
+                        @if (!string.IsNullOrEmpty(ViewBag.mensajeCorreo))
+                        {
+                            <span class="field-validation-error text-danger" data-valmsg-for="Usuario" data-valmsg-replace="true">El correo electronico ingresado ya se encuentra registrado.</span>
+                        }
+                    </div>
+                    <div class="form-group m-0">
+                        @Html.LabelFor(d => d.Password, "Contraseña")
+                        @Html.TextBoxFor(d => d.Password, "", new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(x => x.Nombre, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group m-0">
+                        x
+                        @Html.LabelFor(d => d.RePassword, "Confirmar Contreseña")
+                        @Html.TextBoxFor(d => d.RePassword, "", new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(x => x.RePassword, null, new { @class = "text-danger" })
+                        @if (!string.IsNullOrEmpty(ViewBag.mensajeContraseña))
+                        {
+                            <span class="field-validation-error text-danger" data-valmsg-for="Usuario" data-valmsg-replace="true">Las contraseñas no coinciden</span>
+                        }
+                    </div>
+                    <div class="form-group m-0">
+                        @Html.LabelFor(d => d.Fecha_nacimiento, "Fecha de Nacimiento")
+                        @Html.TextBoxFor(d => d.Fecha_nacimiento, "", new { @class = "form-control", @type = "date" })
+                        @Html.ValidationMessageFor(x => x.Fecha_nacimiento, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group m-0">
+                        @Html.LabelFor(d => d.Codigo_Pais, "Pais")
+                        <select class="form-control" data-val="true" data-val-number="El campo Codigo_Pais debe ser un número." data-val-required="El campo Codigo_Pais es obligatorio." id="Codigo_Pais" name="Codigo_Pais">
+                            <option value="">Seleccione uno</option>
+                            @foreach (var pais in ViewBag.Paises)
+                            {
+                                <option value="@pais.codigo">@pais.nombre | @pais.ISO3</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(x => x.Codigo_Pais, null, new { @class = "text-danger" })
+                    </div>
+
                     <div class="row mt-2">
                         <div class="col col-md-6">
                             <input type="submit" value="Agregar" class="btn btn-block btt-yellow redondear" />
@@ -46,7 +85,7 @@
                         <div class="col col-md-6">
                             @Html.ActionLink("Cancelar", "Login", "User", new { @class = "btn btn-dark btn-block redondear" })
                         </div>
-                        
+
                     </div>
                 </div>
                     
