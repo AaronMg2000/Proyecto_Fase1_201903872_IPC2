@@ -7,6 +7,20 @@
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+<<<<<<< HEAD
+=======
+    <link href="~/Content/fontawesome-all.css" rel="stylesheet" />
+    <link href="~/Content/MisEstilos.css" rel="stylesheet" />
+    <style>
+        body {
+            background: url(@RenderSection("imagen",false)) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+>>>>>>> f1bcca0... Login terminado, Diseño principal terminado, Iniciando diseño Partida
 </head>
 <body>
     <div class="navbar navbar-dark bg-dark fixed-top navbar-expand-md">
@@ -40,6 +54,11 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+<<<<<<< HEAD
+=======
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/fontawesome/fontawesome.min.js"></script>
+>>>>>>> f1bcca0... Login terminado, Diseño principal terminado, Iniciando diseño Partida
     @RenderSection("scripts", required: false)
 </body>
 </html>

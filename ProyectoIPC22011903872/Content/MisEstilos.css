@@ -1,0 +1,106 @@
+﻿.Mi-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+.bg-celeste-75 {
+    background-color: rgba(151,150,190,0.75);
+}
+
+.redondear {
+    border-radius: 20px;
+}
+
+.btt-yellow {
+    color: #fff;
+    background-color: #FFC107;
+    border-color: #FFC107;
+}
+
+.btt-yellow:hover {
+    color: #fff;
+    background-color: #FFCF3F;
+    border-color: #FFCF3F;
+}
+
+.btt-secondary:focus, .btn-secondary.focus {
+    color: #fff;
+    background-color: #FFCF3F;
+    border-color: #FFCF3F;
+    box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
+}
+
+.btt-n1 {
+    color: #fff;
+    background-color: #EFB403;
+    border-color: #EFB403;
+}
+
+    .btt-n1:hover {
+        color: #fff;
+        background-color: #FFC106;
+        border-color: #FFC106;
+    }
+
+    .btt-n1:focus, .btn-n1.focus {
+        color: #fff;
+        background-color: #FFC106;
+        border-color: #FFC106;
+        box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
+    }
+
+.btt-n2 {
+    color: #fff;
+    background-color: #D9A301;
+    border-color: #D9A301;
+}
+
+    .btt-n2:hover {
+        color: #fff;
+        background-color: #E0A801;
+        border-color: #E0A801;
+    }
+
+    .btt-n2:focus, .btn-n2.focus {
+        color: #fff;
+        background-color: #E0A801;
+        border-color: #E0A801;
+        box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
+    }
+
+
+
+.scroll-Registrar {
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.navbar-nav > li {
+    float: left;
+    position: relative;
+}
+
+.navbar-subrayado .navbar-nav .active a::after {
+    border-bottom: 0.45em solid #FFCF3F;
+    bottom: -16px;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+}
+
+.toggle.ios, .toggle-on.ios, .toggle-off.ios {
+    border-radius: 20px;
+}
+
+    .toggle.ios .toggle-handle {
+        border-radius: 20px;
+    }
+.borde-texto {
+    text-shadow: 3px 0px 3px black, 0px 2px 0px black, -3.5px 0px 0px black, 0px -2px 0px black;
+}
