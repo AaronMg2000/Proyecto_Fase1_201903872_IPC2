@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Partida";
+    Layout = "~/Views/Shared/_LayoutJuego.cshtml";
+}
+<div class="row justify-content-center align-content-center " style="height:90vh">
+    <div class="col col-md-11 bg-negro-80" style="height:95%">
+        <div class="row h-100">
+            <div class="col col-md-3">
+                <div class="row borde-naranja scroll" style="max-height:45vh">
+                    <div class="col col-md-12">
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">@ViewBag.partida.jugador1</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <div class="ficha blanco">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Puntaje</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <p class="font-weight-bold text-white h1">@ViewBag.partida.punteo_jugador1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row scroll " style="max-height:40vh">
+                    <div class="col col-md-12 h-100">
+                        <div class="form-group mt-4 h-100">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">TURNO</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <div class="ficha @ViewBag.partida.siguiente_tiro">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-6 bg-naranja h-100">
+                <div class="row justify-content-center align-content-center h-100">
+                    <div class="w-100" style="height:5%">
+                    </div>
+                    <div class="" style="width:4.16666%;height:90%">
+                    </div>
+                    <div class="col col-11 bg-secondary" style="height:90%">
+                        <div class="row justify-content-center align-content-center h-100">
+                            <div style="height:95%; width:96%">
+                                <div class="row justify-content-around align-content-around h-100">
+                                    @foreach (var fila in ViewBag.partida.Filas)
+                                    {
+                                        <div class="col col-12" style="height:10%">
+                                            <div class="row justify-content-around align-content-around h-100">
+                                                @foreach (var columna in fila.columnas)
+                                                {
+                                                    <div class="bg-verde h-100" style="width:9%">
+                                                        <a href="" class="btn btn-block btn-ficha @columna.color"></a>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="" style="width:4.16666%;height:90%">
+                    </div>
+                    <div class="w-100" style="height:5%">
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-3">
+                <div class="row borde-naranja scroll" style="max-height:45vh">
+                    <div class="col col-md-12">
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">@ViewBag.partida.jugador2</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <div class="ficha negro">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Puntaje</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <p class="font-weight-bold text-white h1">@ViewBag.partida.punteo_jugador2</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row scroll" style="max-height:40vh">
+                    <div class="col col-12 mt-3">
+                        <div class="form-group mt-5">
+                            <a href="#" class="btn btn-dark btn-block">GUARDAR PARTIDA</a>
+                        </div>
+                    </div>
+                    <div class="col col-12">
+                        <div class="form-group mt-5">
+                            <a href="#" class="btn btn-dark btn-block">SALIR DEL JUEGO</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

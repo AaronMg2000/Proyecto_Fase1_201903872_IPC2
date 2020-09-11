@@ -1,4 +1,4 @@
-﻿@model ProyectoIPC22011903872.Models.ViewModels.addUserViewModel
+﻿@model ProyectoIPC22011903872.Models.ViewModels.addUserViewModel   
 
 @{
     ViewBag.Title = "Registrar";
@@ -52,7 +52,6 @@
                         @Html.ValidationMessageFor(x => x.Nombre, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group m-0">
-                        x
                         @Html.LabelFor(d => d.RePassword, "Confirmar Contreseña")
                         @Html.TextBoxFor(d => d.RePassword, "", new { @class = "form-control", @type = "password" })
                         @Html.ValidationMessageFor(x => x.RePassword, null, new { @class = "text-danger" })
