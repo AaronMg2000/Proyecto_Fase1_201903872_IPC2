@@ -1,4 +1,4 @@
-﻿
+﻿@model ProyectoIPC22011903872.Models.ViewModels.PartidaViewModel
 @{
     ViewBag.Title = "Partida";
     Layout = "~/Views/Shared/_LayoutJuego.cshtml";
@@ -14,7 +14,7 @@
                             <div class="row justify-content-center align-content-center mt-2 h-75">
                                 <div class="col col-sm-6 h-100">
                                     <div class="row justify-content-center align-content-center bg-verde h-100">
-                                        <div class="ficha blanco">
+                                        <div class="ficha @ViewBag.partida.color_jugador1">
                                         </div>
                                     </div>
                                 </div>
@@ -64,9 +64,22 @@
                                             <div class="row justify-content-around align-content-around h-100">
                                                 @foreach (var columna in fila.columnas)
                                                 {
-                                                    <div class="bg-verde h-100" style="width:9%">
-                                                        <a href="" class="btn btn-block btn-ficha @columna.color"></a>
-                                                    </div>
+                                                <div class="bg-verde h-100" style="width:9%">
+                                                    @if (String.IsNullOrEmpty(columna.color))
+                                                    {
+                                                        using (Html.BeginForm("Partida", "Partida", FormMethod.Post, new { @class = "w-100 h-100" }))
+                                                        {
+                                                            <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
+                                                            <input type="text" hidden name="fila" id="fila" value="@fila.nombre" />
+                                                            <input type="text" hidden name="columna" id="columna" value="@columna.nombre" />
+                                                            <button type="submit" class="btn btn-block btn-ficha"></button>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="w-100 btn-ficha @columna.color"></div>
+                                                    }
+                                                </div>
                                                 }
                                             </div>
                                         </div>
@@ -89,7 +102,7 @@
                             <div class="row justify-content-center align-content-center mt-2 h-75">
                                 <div class="col col-sm-6 h-100">
                                     <div class="row justify-content-center align-content-center bg-verde h-100">
-                                        <div class="ficha negro">
+                                        <div class="ficha @ViewBag.partida.color_jugador2">
                                         </div>
                                     </div>
                                 </div>

@@ -176,6 +176,7 @@
     </Compile>
     <Compile Include="Models\ViewModels\addUserViewModel.cs" />
     <Compile Include="Models\ViewModels\ColumnaViewModel.cs" />
+    <Compile Include="Models\ViewModels\DatosModel.cs" />
     <Compile Include="Models\ViewModels\FilaViewModel.cs" />
     <Compile Include="Models\ViewModels\getPaisViewModel.cs" />
     <Compile Include="Models\ViewModels\getUserViewModel.cs" />
@@ -398,6 +399,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Public\IMG\" />
+    <Folder Include="Public\XML\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

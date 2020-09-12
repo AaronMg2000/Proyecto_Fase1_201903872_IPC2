@@ -5,10 +5,11 @@ using System.Web;
 
 namespace ProyectoIPC22011903872.Models.ViewModels
 {
+    [Serializable]
     public class ColumnaViewModel
     {
-        public string nombre { get; set; }
-        public string color { get; set; }
+        public string nombre;
+        public string color;
 
     }
 }

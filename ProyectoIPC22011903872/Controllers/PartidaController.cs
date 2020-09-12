@@ -1,68 +1,152 @@
 ﻿using ProyectoIPC22011903872.Models.ViewModels;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 
 namespace ProyectoIPC22011903872.Controllers
 {
     public class PartidaController : Controller
     {
+        public static DatosModel modelo = new DatosModel();
+        public static PartidaViewModel PartidaCargada = new PartidaViewModel();
+        public static bool cargar=false;
         // GET: Partida
         public ActionResult Index()
         {
+            ViewBag.mensaje = "";
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Index(string mensaje) {
+            ViewBag.mensaje = mensaje;
             return View();
         }
 
-        public ActionResult Partida() {
-            PartidaViewModel partida = new PartidaViewModel();
-            string[] columnas = {"A","B","C","D","E","F","G","H"};
-            partida.jugador1 = "jugador1";
-            partida.jugador2 = "jugador2";
-            partida.movimientos_1 = 0;
-            partida.movimientos_2 = 0;
-            partida.punteo_jugador1 = 2;
-            partida.punteo_jugador2 = 2;
-            partida.siguiente_tiro = "blanco";
-            partida.Filas = new List<FilaViewModel>();
-            for (int i = 1; i <= 8; i++)
-            {
-                FilaViewModel fila = new FilaViewModel();
-                fila.nombre = i.ToString();
-                fila.columnas = new List<ColumnaViewModel>();
-                for (int j = 0; j < columnas.Length; j++)
-                {
-                    ColumnaViewModel col = new ColumnaViewModel();
-                    col.color = "";
-                    col.nombre = columnas[j];
+        public ActionResult Partida()
+        {
+            var partida = new PartidaViewModel();
 
-                    if (j==3 && i==4)
-                    {
-                        col.color = "blanco";
-                    }
-                    if (j == 3 && i == 5)
-                    {
-                        col.color = "negro";
-                    }
-                    if (j == 4 && i == 4)
-                    {
-                        col.color = "negro";
-                    }
-                    if (j == 4 && i == 5)
-                    {
-                        col.color = "blanco";
-                    }
-                    fila.columnas.Add(col);
-                }
-                partida.Filas.Add(fila);
+            if (!cargar)
+            {
+                partida = Funciones.CrearPartida(modelo);
             }
+            else
+            {
+                partida = PartidaCargada;
+                cargar = false;
+                PartidaCargada = new PartidaViewModel();
+            }
+            ViewBag.mensaje = "partida";
             ViewBag.partida = partida;
-            return View();
+            return View(partida);
         }
         [HttpPost]
-        public ActionResult Partida(FilaViewModel model) {
+        public ActionResult Partida(int nom, string fila, string columna)
+        {
+            ViewBag.mensaje = "funciono";
+            var partida = new PartidaViewModel();
+            foreach (var part in modelo.partidas)
+            {
+                if (part.nombre == nom)
+                {
+                    partida = part;
+                    break;
+                }
+            }
+            var model = Funciones.AgregarFicha(partida, fila, columna);
+            ViewBag.partida = model;
             return View(model);
         }
+        [HttpPost]
+        public ActionResult CargarPartida(HttpPostedFileBase archivo) {
+            var Filename = Path.GetFileName(archivo.FileName);
+            var path = Path.Combine(Server.MapPath("~/Public/XML"), Filename);
+            archivo.SaveAs(path);
+            XmlDocument documento = new XmlDocument();
+            documento.Load(path);
+            PartidaCargada = Funciones.CrearPartida(modelo);
+            PartidaCargada.movimientos_1 = 0;
+            PartidaCargada.movimientos_2 = 0;
+            PartidaCargada.punteo_jugador1 = 0;
+            PartidaCargada.punteo_jugador2 = 0;
+            foreach (XmlNode node in documento.SelectNodes("/tablero/ficha"))
+            {
+                var f = node["fila"].InnerText;
+                var c = node["columna"].InnerText;
+                var color = node["color"].InnerText;
+                foreach (var fila in PartidaCargada.Filas)
+                {
+                    foreach(var columna in fila.columnas)
+                    {
+                        if (c == columna.nombre && f == fila.nombre)
+                        {
+                            columna.color = color;
+                            if (PartidaCargada.color_jugador1==color)
+                            {
+                                PartidaCargada.punteo_jugador1++;
+                                PartidaCargada.movimientos_1++;
+                            }
+                            else
+                            {
+                                PartidaCargada.punteo_jugador2++;
+                                PartidaCargada.movimientos_2++;
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (XmlNode node in documento.SelectNodes("/tablero/siguienteTiro"))
+            {
+                PartidaCargada.siguiente_tiro = node["color"].InnerText;
+            }
+            cargar = true;
+            return RedirectToAction("Partida", "Partida");
+        }
+
+        public ActionResult GuardarPartida(int nombre)
+        {
+            PartidaViewModel partida = new PartidaViewModel();
+            foreach (var part in modelo.partidas)
+            {
+                if (part.nombre == nombre)
+                {
+                    partida = part;
+                    break;
+                }
+            }
+            
+            XDocument documento = new XDocument(new XDeclaration("1.0","utf-8",null));
+            XElement Raiz = new XElement("tablero");
+            documento.Add(Raiz);
+            foreach ( var fila in partida.Filas)
+            {
+                foreach (var columna in fila.columnas)
+                {
+                    if (!string.IsNullOrEmpty(columna.color))
+                    {
+                        XElement ficha = new XElement("ficha");
+                        XElement color = new XElement("color",columna.color);
+                        XElement col = new XElement("columna",columna.nombre);
+                        XElement fil = new XElement("fila",fila.nombre);
+                        ficha.Add(color);
+                        ficha.Add(col);
+                        ficha.Add(fil);
+                        Raiz.Add(ficha);
+                    }
+                }
+            }
+            XElement siguiente =new XElement("siguienteTiro");
+            XElement color =new XElement("color",partida.siguiente_tiro);
+            siguiente.Add(color);
+            Raiz.Add(siguiente);
+            documento.Save("~/Public/XML/Partida_#"+partida.nombre+".xml");
+            return RedirectToAction("Index","Partida",new { mensaje = "Partida Guardada"});
+        }
     }
+    
 }
