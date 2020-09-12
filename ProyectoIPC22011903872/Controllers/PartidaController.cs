@@ -66,6 +66,7 @@ namespace ProyectoIPC22011903872.Controllers
         public ActionResult CargarPartida(HttpPostedFileBase archivo) {
             var Filename = Path.GetFileName(archivo.FileName);
             var path = Path.Combine(Server.MapPath("~/Public/XML"), Filename);
+            
             archivo.SaveAs(path);
             XmlDocument documento = new XmlDocument();
             documento.Load(path);
@@ -110,6 +111,8 @@ namespace ProyectoIPC22011903872.Controllers
 
         public ActionResult GuardarPartida(int nombre)
         {
+            
+
             PartidaViewModel partida = new PartidaViewModel();
             foreach (var part in modelo.partidas)
             {
@@ -119,7 +122,12 @@ namespace ProyectoIPC22011903872.Controllers
                     break;
                 }
             }
-            
+            string Filename = "Partida_#" + partida.nombre + ".xml";
+            var path = Path.Combine(Server.MapPath("~/Public/XML_SAVE"), Filename);
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
             XDocument documento = new XDocument(new XDeclaration("1.0","utf-8",null));
             XElement Raiz = new XElement("tablero");
             documento.Add(Raiz);
@@ -130,10 +138,10 @@ namespace ProyectoIPC22011903872.Controllers
                     if (!string.IsNullOrEmpty(columna.color))
                     {
                         XElement ficha = new XElement("ficha");
-                        XElement color = new XElement("color",columna.color);
+                        XElement colors = new XElement("color",columna.color);
                         XElement col = new XElement("columna",columna.nombre);
                         XElement fil = new XElement("fila",fila.nombre);
-                        ficha.Add(color);
+                        ficha.Add(colors);
                         ficha.Add(col);
                         ficha.Add(fil);
                         Raiz.Add(ficha);
@@ -144,7 +152,8 @@ namespace ProyectoIPC22011903872.Controllers
             XElement color =new XElement("color",partida.siguiente_tiro);
             siguiente.Add(color);
             Raiz.Add(siguiente);
-            documento.Save("~/Public/XML/Partida_#"+partida.nombre+".xml");
+            
+            documento.Save(path);
             return RedirectToAction("Index","Partida",new { mensaje = "Partida Guardada"});
         }
     }

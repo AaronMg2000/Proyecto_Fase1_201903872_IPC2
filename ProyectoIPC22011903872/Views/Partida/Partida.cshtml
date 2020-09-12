@@ -123,12 +123,17 @@
                 <div class="row scroll" style="max-height:40vh">
                     <div class="col col-12 mt-3">
                         <div class="form-group mt-5">
-                            <a href="#" class="btn btn-dark btn-block">GUARDAR PARTIDA</a>
+                            <form action="/Partida/GuardarPartida" method="post">
+                                <div class="form-group">
+                                    <input type="text" name="nombre" hidden value="@ViewBag.partida.nombre" />
+                                </div>
+                                <input type="submit" class="btn btn-dark btn-block" value="GUARDAR PARTIDA">
+                            </form>
                         </div>
                     </div>
                     <div class="col col-12">
                         <div class="form-group mt-5">
-                            <a href="#" class="btn btn-dark btn-block">SALIR DEL JUEGO</a>
+                            <a href="/Partida/index" class="btn btn-dark btn-block">SALIR DEL JUEGO</a>
                         </div>
                     </div>
                 </div>

@@ -16,7 +16,7 @@
             <div class="modal-body">
                 <form action="/Partida/CargarPartida" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <input type="file" class="form-control-file w-100 m-auto" name="archivo" id="archivo" accept="archivo XML, .xml"  />
+                        <input type="file" required class="form-control-file w-100 m-auto" name="archivo" id="archivo" accept="archivo XML, .xml" />
                     </div>
                     <hr />
                     <div class="form-group">
@@ -28,13 +28,23 @@
                 </form>
             </div>
             <div class="modal-footer">
-                
+
 
             </div>
         </div>
     </div>
 </div>
-
+@if (!string.IsNullOrEmpty(ViewBag.mensaje))
+{
+    <div id="danger" style='display:none' class="alert alert-danger bg-naranja alert-dismissible" role="alert">
+        <div id="texto">
+            <h1 class="text-white font-weight-bold text-center">
+                @ViewBag.mensaje
+            </h1>
+        </div>
+        
+    </div>
+}
 <div class="row justify-content-center align-content-center" style="height:85vh">
     <div class="col col-md-4">
         <div class="card bg-transparent">
@@ -43,7 +53,7 @@
             </div>
             <div class="card-body" style="background-color:rgba(255, 255, 255,0.57)">
                 <div class="mb-5">
-                    @Html.ActionLink("Nueva Partida Solitario", "Partida", "Partida",new { modelo = new ProyectoIPC22011903872.Models.ViewModels.PartidaViewModel()},new { @class = "btn btt-n1 btn-block redondear" })
+                    @Html.ActionLink("Nueva Partida Solitario", "Partida", "Partida", new { modelo = new ProyectoIPC22011903872.Models.ViewModels.PartidaViewModel() }, new { @class = "btn btt-n1 btn-block redondear" })
                 </div>
                 <div class="mb-5">
                     <button type="button" class="btn btt-n2 btn-block redondear" data-toggle="modal" data-target="#exampleModalCenter">
@@ -57,4 +67,13 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+<script>
+    $(document).ready(function () {
+        $("#danger").show();
+        $("#danger").hide(10000);
+    });
+</script>
+}
 
