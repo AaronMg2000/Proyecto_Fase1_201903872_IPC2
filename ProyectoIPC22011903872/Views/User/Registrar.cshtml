@@ -1,4 +1,4 @@
-﻿@model ProyectoIPC22011903872.Models.ViewModels.addUserViewModel
+﻿@model ProyectoIPC22011903872.Models.ViewModels.addUserViewModel   
 
 @{
     ViewBag.Title = "Registrar";
@@ -52,7 +52,6 @@
                         @Html.ValidationMessageFor(x => x.Nombre, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group m-0">
-                        x
                         @Html.LabelFor(d => d.RePassword, "Confirmar Contreseña")
                         @Html.TextBoxFor(d => d.RePassword, "", new { @class = "form-control", @type = "password" })
                         @Html.ValidationMessageFor(x => x.RePassword, null, new { @class = "text-danger" })
@@ -68,7 +67,7 @@
                     </div>
                     <div class="form-group m-0">
                         @Html.LabelFor(d => d.Codigo_Pais, "Pais")
-                        <select class="form-control" data-val="true" data-val-number="El campo Codigo_Pais debe ser un número." data-val-required="El campo Codigo_Pais es obligatorio." id="Codigo_Pais" name="Codigo_Pais">
+                        <select class="form-control" data-val="true" data-val-number="El campo País debe ser un número." data-val-required="El campo País es obligatorio." id="Codigo_Pais" name="Codigo_Pais">
                             <option value="">Seleccione uno</option>
                             @foreach (var pais in ViewBag.Paises)
                             {

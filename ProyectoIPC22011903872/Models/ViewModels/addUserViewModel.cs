@@ -36,7 +36,7 @@ namespace ProyectoIPC22011903872.Models.ViewModels
         [StringLength(100, ErrorMessage = "Longitud máxima de 100 caracteres")]
         [MinLength(8, ErrorMessage = "Longitud minima de 8 caracteres")]
         [DataType(DataType.Password)]
-        [RegularExpression(@"^(?=[^\d_].*?\d)\w(\w|[!@#$%]){7,100}", ErrorMessage = "Error. La contraseña debe tener una mayúscula, un carácter especial y un carácter numérico.No puede comenzar con un carácter especial o un dígito.")]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,100}$", ErrorMessage = "Error. La contraseña debe tener una mayúscula y un carácter numérico.No puede comenzar con un dígito.")]
         public string Password { get; set; }
 
         [Display(Name = "RePassword")]
@@ -44,7 +44,7 @@ namespace ProyectoIPC22011903872.Models.ViewModels
         [StringLength(100, ErrorMessage = "Longitud máxima de 100 caracteres")]
         [MinLength(8, ErrorMessage = "Longitud minima de 8 caracteres")]
         [DataType(DataType.Password)]
-        [RegularExpression(@"^(?=[^\d_].*?\d)\w(\w|[!@#$%]){7,100}", ErrorMessage = "Error. La contraseña debe tener una mayúscula, un carácter especial y un carácter numérico.No puede comenzar con un carácter especial o un dígito.")]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,100}$", ErrorMessage = "Error. La contraseña debe tener una mayúscula y un carácter numérico.No puede comenzar con un dígito.")]
         public string RePassword { get; set; }
 
         [Display(Name = "Correo Electrónico")]

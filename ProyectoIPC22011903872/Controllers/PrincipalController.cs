@@ -22,6 +22,7 @@ namespace ProyectoIPC22011903872.Controllers
 
         public ActionResult Logout() 
         {
+
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "User"); 
         }

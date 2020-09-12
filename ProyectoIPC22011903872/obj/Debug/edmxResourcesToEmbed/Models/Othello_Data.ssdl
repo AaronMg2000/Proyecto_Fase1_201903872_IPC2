@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OthelloModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BLOQUEO">
+    <Key>
+      <PropertyRef Name="Codigo_Bloqueo" />
+    </Key>
+    <Property Name="Codigo_Bloqueo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo_Usuario_1" Type="int" Nullable="false" />
+    <Property Name="Codigo_Usuario_Bloqueado" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MOVIMIENTO">
+    <Key>
+      <PropertyRef Name="Codigo_Movimiento" />
+    </Key>
+    <Property Name="Codigo_Movimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo_Partida" Type="int" Nullable="false" />
+    <Property Name="Fila" Type="varchar" MaxLength="2" />
+    <Property Name="Columna" Type="varchar" MaxLength="2" />
+    <Property Name="Color_Pieza" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="PAIS">
+    <Key>
+      <PropertyRef Name="codigo_Pais" />
+    </Key>
+    <Property Name="codigo_Pais" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ISO3" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PARTIDA">
+    <Key>
+      <PropertyRef Name="Codigo_Partida" />
+    </Key>
+    <Property Name="Codigo_Partida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo_Usuario_1" Type="int" Nullable="false" />
+    <Property Name="Codigo_Usuario_2" Type="int" Nullable="false" />
+    <Property Name="Codigo_Torneo" Type="int" />
+    <Property Name="Ganador" Type="int" Nullable="false" />
+    <Property Name="TIPO" Type="varchar" MaxLength="15" />
+    <Property Name="Punteo_1" Type="int" />
+    <Property Name="Punteo_2" Type="int" />
+    <Property Name="Blanca" Type="int" Nullable="false" />
+    <Property Name="Negra" Type="int" Nullable="false" />
+    <Property Name="Fecha" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TORNEO">
+    <Key>
+      <PropertyRef Name="Codigo_Torneo" />
+    </Key>
+    <Property Name="Codigo_Torneo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="fecha_inicio" Type="date" Nullable="false" />
+    <Property Name="TIPO" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="USUARIO">
+    <Key>
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Codigo_Usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo_Pais" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Usuario" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Contraseña" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Fecha_nacimiento" Type="date" Nullable="false" />
+    <Property Name="Correo_Electronico" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__BLOQUEO__Codigo___2D27B809">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="BLOQUEO" Type="Self.BLOQUEO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Principal>
+      <Dependent Role="BLOQUEO">
+        <PropertyRef Name="Codigo_Usuario_1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BLOQUEO__Codigo___2E1BDC42">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="BLOQUEO" Type="Self.BLOQUEO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Principal>
+      <Dependent Role="BLOQUEO">
+        <PropertyRef Name="Codigo_Usuario_Bloqueado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MOVIMIENT__Codig__398D8EEE">
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="1" />
+    <End Role="MOVIMIENTO" Type="Self.MOVIMIENTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PARTIDA">
+        <PropertyRef Name="Codigo_Partida" />
+      </Principal>
+      <Dependent Role="MOVIMIENTO">
+        <PropertyRef Name="Codigo_Partida" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__Codigo___33D4B598">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="Codigo_Usuario_1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__Codigo___34C8D9D1">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="Codigo_Usuario_2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__Codigo___35BCFE0A">
+    <End Role="TORNEO" Type="Self.TORNEO" Multiplicity="0..1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TORNEO">
+        <PropertyRef Name="Codigo_Torneo" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="Codigo_Torneo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__USUARIO__Correo___286302EC">
+    <End Role="PAIS" Type="Self.PAIS" Multiplicity="1" />
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PAIS">
+        <PropertyRef Name="codigo_Pais" />
+      </Principal>
+      <Dependent Role="USUARIO">
+        <PropertyRef Name="Codigo_Pais" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OthelloModelStoreContainer">
+    <EntitySet Name="BLOQUEO" EntityType="Self.BLOQUEO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MOVIMIENTO" EntityType="Self.MOVIMIENTO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PAIS" EntityType="Self.PAIS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PARTIDA" EntityType="Self.PARTIDA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TORNEO" EntityType="Self.TORNEO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__BLOQUEO__Codigo___2D27B809" Association="Self.FK__BLOQUEO__Codigo___2D27B809">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="BLOQUEO" EntitySet="BLOQUEO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BLOQUEO__Codigo___2E1BDC42" Association="Self.FK__BLOQUEO__Codigo___2E1BDC42">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="BLOQUEO" EntitySet="BLOQUEO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MOVIMIENT__Codig__398D8EEE" Association="Self.FK__MOVIMIENT__Codig__398D8EEE">
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+      <End Role="MOVIMIENTO" EntitySet="MOVIMIENTO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__Codigo___33D4B598" Association="Self.FK__PARTIDA__Codigo___33D4B598">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__Codigo___34C8D9D1" Association="Self.FK__PARTIDA__Codigo___34C8D9D1">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__Codigo___35BCFE0A" Association="Self.FK__PARTIDA__Codigo___35BCFE0A">
+      <End Role="TORNEO" EntitySet="TORNEO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__USUARIO__Correo___286302EC" Association="Self.FK__USUARIO__Correo___286302EC">
+      <End Role="PAIS" EntitySet="PAIS" />
+      <End Role="USUARIO" EntitySet="USUARIO" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

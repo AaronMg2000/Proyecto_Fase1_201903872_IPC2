@@ -4,6 +4,47 @@
     Layout = "~/Views/Shared/_LayoutJuego.cshtml";
 }
 
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-verde text-white font-weight-bold">
+                <h5 class="modal-title text-center" id="exampleModalLongTitle">Cargar Partida</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/Partida/CargarPartida" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" required class="form-control-file w-100 m-auto" name="archivo" id="archivo" accept="archivo XML, .xml" />
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <div class="row justify-content-center  align-content-around">
+                            <input type="submit" name="name" value="Cargar" class="btn btt-yellow m-auto" />
+                            <button type="button" class="btn btn-dark m-auto" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(ViewBag.mensaje))
+{
+    <div id="danger" style='display:none' class="alert alert-danger bg-naranja alert-dismissible" role="alert">
+        <div id="texto">
+            <h1 class="text-white font-weight-bold text-center">
+                @ViewBag.mensaje
+            </h1>
+        </div>
+        
+    </div>
+}
 <div class="row justify-content-center align-content-center" style="height:85vh">
     <div class="col col-md-4">
         <div class="card bg-transparent">
@@ -12,19 +53,27 @@
             </div>
             <div class="card-body" style="background-color:rgba(255, 255, 255,0.57)">
                 <div class="mb-5">
-                    @Html.ActionLink("Nueva Partida", "Index", "Principal", new { @class = "btn btt-yellow btn-block redondear" })
+                    @Html.ActionLink("Nueva Partida Solitario", "Partida", "Partida", new { modelo = new ProyectoIPC22011903872.Models.ViewModels.PartidaViewModel() }, new { @class = "btn btt-n1 btn-block redondear" })
                 </div>
                 <div class="mb-5">
-                    @Html.ActionLink("Nueva Partida", "Index", "Principal", new { @class = "btn btt-n1 btn-block redondear" })
+                    <button type="button" class="btn btt-n2 btn-block redondear" data-toggle="modal" data-target="#exampleModalCenter">
+                        Cargar Partida
+                    </button>
                 </div>
                 <div class="mb-5">
-                    @Html.ActionLink("Nueva Partida", "Index", "Principal", new { @class = "btn btt-n2 btn-block redondear" })
-                </div>
-                <div class="mb-5">
-                    @Html.ActionLink("Nueva Partida", "Index", "Principal", new { @class = "btn btn-dark btn-block redondear" })
+                    @Html.ActionLink("Nueva Partida Multijugador", "Index", "Partida", new { @class = "btn btn-dark btn-block redondear" })
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section scripts{
+<script>
+    $(document).ready(function () {
+        $("#danger").show();
+        $("#danger").hide(10000);
+    });
+</script>
+}
 

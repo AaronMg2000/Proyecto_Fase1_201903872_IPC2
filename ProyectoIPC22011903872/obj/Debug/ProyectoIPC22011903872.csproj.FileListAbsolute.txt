@@ -64,3 +64,10 @@ C:\Users\Marro\source\repos\ProyectoIPC22011903872\ProyectoIPC22011903872\bin\ro
 C:\Users\Marro\source\repos\ProyectoIPC22011903872\ProyectoIPC22011903872\bin\roslyn\System.Memory.dll
 C:\Users\Marro\source\repos\ProyectoIPC22011903872\ProyectoIPC22011903872\bin\roslyn\System.Numerics.Vectors.dll
 C:\Users\Marro\source\repos\ProyectoIPC22011903872\ProyectoIPC22011903872\bin\roslyn\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Marro\source\repos\ProyectoIPC22011903872\ProyectoIPC22011903872\bin\EntityFramework.dll
+C:\Users\Marro\source\repos\ProyectoIPC22011903872\ProyectoIPC22011903872\bin\EntityFramework.SqlServer.dll
+C:\Users\Marro\source\repos\ProyectoIPC22011903872\ProyectoIPC22011903872\bin\EntityFramework.xml
+C:\Users\Marro\source\repos\ProyectoIPC22011903872\ProyectoIPC22011903872\bin\EntityFramework.SqlServer.xml
+C:\Users\Marro\source\repos\ProyectoIPC22011903872\ProyectoIPC22011903872\bin\App_Start\RouteConfig.cs
+C:\Users\Marro\source\repos\ProyectoIPC22011903872\ProyectoIPC22011903872\bin\Content\MisEstilos.css
+C:\Users\Marro\source\repos\ProyectoIPC22011903872\ProyectoIPC22011903872\obj\Debug\ProyectoIPC22011903872.csprojAssemblyReference.cache

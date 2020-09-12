@@ -89,19 +89,7 @@ namespace ProyectoIPC22011903872.Controllers
         }
         [HttpPost]
         public ActionResult Registrar(addUserViewModel model) {
-            List<getPaisViewModel> ListaPais;
-            using (OthelloEntities db = new OthelloEntities())
-            {
-                ListaPais = (from d in db.PAIS
-                             select new getPaisViewModel
-                             {
-                                 codigo = d.codigo_Pais,
-                                 nombre = d.Nombre,
-                                 ISO3 = d.ISO3
-
-                             }).ToList();
-            }
-            ViewBag.paises = ListaPais;
+            
 
                 if (ModelState.IsValid) {
                     using (OthelloEntities db= new OthelloEntities())
@@ -141,7 +129,20 @@ namespace ProyectoIPC22011903872.Controllers
                         }
                     }
                 }
-                return View(model);
+                    List<getPaisViewModel> ListaPais;
+                    using (OthelloEntities db = new OthelloEntities())
+                    {
+                        ListaPais = (from d in db.PAIS
+                                     select new getPaisViewModel
+                                     {
+                                         codigo = d.codigo_Pais,
+                                         nombre = d.Nombre,
+                                         ISO3 = d.ISO3
+
+                                     }).ToList();
+                    }
+                    ViewBag.paises = ListaPais;
+            return View(model);
             
         }
     }
