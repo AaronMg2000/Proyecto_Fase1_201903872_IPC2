@@ -98,11 +98,19 @@ namespace ProyectoIPC22011903872.Controllers
             PartidaCargada.movimientos_2 = 0;
             PartidaCargada.punteo_jugador1 = 0;
             PartidaCargada.punteo_jugador2 = 0;
+            foreach (var fila in PartidaCargada.Filas)
+            {
+                foreach (var columna in fila.columnas)
+                {
+                    columna.color = "";
+                }
+            }
             foreach (XmlNode node in documento.SelectNodes("/tablero/ficha"))
             {
                 var f = node["fila"].InnerText;
                 var c = node["columna"].InnerText;
                 var color = node["color"].InnerText;
+
                 foreach (var fila in PartidaCargada.Filas)
                 {
                     foreach(var columna in fila.columnas)
