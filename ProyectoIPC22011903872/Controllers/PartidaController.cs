@@ -27,13 +27,31 @@ namespace ProyectoIPC22011903872.Controllers
             return View();
         }
 
-        public ActionResult Partida()
+        public ActionResult Partida(string color1,string color2)
         {
+            string[] ran = { "negro", "blanco" };
+            Random rnd = new Random();
+            int indice = 0;
+            if (color1=="" || color1==null)
+            {
+                indice = rnd.Next(ran.Length);
+                color1 = ran[indice];
+                
+                if (color1 == "negro")
+                {
+                    color2 = "blanco";
+                }
+                else
+                {
+                    color2 = "negro";
+                }
+            }
+            indice = rnd.Next(ran.Length);
+            string siguiente = ran[indice];
             var partida = new PartidaViewModel();
-
             if (!cargar)
             {
-                partida = Funciones.CrearPartida(modelo);
+                partida = Funciones.CrearPartida(modelo,color1,color2,siguiente);
             }
             else
             {
@@ -46,8 +64,9 @@ namespace ProyectoIPC22011903872.Controllers
             return View(partida);
         }
         [HttpPost]
-        public ActionResult Partida(int nom, string fila, string columna)
+        public ActionResult Partida(int nom, string fila, string columna,PartidaViewModel pr)
         {
+            var Registrar = true;
             ViewBag.mensaje = "funciono";
             var partida = new PartidaViewModel();
             foreach (var part in modelo.partidas)
@@ -55,10 +74,31 @@ namespace ProyectoIPC22011903872.Controllers
                 if (part.nombre == nom)
                 {
                     partida = part;
+                    foreach (var fil in partida.Filas)
+                    {
+                        foreach(var col in fil.columnas)
+                        {
+                            if (fil.nombre==fila && col.nombre == columna)
+                            {
+                                if (col.color != ""){
+                                    Registrar = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!Registrar)
+                        {
+                            break;
+                        }
+                    }
                     break;
                 }
             }
-            var model = Funciones.AgregarFicha(partida, fila, columna);
+            var model=partida;
+            if (Registrar){ 
+                model = Funciones.AgregarFicha(partida, fila, columna);
+            }
+
             ViewBag.partida = model;
             return View(model);
         }
@@ -66,11 +106,10 @@ namespace ProyectoIPC22011903872.Controllers
         public ActionResult CargarPartida(HttpPostedFileBase archivo) {
             var Filename = Path.GetFileName(archivo.FileName);
             var path = Path.Combine(Server.MapPath("~/Public/XML"), Filename);
-            
             archivo.SaveAs(path);
             XmlDocument documento = new XmlDocument();
             documento.Load(path);
-            PartidaCargada = Funciones.CrearPartida(modelo);
+            PartidaCargada = Funciones.CrearPartida(modelo,"negro","blanco","");
             PartidaCargada.movimientos_1 = 0;
             PartidaCargada.movimientos_2 = 0;
             PartidaCargada.punteo_jugador1 = 0;

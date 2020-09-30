@@ -1,0 +1,39 @@
+﻿@model ProyectoIPC22011903872.Models.ViewModels.PartidaViewModel
+<div class="row justify-content-center align-content-center h-100">
+    <div class="w-100" style="height:5%">
+    </div>
+    <div class="" style="width:4.16666%;height:90%">
+    </div>
+    <div class="col col-11 bg-secondary" style="height:90%">
+        <div class="row justify-content-center align-content-center h-100">
+            <div style="height:95%; width:96%">
+                <div class="row justify-content-around align-content-around h-100">
+                    @foreach (var fila in Model.Filas)
+                    {
+                        <div class="col col-12" style="height:10%">
+                            <div class="row justify-content-around align-content-around h-100">
+                                @foreach (var columna in fila.columnas)
+                                {
+                                    <div class="bg-verde h-100" style="width:9%">
+                                        @if (String.IsNullOrEmpty(columna.color))
+                                        {
+                                            <button onclick="prueba(@Model.nombre,@fila.nombre,@columna.nombre)" class="btn btn-block btn-ficha"></button>
+                                        }
+                                        else
+                                        {
+                                            <div class="w-100 btn-ficha @columna.color"></div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="" style="width:4.16666%;height:90%">
+    </div>
+    <div class="w-100" style="height:5%">
+    </div>
+</div>

@@ -395,6 +395,7 @@
     <Content Include="Views\Shared\_LayoutJuego.cshtml" />
     <Content Include="Views\Partida\Index.cshtml" />
     <Content Include="Views\Partida\Partida.cshtml" />
+    <Content Include="Views\Shared\Partials\_Tablero.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
