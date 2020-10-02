@@ -141,9 +141,6 @@
     <Compile Include="Models\BLOQUEO.cs">
       <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MOVIMIENTO.cs">
-      <DependentUpon>Othello_Data.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Othello_Data.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -165,7 +162,10 @@
     <Compile Include="Models\PARTIDA.cs">
       <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
+    <Compile Include="Models\TIPO_PARTIDA.cs">
+      <DependentUpon>Othello_Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TIPO_TORNEO.cs">
       <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TORNEO.cs">

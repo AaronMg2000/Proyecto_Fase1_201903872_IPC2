@@ -12,21 +12,19 @@ namespace ProyectoIPC22011903872.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TORNEO
+    public partial class TIPO_TORNEO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TORNEO()
+        public TIPO_TORNEO()
         {
-            this.PARTIDA = new HashSet<PARTIDA>();
+            this.TORNEO = new HashSet<TORNEO>();
         }
     
-        public int Codigo_Torneo { get; set; }
+        public int Codigo_Tipo_Torneo { get; set; }
         public string Nombre { get; set; }
-        public int TIPO { get; set; }
-        public System.DateTime fecha_inicio { get; set; }
+        public int Numero_participantes { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PARTIDA> PARTIDA { get; set; }
-        public virtual TIPO_TORNEO TIPO_TORNEO { get; set; }
+        public virtual ICollection<TORNEO> TORNEO { get; set; }
     }
 }

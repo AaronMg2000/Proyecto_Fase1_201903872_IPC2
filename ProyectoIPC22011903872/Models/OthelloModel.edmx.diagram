@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4313c93970a7465b8e6bad4eb7ae0962" Name="Diagram1">
+      <Diagram DiagramId="14caff0498134e06a771cebea143dfc4" Name="Diagram1">
         <EntityTypeShape EntityType="OthelloModel.BLOQUEO" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="OthelloModel.PAIS" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OthelloModel.PARTIDA" Width="1.5" PointX="8.25" PointY="3.25" IsExpanded="true" />

@@ -14,28 +14,19 @@ namespace ProyectoIPC22011903872.Models
     
     public partial class PARTIDA
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PARTIDA()
-        {
-            this.MOVIMIENTO = new HashSet<MOVIMIENTO>();
-        }
-    
         public int Codigo_Partida { get; set; }
         public int Codigo_Usuario_1 { get; set; }
-        public int Codigo_Usuario_2 { get; set; }
+        public Nullable<int> Codigo_Usuario_2 { get; set; }
         public Nullable<int> Codigo_Torneo { get; set; }
-        public int Ganador { get; set; }
-        public string TIPO { get; set; }
+        public Nullable<int> Ganador { get; set; }
+        public int TIPO { get; set; }
         public Nullable<int> Punteo_1 { get; set; }
         public Nullable<int> Punteo_2 { get; set; }
-        public int Blanca { get; set; }
-        public int Negra { get; set; }
         public System.DateTime Fecha { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MOVIMIENTO> MOVIMIENTO { get; set; }
         public virtual USUARIO USUARIO { get; set; }
         public virtual USUARIO USUARIO1 { get; set; }
         public virtual TORNEO TORNEO { get; set; }
+        public virtual TIPO_PARTIDA TIPO_PARTIDA { get; set; }
     }
 }

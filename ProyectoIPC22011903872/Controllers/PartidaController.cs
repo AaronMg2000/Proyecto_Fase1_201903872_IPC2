@@ -7,6 +7,7 @@ using System.Xml;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using ProyectoIPC22011903872.Models;
 
 namespace ProyectoIPC22011903872.Controllers
 {
@@ -18,6 +19,10 @@ namespace ProyectoIPC22011903872.Controllers
         // GET: Partida
         public ActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             ViewBag.mensaje = "";
             return View();
         }
@@ -26,9 +31,14 @@ namespace ProyectoIPC22011903872.Controllers
             ViewBag.mensaje = mensaje;
             return View();
         }
-
-        public ActionResult Partida(string color1,string color2)
+        [HttpGet]
+        public ActionResult Partida(string color1,string color2,string jugador2)
         {
+            if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            var user =(USUARIO) this.Session["user"];
             string[] ran = { "negro", "blanco" };
             Random rnd = new Random();
             int indice = 0;
@@ -51,13 +61,17 @@ namespace ProyectoIPC22011903872.Controllers
             var partida = new PartidaViewModel();
             if (!cargar)
             {
-                partida = Funciones.CrearPartida(modelo,color1,color2,siguiente);
+                partida = Funciones.CrearPartida(modelo,color1,color2,siguiente,user.Usuario1,jugador2);
             }
             else
             {
                 partida = PartidaCargada;
                 cargar = false;
                 PartidaCargada = new PartidaViewModel();
+            }
+            if (partida.siguiente_tiro == partida.color_jugador2 && partida.tipo=="M")
+            {
+                ViewBag.maquina = true;
             }
             ViewBag.mensaje = "partida";
             ViewBag.partida = partida;
@@ -66,6 +80,11 @@ namespace ProyectoIPC22011903872.Controllers
         [HttpPost]
         public ActionResult Partida(int nom, string fila, string columna,PartidaViewModel pr)
         {
+            if (!User.Identity.IsAuthenticated && this.Session["user"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            var user = (USUARIO)this.Session["user"];
             var Registrar = true;
             ViewBag.mensaje = "funciono";
             var partida = new PartidaViewModel();
@@ -95,11 +114,74 @@ namespace ProyectoIPC22011903872.Controllers
                 }
             }
             var model=partida;
+            if(partida.color_jugador2==partida.siguiente_tiro && partida.tipo == "M")
+            {   
+                List<List<string>> movi = new List<List<string>>();
+                foreach (var fil in partida.Filas)
+                {
+                    foreach(var col in fil.columnas)
+                    {
+                        if (col.color == "")
+                        {
+                            List<string> fc = new List<string> {fil.nombre,col.nombre};
+                            movi.Add(fc);
+                        }
+                    }
+                }
+                Random rnd = new Random();
+                int indice = 0;
+                if (movi.Count >0)
+                {
+                    indice = rnd.Next(movi.Count);
+                    fila = movi[indice][0];
+                    columna = movi[indice][1];
+                }
+                else
+                {
+                    Registrar = false;
+                }
+            }
             if (Registrar){ 
                 model = Funciones.AgregarFicha(partida, fila, columna);
             }
+            ViewBag.partida = partida;
 
-            ViewBag.partida = model;
+            bool[] tiros = Funciones.CantidadMovimientos(partida);
+            if (!tiros[0] && tiros[1] && partida.tipo!="M")
+            {
+                ViewBag.saltar = true;
+            }
+            else if (!tiros[0] && !tiros[1])
+            {
+                ViewBag.terminado = true;
+                if (partida.terminado == "") { 
+                    using (OthelloEntities db = new OthelloEntities())
+                    {
+                        var par = new PARTIDA();
+                        par.Codigo_Usuario_1 = 1;
+                        par.Fecha = DateTime.Now;
+                        par.TIPO = 2;
+                        par.Punteo_1 = partida.punteo_jugador1;
+                        par.Punteo_2 = partida.punteo_jugador2;
+                        par.Codigo_Usuario_1 = user.Codigo_Usuario;
+                        if (partida.punteo_jugador1 > partida.punteo_jugador2)
+                        {
+                            par.Ganador = user.Codigo_Usuario;
+                        }
+                        else
+                        {
+                            par.Ganador = 0;
+                        }
+                        db.PARTIDA.Add(par);
+                        db.SaveChanges();
+                        partida.terminado = "si";
+                    }
+                }
+            }
+            if (partida.siguiente_tiro == partida.color_jugador2 && partida.tipo == "M")
+            {
+                ViewBag.maquina = true;
+            }
             return View(model);
         }
         [HttpPost]
@@ -109,7 +191,7 @@ namespace ProyectoIPC22011903872.Controllers
             archivo.SaveAs(path);
             XmlDocument documento = new XmlDocument();
             documento.Load(path);
-            PartidaCargada = Funciones.CrearPartida(modelo,"negro","blanco","");
+            PartidaCargada = Funciones.CrearPartida(modelo,"negro","blanco","","jugador1","jugador2");
             PartidaCargada.movimientos_1 = 0;
             PartidaCargada.movimientos_2 = 0;
             PartidaCargada.punteo_jugador1 = 0;
@@ -144,8 +226,14 @@ namespace ProyectoIPC22011903872.Controllers
             {
                 PartidaCargada.siguiente_tiro = node["color"].InnerText;
             }
-            cargar = true;
-            return RedirectToAction("Partida", "Partida");
+            object[] objeto = Funciones.ComprobarCasillas(PartidaCargada);
+            bool respuesta = (bool)objeto[1];
+            if (respuesta) { 
+                PartidaCargada = (PartidaViewModel) objeto[0];
+                cargar = true;
+                return RedirectToAction("Partida", "Partida");
+            }
+            return RedirectToAction("Index", "Partida", new { mensaje = "Error en estructura de la partida" });
         }
 
         public ActionResult GuardarPartida(int nombre)

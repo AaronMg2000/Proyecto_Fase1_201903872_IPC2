@@ -17,6 +17,7 @@ namespace ProyectoIPC22011903872.Models
         public int Codigo_Bloqueo { get; set; }
         public int Codigo_Usuario_1 { get; set; }
         public int Codigo_Usuario_Bloqueado { get; set; }
+        public System.DateTime Fecha { get; set; }
     
         public virtual USUARIO USUARIO { get; set; }
         public virtual USUARIO USUARIO1 { get; set; }

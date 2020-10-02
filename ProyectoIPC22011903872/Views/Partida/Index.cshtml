@@ -34,6 +34,73 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-verde text-white font-weight-bold">
+                <h5 class="modal-title text-center" id="exampleModalLongTitle">Nueva Partida Solitario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/Partida/Partida" method="get" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <div class="row align-content-around justify-content-around">
+                            <div class="col-12">
+                                <p class="w-100 text-center">Tipo de partida</p>
+                            </div>
+                            <div class="col-5">
+                                <input type="radio" name="tipopartida" id="tipopartida" value="M" /> Maquina
+                            </div>
+                            <div class="col-5">
+                                <input type="radio" name="tipopartida" id="tipopartida" checked value="J" /> Jugador Local
+                            </div>
+                        </div>
+                    </div>
+                    <div id="j1" class="form-group">
+                        <label for="jugador2">Jugador Invitado</label>
+                        <input required type="text" class="form-control bg-light redondear" name="jugador2" id="jugador2" value="" placeholder="Nombre de Jugador Invitado" />
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <div class="row align-content-around justify-content-around">
+                            <div class="col-12">
+                                <p class="w-100 text-center">Color de jugadores</p>
+                            </div>
+                            <div class="col-5">
+                                <input type="radio" name="colorjugador" id="colorjugador" value="A" /> Aleatorio
+                            </div>
+                            <div class="col-5">
+                                <input type="radio" name="colorjugador" id="colorjugador    " checked value="C" /> Seleccionar Color
+                            </div>
+                        </div>
+                    </div>
+                    <div id="c1" class="form-group">
+                        <label for="Color1">Color de Usuario</label>
+                        <select class="form-control bg-light" id="color" name="color">
+                            <option value="negro">Negro</option>
+                            <option value="blanco">Blanco</option>
+                        </select>
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <div class="row justify-content-center  align-content-around">
+                            <input type="text" hidden name="color1" id="color1" value="negro" />
+                            <input type="text" hidden  name="color2" id="color2" value="blanco" />
+                            <input type="submit" name="name" value="Iniciar" class="btn btt-yellow m-auto" />
+                            <button type="button" class="btn btn-dark m-auto" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+
+            </div>
+        </div>
+    </div>
+</div>
 @if (!string.IsNullOrEmpty(ViewBag.mensaje))
 {
     <div id="danger" style='display:none' class="alert alert-danger bg-naranja alert-dismissible" role="alert">
@@ -53,7 +120,10 @@
             </div>
             <div class="card-body" style="background-color:rgba(255, 255, 255,0.57)">
                 <div class="mb-5">
-                    @Html.ActionLink("Nueva Partida Solitario", "Partida", "Partida", new { color1="", color2="" }, new { @class = "btn btt-n1 btn-block redondear" })
+                   @* @Html.ActionLink("Nueva Partida Solitario", "Partida", "Partida", new { color1="", color2="" }, new { @class = "btn btt-n1 btn-block redondear" })*@
+                    <button type="button" class="btn btt-n2 btn-block redondear" data-toggle="modal" data-target="#exampleModalCenter2">
+                        Nueva Partida Solitario
+                    </button>
                 </div>
                 <div class="mb-5">
                     <button type="button" class="btn btt-n2 btn-block redondear" data-toggle="modal" data-target="#exampleModalCenter">
@@ -73,6 +143,36 @@
     $(document).ready(function () {
         $("#danger").show();
         $("#danger").hide(10000);
+        $("input[type=radio][name=tipopartida]").change(function () {
+            if (this.value == "M") {
+                $("#j1").hide();
+                $("#jugador2").val("Maquina");
+            } else {
+                $("#j1").show();
+                $("#jugador2").val("");
+            }
+        });
+        $("input[type=radio][name=colorjugador]").change(function () {
+            if (this.value == "A") {
+                $("#c1").hide();
+                $("#color1").val("");
+                $("#color2").val("");
+            } else {
+                $("#c1").show();
+                $("#color1").val("negro");
+                $("#color2").val("blanco");
+                $("#color").val("negro");
+            }
+        });
+        $("#color").change(function () {
+            if ($("#color").val() == "negro") {
+                $("#color1").val("negro");
+                $("#color2").val("blanco");
+            } else {
+                $("#color2").val("negro");
+                $("#color1").val("blanco");
+            }
+        });
     });
 </script>
 }

@@ -16,7 +16,7 @@ namespace ProyectoIPC22011903872.Controllers
         public ActionResult Login(string Usuario, string Contraseña) {
             ViewBag.Usuario = Usuario;
             ViewBag.Contraseña = Contraseña;
-            if(User.Identity.IsAuthenticated){
+            if(User.Identity.IsAuthenticated && this.Session["user"]!=null){
                 return RedirectToAction("Index", "Principal");
             }
             return View();
@@ -53,6 +53,7 @@ namespace ProyectoIPC22011903872.Controllers
                     if (usuario != null)
                     {
                         FormsAuthentication.SetAuthCookie(usuario.Usuario1, true);
+                        Session["user"] = usuario;
                         return RedirectToAction("Index", "Principal");
                     }
                     else

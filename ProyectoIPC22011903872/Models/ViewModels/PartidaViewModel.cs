@@ -11,8 +11,12 @@ namespace ProyectoIPC22011903872.Models.ViewModels
     {
         public PartidaViewModel() {
             this.Filas = new List<FilaViewModel>();
+            this.terminado = "";
+            this.tipo = "";
         }
         public int nombre { get; set; }
+        public string terminado { get; set; }
+        public string tipo { get; set; }
         public string jugador1 { get; set; }
         public string jugador2 { get; set; }
         public string color_jugador1 { get; set; }

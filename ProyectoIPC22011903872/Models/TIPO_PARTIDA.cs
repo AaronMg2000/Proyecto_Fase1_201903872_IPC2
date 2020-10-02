@@ -12,14 +12,18 @@ namespace ProyectoIPC22011903872.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MOVIMIENTO
+    public partial class TIPO_PARTIDA
     {
-        public int Codigo_Movimiento { get; set; }
-        public int Codigo_Partida { get; set; }
-        public string Fila { get; set; }
-        public string Columna { get; set; }
-        public string Color_Pieza { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TIPO_PARTIDA()
+        {
+            this.PARTIDA = new HashSet<PARTIDA>();
+        }
     
-        public virtual PARTIDA PARTIDA { get; set; }
+        public int Codigo_Tipo_Partida { get; set; }
+        public string Nombre { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PARTIDA> PARTIDA { get; set; }
     }
 }
