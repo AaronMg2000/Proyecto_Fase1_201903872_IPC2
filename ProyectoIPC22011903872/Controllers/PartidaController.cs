@@ -29,6 +29,10 @@ namespace ProyectoIPC22011903872.Controllers
         [HttpGet]
         public ActionResult Index(string mensaje) {
             ViewBag.mensaje = mensaje;
+            if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             return View();
         }
         [HttpGet]
@@ -73,6 +77,42 @@ namespace ProyectoIPC22011903872.Controllers
             {
                 ViewBag.maquina = true;
             }
+            bool[] tiros = Funciones.CantidadMovimientos(partida);
+            if (!tiros[0] && tiros[1] && partida.tipo != "M")
+            {
+                ViewBag.saltar = true;
+            }
+            else if (!tiros[0] && !tiros[1])
+            {
+                ViewBag.terminado = true;
+                if (partida.terminado == "")
+                {
+                    using (OthelloEntities db = new OthelloEntities())
+                    {
+                        var par = new PARTIDA();
+                        par.Codigo_Usuario_1 = 1;
+                        par.Fecha = DateTime.Now;
+                        par.TIPO = 2;
+                        par.Punteo_1 = partida.punteo_jugador1;
+                        par.Punteo_2 = partida.punteo_jugador2;
+                        par.Codigo_Usuario_1 = user.Codigo_Usuario;
+                        par.movimientos_1 = partida.movimientos_1;
+                        par.movimientos_2 = partida.movimientos_2;
+                        if (partida.punteo_jugador1 > partida.punteo_jugador2)
+                        {
+                            par.Ganador = user.Codigo_Usuario;
+                        }
+                        else
+                        {
+                            par.Ganador = 0;
+                        }
+                        db.PARTIDA.Add(par);
+                        db.SaveChanges();
+                        partida.terminado = "si";
+                    }
+                }
+            }
+            
             ViewBag.mensaje = "partida";
             ViewBag.partida = partida;
             return View(partida);
@@ -143,6 +183,13 @@ namespace ProyectoIPC22011903872.Controllers
             }
             if (Registrar){ 
                 model = Funciones.AgregarFicha(partida, fila, columna);
+                partida.ultimacolumna = columna;
+                partida.ultimafila = fila;
+            }
+            else
+            {
+                 partida.ultimacolumna = "";
+                 partida.ultimafila = "";
             }
             ViewBag.partida = partida;
 
@@ -164,6 +211,8 @@ namespace ProyectoIPC22011903872.Controllers
                         par.Punteo_1 = partida.punteo_jugador1;
                         par.Punteo_2 = partida.punteo_jugador2;
                         par.Codigo_Usuario_1 = user.Codigo_Usuario;
+                        par.movimientos_1 = partida.movimientos_1;
+                        par.movimientos_2 = partida.movimientos_2;
                         if (partida.punteo_jugador1 > partida.punteo_jugador2)
                         {
                             par.Ganador = user.Codigo_Usuario;
@@ -185,13 +234,33 @@ namespace ProyectoIPC22011903872.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult CargarPartida(HttpPostedFileBase archivo) {
+        public ActionResult CargarPartida(HttpPostedFileBase archivo,string jugador22, string color11, string color22) {
+            string[] ran = { "negro", "blanco" };
+            Random rnd = new Random();
+            int indice = 0;
+            if (color11 == "" || color11 == null)
+            {
+                indice = rnd.Next(ran.Length);
+                color11 = ran[indice];
+
+                if (color11 == "negro")
+                {
+                    color22 = "blanco";
+                }
+                else
+                {
+                    color22 = "negro";
+                }
+            }
+            
             var Filename = Path.GetFileName(archivo.FileName);
             var path = Path.Combine(Server.MapPath("~/Public/XML"), Filename);
             archivo.SaveAs(path);
             XmlDocument documento = new XmlDocument();
             documento.Load(path);
-            PartidaCargada = Funciones.CrearPartida(modelo,"negro","blanco","","jugador1","jugador2");
+            
+            USUARIO user = (USUARIO)this.Session["user"];
+            PartidaCargada = Funciones.CrearPartida(modelo,color11,color22,"",user.Usuario1,jugador22);
             PartidaCargada.movimientos_1 = 0;
             PartidaCargada.movimientos_2 = 0;
             PartidaCargada.punteo_jugador1 = 0;
@@ -203,21 +272,11 @@ namespace ProyectoIPC22011903872.Controllers
                 var color = node["color"].InnerText;
                 foreach (var fila in PartidaCargada.Filas)
                 {
-                    foreach(var columna in fila.columnas)
+                    foreach(    var columna in fila.columnas)
                     {
                         if (c == columna.nombre && f == fila.nombre)
                         {
                             columna.color = color;
-                            if (PartidaCargada.color_jugador1==color)
-                            {
-                                PartidaCargada.punteo_jugador1++;
-                                PartidaCargada.movimientos_1++;
-                            }
-                            else
-                            {
-                                PartidaCargada.punteo_jugador2++;
-                                PartidaCargada.movimientos_2++;
-                            }
                         }
                     }
                 }
@@ -230,6 +289,8 @@ namespace ProyectoIPC22011903872.Controllers
             bool respuesta = (bool)objeto[1];
             if (respuesta) { 
                 PartidaCargada = (PartidaViewModel) objeto[0];
+                PartidaCargada = Funciones.Movimientos(PartidaCargada);
+                PartidaCargada = Funciones.Punteos(PartidaCargada);
                 cargar = true;
                 return RedirectToAction("Partida", "Partida");
             }

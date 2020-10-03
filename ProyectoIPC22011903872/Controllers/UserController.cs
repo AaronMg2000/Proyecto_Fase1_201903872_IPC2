@@ -82,7 +82,7 @@ namespace ProyectoIPC22011903872.Controllers
                              }).ToList();
             }
             ViewBag.paises = ListaPais;
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated && this.Session["user"]!=null)
             {
                 return RedirectToAction("Index", "Principal");
             }

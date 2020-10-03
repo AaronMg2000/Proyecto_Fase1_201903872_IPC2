@@ -191,6 +191,11 @@ namespace ProyectoIPC22011903872
                 if (col.color == color && col.nombre == c)
                 {
                     r = true;
+                    if(r2 && !reg)
+                    {
+                        r2 = false;
+                        i++;
+                    }
                     r3 = true;
                 }
                 else if (col.color == color && col.nombre != c)
@@ -213,6 +218,10 @@ namespace ProyectoIPC22011903872
                 else if (col.color == "")
                 {
                     reg = false;
+                    if (r)
+                    {
+                        break;
+                    }
                 }
                 else if (reg && col.color == color && r && r2)
                 {
@@ -270,6 +279,11 @@ namespace ProyectoIPC22011903872
                 if (col.color == color && fil.nombre==f)
                 {
                     r = true;
+                    if (r2 && !reg)
+                    {
+                        r2 = false;
+                        i++;
+                    }
                     r3 = true;
                 }
                 else if(col.color==color && fil.nombre != f)
@@ -292,6 +306,10 @@ namespace ProyectoIPC22011903872
                 else if (col.color == "")
                 {
                     reg = false;
+                    if (r)
+                    {
+                        break;
+                    }
                 }
                 else if(reg && col.color==color && r && r2)
                 {
@@ -368,6 +386,12 @@ namespace ProyectoIPC22011903872
                 if (col.color == color && col.nombre == c)
                 {
                     r = true;
+                    if (r2 && !reg)
+                    {
+                        r2 = false;
+                        i++;
+                        j++;
+                    }
                     r3 = true;
                 }
                 else if (col.color == color && col.nombre != c)
@@ -390,6 +414,10 @@ namespace ProyectoIPC22011903872
                 else if (col.color == "")
                 {
                     reg = false;
+                    if (r)
+                    {
+                        break;
+                    }
                 }
                 else if (reg && col.color == color && r && r2)
                 {
@@ -482,6 +510,12 @@ namespace ProyectoIPC22011903872
                     if (col.color == color && col.nombre == c)
                 {
                     r = true;
+                    if (r2 && !reg)
+                    {
+                        r2 = false;
+                        i++;
+                        j++;
+                    }
                     r3 = true;
                 }
                 else if (col.color == color && col.nombre != c)
@@ -504,6 +538,10 @@ namespace ProyectoIPC22011903872
                 else if (col.color == "")
                 {
                     reg = false;
+                    if (r)
+                    {
+                        break;
+                    }
                 }
                 else if (reg && col.color == color && r && r2)
                 {
@@ -1155,16 +1193,16 @@ namespace ProyectoIPC22011903872
                     }
                     else if (f == 4 && c > 0 && c < 3)
                     {
-                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colA = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
                         var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colAD = partida.Filas[f + 1].columnas[c + 1];
+                        var colAI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colA.color != "b" && colA.color != "") { mapa[f + 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f + 1][c + 1] = true; }
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
@@ -1298,9 +1336,9 @@ namespace ProyectoIPC22011903872
                         var colAI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colA.color != "b" && colA.color != "") { mapa[f + 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f + 1][c + 1] = true; }
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
@@ -1427,16 +1465,16 @@ namespace ProyectoIPC22011903872
                     }
                     else if (f == 4 && c > 0 && c < 3)
                     {
-                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colA = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
                         var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colAD = partida.Filas[f + 1].columnas[c + 1];
+                        var colAI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colA.color != "b" && colA.color != "") { mapa[f + 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f + 1][c + 1] = true; }
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }

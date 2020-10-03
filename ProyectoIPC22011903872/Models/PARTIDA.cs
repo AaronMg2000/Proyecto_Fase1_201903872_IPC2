@@ -22,6 +22,8 @@ namespace ProyectoIPC22011903872.Models
         public int TIPO { get; set; }
         public Nullable<int> Punteo_1 { get; set; }
         public Nullable<int> Punteo_2 { get; set; }
+        public Nullable<int> movimientos_1 { get; set; }
+        public Nullable<int> movimientos_2 { get; set; }
         public System.DateTime Fecha { get; set; }
     
         public virtual USUARIO USUARIO { get; set; }

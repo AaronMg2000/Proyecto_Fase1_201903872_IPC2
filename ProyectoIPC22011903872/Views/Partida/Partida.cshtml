@@ -3,7 +3,37 @@
     ViewBag.Title = "Partida";
     Layout = "~/Views/Shared/_LayoutJuego.cshtml";
 }
+@if (((Model.siguiente_tiro == Model.color_jugador2 && Model.tipo != "M") || Model.siguiente_tiro == Model.color_jugador1) && ViewBag.terminado == null && ViewBag.saltar==null) {
+    <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-verde text-white font-weight-bold">
+                    <h5 class="modal-title text-center w-100" id="exampleModalLongTitle">Turno</h5>
 
+                </div>
+                <div class="modal-body">
+                    @{
+                        var turno = "";
+                        if (Model.siguiente_tiro == Model.color_jugador1)
+                        {
+                            turno = Model.jugador1;
+                        }
+                        else
+                        {
+                            turno = Model.jugador2;
+                        }
+                    }
+                    <p class="w-100 text-center">Es el turno de: @turno.</p>
+                    <div class="w-100">
+                        <button type="button" class="btn btn-dark m-auto btn-block" data-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+}
 @if (ViewBag.saltar != null)
 {
     <div class="modal fade" id="exampleModalCenter" aria-labelledby="exampleModalCenterTitle">
@@ -24,8 +54,6 @@
                     }
                 </div>
                 <div class="modal-footer">
-
-
                 </div>
             </div>
         </div>
@@ -91,7 +119,7 @@
     <div class="col col-md-11 bg-negro-80" style="height:95%">
         <div class="row h-100">
             <div class="col col-md-3">
-                <div class="row borde-naranja scroll" style="max-height:45vh">
+                <div class="row borde-naranja scroll" style="max-height:70vh">
                     <div class="col col-md-12">
                         <div class="form-group mt-2 h-30">
                             <label class="h4 w-100 text-center text-white font-weight-bold">@ViewBag.partida.jugador1</label>
@@ -100,6 +128,16 @@
                                     <div class="row justify-content-center align-content-center bg-verde h-100">
                                         <div class="ficha @ViewBag.partida.color_jugador1">
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Movimientos</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <p class="font-weight-bold text-white h1">@Model.movimientos_1</p>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +154,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row scroll " style="max-height:40vh">
+                <div class="row scroll" style="max-height:40vh">
                     <div class="col col-md-12 h-100">
                         <div class="form-group mt-4 h-100">
                             <label class="h4 w-100 text-center text-white font-weight-bold">TURNO</label>
@@ -209,29 +247,33 @@
                                             <div class="row justify-content-around align-content-around h-100">
                                                 @foreach (var columna in fila.columnas)
                                                 {
-                                                    <div class="bg-verde h-100" style="width:9%">
-                                                        @if (String.IsNullOrEmpty(columna.color))
+                                                <div class="bg-verde h-100" style="width:9%">
+                                                    @if (String.IsNullOrEmpty(columna.color))
+                                                    {
+                                                        if ((Model.tipo != "M" && Model.color_jugador2 != Model.siguiente_tiro) || Model.tipo == "" || Model.tipo == "M" && Model.color_jugador1 == Model.siguiente_tiro)
                                                         {
-                                                            if ((Model.tipo != "M" && Model.color_jugador2 != Model.siguiente_tiro) || Model.tipo=="" || Model.tipo=="M" && Model.color_jugador1==Model.siguiente_tiro)
+                                                            using (Html.BeginForm("Partida", "Partida", FormMethod.Post, new { @class = "w-100 h-100" }))
                                                             {
-                                                                using (Html.BeginForm("Partida", "Partida", FormMethod.Post, new { @class = "w-100 h-100" }))
-                                                                {
-                                                                    <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
-                                                                    <input type="text" hidden name="fila" id="fila" value="@fila.nombre" />
-                                                                    <input type="text" hidden name="columna" id="columna" value="@columna.nombre" />
-                                                                    <input type="submit" class="btn btn-block btn-ficha" value="">
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                <div class=" btn-block btn-ficha"></div>
+                                                                <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
+                                                                <input type="text" hidden name="fila" id="fila" value="@fila.nombre" />
+                                                                <input type="text" hidden name="columna" id="columna" value="@columna.nombre" />
+                                                                <input type="submit" class="btn btn-block btn-ficha" value="">
                                                             }
                                                         }
-                                                        else if (columna.color != "b")
+                                                        else
                                                         {
-                                                            <div class="w-100 btn-ficha @columna.color bg-tra"></div>
+                                                            <div class=" btn-block btn-ficha"></div>
                                                         }
-                                                    </div>
+                                                    }
+                                                    else if (fila.nombre == Model.ultimafila && columna.nombre == Model.ultimacolumna && columna.color != "b")
+                                                    {
+                                                        <div class="w-100 btn-ficha @columna.color bg-tra ultimaF"></div>
+                                                    }
+                                                    else if (columna.color != "b")
+                                                    {
+                                                        <div class="w-100 btn-ficha @columna.color bg-tra"></div>
+                                                    }
+                                                </div>
                                                 }
                                             </div>
                                         </div>
@@ -308,7 +350,7 @@
                 </div>
             </div>
             <div class="col col-md-3">
-                <div class="row borde-naranja scroll" style="max-height:45vh">
+                <div class="row borde-naranja scroll" style="max-height:70vh">
                     <div class="col col-md-12">
                         <div class="form-group mt-2 h-30">
                             <label class="h4 w-100 text-center text-white font-weight-bold">@ViewBag.partida.jugador2</label>
@@ -317,6 +359,16 @@
                                     <div class="row justify-content-center align-content-center bg-verde h-100">
                                         <div class="ficha @ViewBag.partida.color_jugador2">
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Movimientos</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <p class="font-weight-bold text-white h1">@Model.movimientos_2</p>
                                     </div>
                                 </div>
                             </div>
@@ -360,7 +412,8 @@
             $("#danger").show();
             $("#exampleModalCenter").modal({ backdrop: 'static', keyboard: false });
             $("#exampleModalCenter").modal('show');
-            setTimeout(enviarMaquina, 2000)
+            $("#exampleModalCenter3").modal('show');
+            setTimeout(enviarMaquina, 1000)
             function enviarMaquina() {
                 $("#F_maquina").submit();
             }

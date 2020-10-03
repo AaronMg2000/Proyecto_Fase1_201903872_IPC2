@@ -19,6 +19,8 @@ namespace ProyectoIPC22011903872.Models.ViewModels
         public string tipo { get; set; }
         public string jugador1 { get; set; }
         public string jugador2 { get; set; }
+        public string ultimafila { get; set; }
+        public string ultimacolumna { get; set; }
         public string color_jugador1 { get; set; }
         public string color_jugador2 { get; set; }
         public int punteo_jugador1 { get; set; }
