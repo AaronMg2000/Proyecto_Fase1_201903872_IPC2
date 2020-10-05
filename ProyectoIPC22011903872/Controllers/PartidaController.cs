@@ -154,6 +154,7 @@ namespace ProyectoIPC22011903872.Controllers
                 }
             }
             var model=partida;
+            var sig = true;
             if(partida.color_jugador2==partida.siguiente_tiro && partida.tipo == "M")
             {   
                 List<List<string>> movi = new List<List<string>>();
@@ -168,25 +169,116 @@ namespace ProyectoIPC22011903872.Controllers
                         }
                     }
                 }
-                Random rnd = new Random();
-                int indice = 0;
+                /*Random rnd = new Random();
+                int indice = 0;*/
                 if (movi.Count >0)
                 {
-                    indice = rnd.Next(movi.Count);
+                    /*indice = rnd.Next(movi.Count);
                     fila = movi[indice][0];
-                    columna = movi[indice][1];
+                    columna = movi[indice][1];*/
+                    List<object[]> filasActual = new List<object[]>();
+                    List<object[]> Ultima = new List<object[]>();
+                    int punteo1actual=partida.punteo_jugador1;
+                    int punto2actual=partida.punteo_jugador2;
+                    int movimiento1actual = partida.movimientos_1;
+                    int movimiento2actual = partida.movimientos_2;
+                    int punteo1final = 0;
+                    int punteomayor=0;
+                    foreach (var ff in partida.Filas)
+                    {
+                        List<string[]> colu = new List<string[]>();
+                        foreach (var cc in ff.columnas)
+                        {
+                            string[] co = { cc.color, cc.nombre };
+                            colu.Add(co);
+                        }
+                        object[] fi = { ff.nombre, colu };
+                        filasActual.Add(fi);
+                    }
+                    foreach(var mov in movi)
+                    {
+                        partida = Funciones.AgregarFicha(partida, mov[0], mov[1]);
+                        if (punteomayor < partida.punteo_jugador2)
+                        {
+                            punteomayor = partida.punteo_jugador2;
+                            punteo1final = partida.punteo_jugador1;
+                            Ultima = new List<object[]>();
+                            fila = mov[0];
+                            columna = mov[1];
+                            foreach(var ff in partida.Filas)
+                            {
+                                List<string[]> colu = new List<string[]>();
+                                foreach (var cc in ff.columnas)
+                                {
+                                    string[] co = { cc.color, cc.nombre };
+                                    colu.Add(co);
+                                }
+                                object[] fi = { ff.nombre, colu };
+                                Ultima.Add(fi);
+                            }
+                            
+                        }
+                        partida.punteo_jugador2 = punto2actual;
+                        partida.siguiente_tiro = partida.color_jugador2;
+                        partida.punteo_jugador1 = punteo1actual;
+                        partida.movimientos_1 = movimiento1actual;
+                        partida.movimientos_2 = movimiento2actual;
+                        partida.Filas = new List<FilaViewModel>();
+                        foreach (var ff in filasActual)
+                        {
+                            FilaViewModel fff = new FilaViewModel();
+                            foreach (var cc in (List<string[]>)ff[1])
+                            {
+                                ColumnaViewModel co = new ColumnaViewModel();
+                                co.color = cc[0];
+                                co.nombre = cc[1];
+                                fff.columnas.Add(co);
+                            }
+                            fff.nombre = ff[0].ToString();
+                            partida.Filas.Add(fff);
+                        }
+
+                    }
+                    partida.punteo_jugador2 = punteomayor;
+                    partida.Filas = new List<FilaViewModel>();
+                    foreach (var ff in Ultima)
+                    {
+                        FilaViewModel fff = new FilaViewModel();
+                        foreach (var cc in (List<string[]>)ff[1])   
+                        {
+                            ColumnaViewModel co = new ColumnaViewModel();
+                            co.color = cc[0];
+                            co.nombre = cc[1];
+                            fff.columnas.Add(co);
+                        }
+                        fff.nombre = ff[0].ToString();
+                        partida.Filas.Add(fff);
+                    }
+                    partida.siguiente_tiro = partida.color_jugador1;
+                    partida.ultimafila = fila;
+                    partida.ultimacolumna = columna;
+                    partida = Funciones.Movimientos(partida);
+                    partida = Funciones.Punteos(partida);
+                    model = partida;
+                    Registrar = false;
+                    sig = false;
+
                 }
                 else
                 {
                     Registrar = false;
                 }
             }
+            if (partida.color_jugador1 == partida.siguiente_tiro && fila == "")
+            {
+                Registrar = false;
+            }
             if (Registrar){ 
                 model = Funciones.AgregarFicha(partida, fila, columna);
                 partida.ultimacolumna = columna;
                 partida.ultimafila = fila;
             }
-            else
+            else if(sig)
             {
                  partida.ultimacolumna = "";
                  partida.ultimafila = "";
@@ -227,7 +319,8 @@ namespace ProyectoIPC22011903872.Controllers
                     }
                 }
             }
-            if (partida.siguiente_tiro == partida.color_jugador2 && partida.tipo == "M")
+            
+            else if (partida.siguiente_tiro == partida.color_jugador2 && partida.tipo == "M")
             {
                 ViewBag.maquina = true;
             }

@@ -51,8 +51,33 @@
     <fila>2</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>b</color>
+    <columna>C</columna>
+    <fila>2</fila>
+  </ficha>
+  <ficha>
+    <color>b</color>
+    <columna>D</columna>
+    <fila>2</fila>
+  </ficha>
+  <ficha>
+    <color>b</color>
+    <columna>E</columna>
+    <fila>2</fila>
+  </ficha>
+  <ficha>
+    <color>b</color>
     <columna>F</columna>
+    <fila>2</fila>
+  </ficha>
+  <ficha>
+    <color>b</color>
+    <columna>G</columna>
+    <fila>2</fila>
+  </ficha>
+  <ficha>
+    <color>b</color>
+    <columna>H</columna>
     <fila>2</fila>
   </ficha>
   <ficha>
@@ -67,31 +92,11 @@
   </ficha>
   <ficha>
     <color>b</color>
-    <columna>C</columna>
-    <fila>3</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>D</columna>
-    <fila>3</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>E</columna>
-    <fila>3</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
     <columna>F</columna>
     <fila>3</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
-    <columna>G</columna>
-    <fila>3</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
+    <color>b</color>
     <columna>H</columna>
     <fila>3</fila>
   </ficha>
@@ -101,13 +106,8 @@
     <fila>4</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>negro</color>
     <columna>B</columna>
-    <fila>4</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>C</columna>
     <fila>4</fila>
   </ficha>
   <ficha>
@@ -116,22 +116,17 @@
     <fila>4</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>negro</color>
     <columna>E</columna>
     <fila>4</fila>
   </ficha>
   <ficha>
     <color>blanco</color>
-    <columna>F</columna>
-    <fila>4</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
     <columna>G</columna>
     <fila>4</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>b</color>
     <columna>H</columna>
     <fila>4</fila>
   </ficha>
@@ -141,7 +136,7 @@
     <fila>5</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>negro</color>
     <columna>B</columna>
     <fila>5</fila>
   </ficha>
@@ -156,17 +151,17 @@
     <fila>5</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
+    <color>blanco</color>
     <columna>E</columna>
     <fila>5</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
+    <color>blanco</color>
     <columna>F</columna>
     <fila>5</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>negro</color>
     <columna>G</columna>
     <fila>5</fila>
   </ficha>
@@ -181,23 +176,28 @@
     <fila>6</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>negro</color>
     <columna>B</columna>
     <fila>6</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
+    <color>blanco</color>
     <columna>C</columna>
     <fila>6</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
+    <color>blanco</color>
     <columna>E</columna>
     <fila>6</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>negro</color>
     <columna>F</columna>
+    <fila>6</fila>
+  </ficha>
+  <ficha>
+    <color>b</color>
+    <columna>H</columna>
     <fila>6</fila>
   </ficha>
   <ficha>
@@ -206,7 +206,7 @@
     <fila>7</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>negro</color>
     <columna>B</columna>
     <fila>7</fila>
   </ficha>
@@ -216,22 +216,22 @@
     <fila>7</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
+    <color>blanco</color>
     <columna>D</columna>
     <fila>7</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
+    <color>blanco</color>
     <columna>E</columna>
     <fila>7</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>negro</color>
     <columna>F</columna>
     <fila>7</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
+    <color>b</color>
     <columna>G</columna>
     <fila>7</fila>
   </ficha>
@@ -246,13 +246,13 @@
     <fila>8</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>b</color>
     <columna>B</columna>
     <fila>8</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
-    <columna>D</columna>
+    <color>b</color>
+    <columna>C</columna>
     <fila>8</fila>
   </ficha>
   <ficha>
@@ -261,7 +261,7 @@
     <fila>8</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>b</color>
     <columna>F</columna>
     <fila>8</fila>
   </ficha>
@@ -276,6 +276,6 @@
     <fila>8</fila>
   </ficha>
   <siguienteTiro>
-    <color>blanco</color>
+    <color>negro</color>
   </siguienteTiro>
 </tablero>
