@@ -48,7 +48,7 @@
                     @using (Html.BeginForm("Partida", "Partida", FormMethod.Post, new { @class = "w-100 h-100" }))
                     {
                         <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
-                        <input type="text" hidden name="fila" id="fila" value="" />
+                        <input type="text" hidden name="fila" id="fila" value="saltar" />
                         <input type="text" hidden name="columna" id="columna" value="" />
                         <input type="submit" class="btn btn-dark btn-block" value="Saltar Turno">
                     }

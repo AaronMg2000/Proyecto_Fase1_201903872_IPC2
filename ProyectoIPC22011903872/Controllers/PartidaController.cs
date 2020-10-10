@@ -78,7 +78,7 @@ namespace ProyectoIPC22011903872.Controllers
                 ViewBag.maquina = true;
             }
             bool[] tiros = Funciones.CantidadMovimientos(partida);
-            if (!tiros[0] && tiros[1] && partida.tipo != "M")
+            if ((!tiros[0] && tiros[1] && partida.tipo!="M") || (partida.siguiente_tiro=="M" && !tiros[0] && tiros[1] && partida.siguiente_tiro!=partida.color_jugador2))
             {
                 ViewBag.saltar = true;
             }
@@ -264,14 +264,6 @@ namespace ProyectoIPC22011903872.Controllers
                     sig = false;
 
                 }
-                else
-                {
-                    Registrar = false;
-                }
-            }
-            if (partida.color_jugador1 == partida.siguiente_tiro && fila == "")
-            {
-                Registrar = false;
             }
             if (Registrar){ 
                 model = Funciones.AgregarFicha(partida, fila, columna);
@@ -286,9 +278,14 @@ namespace ProyectoIPC22011903872.Controllers
             ViewBag.partida = partida;
 
             bool[] tiros = Funciones.CantidadMovimientos(partida);
-            if (!tiros[0] && tiros[1] && partida.tipo!="M")
+            if ((!tiros[0] && tiros[1] && partida.tipo != "M") || (partida.siguiente_tiro == "M" && !tiros[0] && tiros[1] && partida.siguiente_tiro != partida.color_jugador2))
             {
                 ViewBag.saltar = true;
+            }
+            else if (!tiros[0] && tiros[1] && partida.tipo=="M" && partida.siguiente_tiro==partida.color_jugador2)
+            {
+                partida.siguiente_tiro = partida.color_jugador1;
+                partida = Funciones.Movimientos(partida);
             }
             else if (!tiros[0] && !tiros[1])
             {

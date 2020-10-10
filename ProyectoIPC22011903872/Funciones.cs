@@ -952,7 +952,8 @@ namespace ProyectoIPC22011903872
         public static bool[] CantidadMovimientos(PartidaViewModel partida)
         {
             bool j1=false,j2=false;
-            foreach(var l in partida.Filas)
+            partida = Movimientos(partida);
+            foreach (var l in partida.Filas)
             {
                 foreach(var c in l.columnas)
                 {
