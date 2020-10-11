@@ -1572,7 +1572,383 @@ namespace ProyectoIPC22011903872
                 }
                 f++;
             }
-            /**/
+            /*Comprobando fichas validas*/
+            f = 0;
+            c = 0;
+            while (f<=7)
+            {
+                c = 0;
+                while (c<=7)
+                {
+                    if (mapa[f][c] == true)
+                    {
+                        if(f==3 && c == 3)
+                        {
+                            c++;
+                            continue;
+                        }
+                        else if (f == 3 && c == 4)
+                        {
+                            c++;
+                            continue;
+                        }
+                        else if (f == 4 && c == 3)
+                        {
+                            c++;
+                            continue;
+                        }
+                        else if (f == 3 && c == 4)
+                        {
+                            c++;
+                            continue;
+                        }
+                        else if (f > 1 && f < 6 && c < 6 && c > 1)
+                        {
+                            var d1 = mapa[f][c + 1];
+                            var d2 = mapa[f][c + 2];
+                            var i1 = mapa[f][c - 1];
+                            var i2 = mapa[f][c - 2];
+                            var b1 = mapa[f + 1][c];
+                            var b2 = mapa[f + 2][c];
+                            var bi1 = mapa[f + 1][c - 1];
+                            var bi2 = mapa[f + 2][c - 2];
+                            var bd1 = mapa[f + 1][c + 1];
+                            var bd2 = mapa[f + 2][c + 2];
+                            var ai1 = mapa[f - 1][c - 1];
+                            var ai2 = mapa[f - 1][c - 2];
+                            var a1 = mapa[f - 1][c];
+                            var a2 = mapa[f - 2][c];
+                            var ad1 = mapa[f - 1][c - 1];
+                            var ad2 = mapa[f - 2][c - 2];
+                            if (bi1 && bi2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (bd1 && bd2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (b1 && b2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (a1 && a2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (ai1 && ai2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (ad1 && ad2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (d1 && d2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (i1 && i2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else 
+                            { 
+                                mapa[f][c] = false; 
+                            }
+                        }
+                        else if (f >= 0 && f <= 1 && c <=1 && c >= 0)
+                        {
+                            var d1 = mapa[f][c + 1];
+                            var d2 = mapa[f][c + 2];
+                            var b1 = mapa[f + 1][c];
+                            var b2 = mapa[f + 2][c];
+                            var bd1 = mapa[f + 1][c + 1];
+                            var bd2 = mapa[f + 2][c + 2];
+                            if (bd1 && bd2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (b1 && b2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (d1 && d2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else
+                            {
+                                mapa[f][c] = false;
+                            }
+                        }
+                        else if (f >= 0 && f <= 1 && c <= 7 && c >= 6)
+                        {
+                            var i1 = mapa[f][c - 1];
+                            var i2 = mapa[f][c - 2];
+                            var b1 = mapa[f + 1][c];
+                            var b2 = mapa[f + 2][c];
+                            var bi1 = mapa[f + 1][c - 1];
+                            var bi2 = mapa[f + 2][c - 2];
+                            if (bi1 && bi2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (b1 && b2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (i1 && i2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else
+                            {
+                                mapa[f][c] = false;
+                            }
+                        }
+                        else if (f >= 6 && f <= 7 && c <= 1 && c >= 0)
+                        {
+                            var i1 = mapa[f][c - 1];
+                            var i2 = mapa[f][c - 2];
+                            var a1 = mapa[f - 1][c];
+                            var a2 = mapa[f - 2][c];
+                            var ad1 = mapa[f - 1][c - 1];
+                            var ad2 = mapa[f - 2][c - 2];
+                            if (a1 && a2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (ad1 && ad2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (i1 && i2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else
+                            {
+                                mapa[f][c] = false;
+                            }
+                        }
+                        else if (f >= 6 && f <= 7 && c <= 7 && c >= 6)
+                        {
+                            var i1 = mapa[f][c - 1];
+                            var i2 = mapa[f][c - 2];
+                            var ai1 = mapa[f - 1][c - 1];
+                            var ai2 = mapa[f - 1][c - 2];
+                            var a1 = mapa[f - 1][c];
+                            var a2 = mapa[f - 2][c];
+                            if (a1 && a2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (ai1 && ai2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (i1 && i2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else
+                            {
+                                mapa[f][c] = false;
+                            }
+                        }
+                        else if (f >= 0 && f <= 1 && c > 1 && c < 6)
+                        {
+                            var d1 = mapa[f][c + 1];
+                            var d2 = mapa[f][c + 2];
+                            var i1 = mapa[f][c - 1];
+                            var i2 = mapa[f][c - 2];
+                            var b1 = mapa[f + 1][c];
+                            var b2 = mapa[f + 2][c];
+                            var bi1 = mapa[f + 1][c - 1];
+                            var bi2 = mapa[f + 2][c - 2];
+                            var bd1 = mapa[f + 1][c + 1];
+                            var bd2 = mapa[f + 2][c + 2];
+                            if (bi1 && bi2)
+                            {
+                                continue;
+                            }
+                            else if (bd1 && bd2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (b1 && b2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (d1 && d2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (i1 && i2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else
+                            {
+                                mapa[f][c] = false;
+                            }
+                        }
+                        else if (f >= 6 && f <= 7 && c < 6 && c > 1)
+                        {
+                            var d1 = mapa[f][c + 1];
+                            var d2 = mapa[f][c + 2];
+                            var i1 = mapa[f][c - 1];
+                            var i2 = mapa[f][c - 2];
+                            var ai1 = mapa[f - 1][c - 1];
+                            var ai2 = mapa[f - 1][c - 2];
+                            var a1 = mapa[f - 1][c];
+                            var a2 = mapa[f - 2][c];
+                            var ad1 = mapa[f - 1][c - 1];
+                            var ad2 = mapa[f - 2][c - 2];
+                            if (a1 && a2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (ai1 && ai2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (ad1 && ad2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (d1 && d2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (i1 && i2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else
+                            {
+                                mapa[f][c] = false;
+                            }
+                        }
+                        else if (f > 1 && f < 6 && c <= 1 && c >= 0)
+                        {
+                            var d1 = mapa[f][c + 1];
+                            var d2 = mapa[f][c + 2];
+                            var b1 = mapa[f + 1][c];
+                            var b2 = mapa[f + 2][c];
+                            var bd1 = mapa[f + 1][c + 1];
+                            var bd2 = mapa[f + 2][c + 2];
+                            var a1 = mapa[f - 1][c];
+                            var a2 = mapa[f - 2][c];
+                            var ad1 = mapa[f - 1][c - 1];
+                            var ad2 = mapa[f - 2][c - 2];
+                            if (bd1 && bd2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (b1 && b2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (a1 && a2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (ad1 && ad2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (d1 && d2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else
+                            {
+                                mapa[f][c] = false;
+                            }
+                        }
+                        else if (f > 1 && f < 6 && c <= 7 && c >= 6)
+                        {
+                            var i1 = mapa[f][c - 1];
+                            var i2 = mapa[f][c - 2];
+                            var b1 = mapa[f + 1][c];
+                            var b2 = mapa[f + 2][c];
+                            var bi1 = mapa[f + 1][c - 1];
+                            var bi2 = mapa[f + 2][c - 2];
+                            var ai1 = mapa[f - 1][c - 1];
+                            var ai2 = mapa[f - 1][c - 2];
+                            var a1 = mapa[f - 1][c];
+                            var a2 = mapa[f - 2][c];
+                            if (bi1 && bi2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (b1 && b2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (a1 && a2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (ai1 && ai2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (i1 && i2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else
+                            {
+                                mapa[f][c] = false;
+                            }
+                        }
+                    }
+                    c++;
+                }
+                f++;
+            }
             var i = 0;
             var j = 0;
             while (i < 8)

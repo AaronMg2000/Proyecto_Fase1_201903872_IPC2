@@ -355,6 +355,13 @@ namespace ProyectoIPC22011903872.Controllers
             PartidaCargada.movimientos_2 = 0;
             PartidaCargada.punteo_jugador1 = 0;
             PartidaCargada.punteo_jugador2 = 0;
+            foreach (var fil in PartidaCargada.Filas)
+            {
+                foreach (var col in fil.columnas)
+                {
+                    col.color = "b";
+                }
+            }
             foreach (XmlNode node in documento.SelectNodes("/tablero/ficha"))
             {
                 var f = node["fila"].InnerText;
@@ -362,7 +369,7 @@ namespace ProyectoIPC22011903872.Controllers
                 var color = node["color"].InnerText;
                 foreach (var fila in PartidaCargada.Filas)
                 {
-                    foreach(    var columna in fila.columnas)
+                    foreach(var columna in fila.columnas)
                     {
                         if (c == columna.nombre && f == fila.nombre)
                         {
@@ -413,7 +420,7 @@ namespace ProyectoIPC22011903872.Controllers
             {
                 foreach (var columna in fila.columnas)
                 {
-                    if (!string.IsNullOrEmpty(columna.color))
+                    if (!string.IsNullOrEmpty(columna.color) && columna.color!="b")
                     {
                         XElement ficha = new XElement("ficha");
                         XElement colors = new XElement("color",columna.color);
