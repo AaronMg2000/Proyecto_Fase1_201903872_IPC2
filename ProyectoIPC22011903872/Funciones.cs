@@ -1037,6 +1037,7 @@ namespace ProyectoIPC22011903872
             while (f>=0)
             {
                 c = 3;
+                
                 while (c >= 0)
                 {
                     var col = partida.Filas[f].columnas[c];
@@ -1092,35 +1093,91 @@ namespace ProyectoIPC22011903872
                     else if(c>0 && f==3 && c < 3)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
                         var colI = partida.Filas[f].columnas[c - 1];
                         var colAD = partida.Filas[f - 1].columnas[c + 1];
                         var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
                             if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
                             if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
                             if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colI.color != "b" && colAI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colAD.color != "") { mapa[f][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+                    }
+                    else if(c==0 && f==0)
+                    {
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        if (mapa[f][c])
+                        {
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+                    }
+                    else if(c==3 && f == 0) 
+                    {
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+                    }
+                    else if(c==0 && f == 3)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
                     }
                     else if(c==3 && f>0 && f < 3)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
                         var colI = partida.Filas[f].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
                         var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
                         var colBI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
                             if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
                             if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
                             if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
                             if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
-                        
+
                     }
                     else if(c==0 && f>0 && f < 3)
                     {
@@ -1171,6 +1228,7 @@ namespace ProyectoIPC22011903872
             while (f <= 7)
             {
                 c = 3;
+                
                 while (c >= 0)
                 {
                     var col = partida.Filas[f].columnas[c];
@@ -1198,6 +1256,50 @@ namespace ProyectoIPC22011903872
                                 mapa[f + 1][c - 1] = true;
                             }
                             mapa[f][c] = true;
+                        }
+                    }
+                    else if (c == 0 && f == 4)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+                    }
+                    else if (c == 3 && f == 7)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+                    }
+                    else if (c == 0 && f == 7)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
                     }
                     else if (c > 0 && f > 4 && c < 3 && f < 7 && col.color != "" && col.color != "b")
@@ -1244,18 +1346,24 @@ namespace ProyectoIPC22011903872
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
                         var colI = partida.Filas[f].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
                         var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
                         var colBI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
                             if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
                             if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
                             if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
                             if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
-                        
+
                     }
                     else if (c == 0 && f > 4 && f < 7)
                     {
@@ -1276,20 +1384,26 @@ namespace ProyectoIPC22011903872
                     }
                     else if (f == 4 && c > 0 && c < 3)
                     {
-                        var colA = partida.Filas[f + 1].columnas[c];
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
                         var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f + 1].columnas[c + 1];
-                        var colAI = partida.Filas[f + 1].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
-                            if (colA.color != "b" && colA.color != "") { mapa[f + 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
-                        
+
                     }
 
                     if (!centro)
@@ -1336,6 +1450,50 @@ namespace ProyectoIPC22011903872
                             mapa[f][c] = true;
                         }
                     }
+                    else if (c==4 && f == 0) 
+                    {
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+                    }
+                    else if (c==7 && f == 0) 
+                    {
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                        }
+                    }
+                    else if(c==7 && f == 3)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                        }
+                    }
                     else if (c > 4 && f > 0 && c < 7 && f < 3 && col.color != "" && col.color != "b")
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
@@ -1361,20 +1519,26 @@ namespace ProyectoIPC22011903872
                     }
                     else if (c > 4 && f == 3 && c < 7)
                     {
-                        var colA = partida.Filas[f + 1].columnas[c];
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
                         var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f + 1].columnas[c + 1];
-                        var colAI = partida.Filas[f + 1].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
                             if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
                             if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
                             if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colI.color != "b" && colAI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colAD.color != "") { mapa[f][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
-                        
+
                     }
                     else if (c == 7 && f > 0 && f < 3)
                     {
@@ -1398,17 +1562,23 @@ namespace ProyectoIPC22011903872
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
                         var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
                         var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
                             if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
                             if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
                             if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
                             if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
-                        
+
                     }
                     else if (f == 0 && c > 0 && c < 7)
                     {
@@ -1445,6 +1615,10 @@ namespace ProyectoIPC22011903872
                 c = 4;
                 while (c <= 7)
                 {
+                    if(f==5 && c == 6)
+                    {
+
+                    }
                     var col = partida.Filas[f].columnas[c];
                     if (c == 4 && f == 4)
                     {
@@ -1455,24 +1629,68 @@ namespace ProyectoIPC22011903872
                         else
                         {
                             var colB = partida.Filas[f + 1].columnas[c];
-                            var colI = partida.Filas[f].columnas[c - 1];
-                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
                             if (colB.color != "" && colB.color != "b")
                             {
                                 mapa[f + 1][c] = true;
                             }
-                            if (colI.color != "" && colI.color != "b")
+                            if (colD.color != "" && colD.color != "b")
                             {
                                 mapa[f][c + 1] = true;
                             }
-                            if (colBI.color != "" && colBI.color != "b")
+                            if (colBD.color != "" && colBD.color != "b")
                             {
                                 mapa[f + 1][c + 1] = true;
                             }
                             mapa[f][c] = true;
                         }
                     }
-                    else if (c > 0 && f > 4 && c < 3 && f < 7 && col.color != "" && col.color != "b")
+                    else if (c==4 && f==7)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+                    }
+                    else if (c == 7 && f==7)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                        }
+                    }
+                    else if (c == 7 && f==4)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                        }
+                    }
+                    else if (c > 4 && f > 4 && c < 7 && f < 7 && col.color != "" && col.color != "b")
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1534,30 +1752,42 @@ namespace ProyectoIPC22011903872
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
                         var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
                         var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
                             if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
                             if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
                             if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
                             if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
-                      
+
                     }
                     else if (f == 4 && c > 4 && c < 7)
                     {
-                        var colA = partida.Filas[f + 1].columnas[c];
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
                         var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f + 1].columnas[c + 1];
-                        var colAI = partida.Filas[f + 1].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
-                            if (colA.color != "b" && colA.color != "") { mapa[f + 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
@@ -1615,11 +1845,11 @@ namespace ProyectoIPC22011903872
                             var bd1 = mapa[f + 1][c + 1];
                             var bd2 = mapa[f + 2][c + 2];
                             var ai1 = mapa[f - 1][c - 1];
-                            var ai2 = mapa[f - 1][c - 2];
+                            var ai2 = mapa[f - 2][c - 2];
                             var a1 = mapa[f - 1][c];
                             var a2 = mapa[f - 2][c];
-                            var ad1 = mapa[f - 1][c - 1];
-                            var ad2 = mapa[f - 2][c - 2];
+                            var ad1 = mapa[f - 1][c + 1];
+                            var ad2 = mapa[f - 2][c + 2];
                             if (bi1 && bi2)
                             {
                                 c++;
@@ -1754,7 +1984,7 @@ namespace ProyectoIPC22011903872
                             var i1 = mapa[f][c - 1];
                             var i2 = mapa[f][c - 2];
                             var ai1 = mapa[f - 1][c - 1];
-                            var ai2 = mapa[f - 1][c - 2];
+                            var ai2 = mapa[f - 2][c - 2];
                             var a1 = mapa[f - 1][c];
                             var a2 = mapa[f - 2][c];
                             if (a1 && a2)
@@ -1791,6 +2021,7 @@ namespace ProyectoIPC22011903872
                             var bd2 = mapa[f + 2][c + 2];
                             if (bi1 && bi2)
                             {
+                                c++;
                                 continue;
                             }
                             else if (bd1 && bd2)
@@ -1825,11 +2056,11 @@ namespace ProyectoIPC22011903872
                             var i1 = mapa[f][c - 1];
                             var i2 = mapa[f][c - 2];
                             var ai1 = mapa[f - 1][c - 1];
-                            var ai2 = mapa[f - 1][c - 2];
+                            var ai2 = mapa[f - 2][c - 2];
                             var a1 = mapa[f - 1][c];
                             var a2 = mapa[f - 2][c];
-                            var ad1 = mapa[f - 1][c - 1];
-                            var ad2 = mapa[f - 2][c - 2];
+                            var ad1 = mapa[f - 1][c + 1];
+                            var ad2 = mapa[f - 2][c + 2];
                             if (a1 && a2)
                             {
                                 c++;
@@ -1870,8 +2101,8 @@ namespace ProyectoIPC22011903872
                             var bd2 = mapa[f + 2][c + 2];
                             var a1 = mapa[f - 1][c];
                             var a2 = mapa[f - 2][c];
-                            var ad1 = mapa[f - 1][c - 1];
-                            var ad2 = mapa[f - 2][c - 2];
+                            var ad1 = mapa[f - 1][c + 1];
+                            var ad2 = mapa[f - 2][c + 2];
                             if (bd1 && bd2)
                             {
                                 c++;
@@ -1911,7 +2142,7 @@ namespace ProyectoIPC22011903872
                             var bi1 = mapa[f + 1][c - 1];
                             var bi2 = mapa[f + 2][c - 2];
                             var ai1 = mapa[f - 1][c - 1];
-                            var ai2 = mapa[f - 1][c - 2];
+                            var ai2 = mapa[f - 2][c - 2];
                             var a1 = mapa[f - 1][c];
                             var a2 = mapa[f - 2][c];
                             if (bi1 && bi2)
@@ -1949,6 +2180,7 @@ namespace ProyectoIPC22011903872
                 }
                 f++;
             }
+            /*Verificando validez*/
             var i = 0;
             var j = 0;
             while (i < 8)
@@ -1956,7 +2188,12 @@ namespace ProyectoIPC22011903872
                 j = 0;
                 while (j < 8)
                 {
-                    if (!mapa[i][j])
+                    if (!mapa[i][j] && partida.Filas[i].columnas[j].color!="" && partida.Filas[i].columnas[j].color!="b")
+                    {
+                        res = new object[] { partida, false };
+                        return res;
+                    }
+                    else if (!mapa[i][j])
                     {
                         partida.Filas[i].columnas[j].color = "b";
                     }
@@ -1964,6 +2201,7 @@ namespace ProyectoIPC22011903872
                 }
                 i++;
             }
+            /*Retorno si todo esta correcto*/
             res = new object[] { partida, true };
             return res;
         }

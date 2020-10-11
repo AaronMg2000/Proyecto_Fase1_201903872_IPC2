@@ -40,9 +40,15 @@
                     <a href="#" class="nav-link ">Reportes</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ml-auto mr-5">
+            <ul class="navbar-nav ml-auto">
                 @if (User.Identity.IsAuthenticated)
                 {
+                    if (ViewBag.user!=null)
+                    {
+                        <li class="nav-link">
+                            <a href="" class="nav-link">@ViewBag.user.Nombre @ViewBag.user.Apellido</a>
+                        </li>
+                    }
                     <li class="nav-link">
                         <a href="/Principal/Logout" class="nav-link">Salir</a>
                     </li>

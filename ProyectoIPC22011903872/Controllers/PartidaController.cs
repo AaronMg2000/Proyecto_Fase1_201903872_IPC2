@@ -23,6 +23,7 @@ namespace ProyectoIPC22011903872.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
+            ViewBag.user = this.Session["user"];
             ViewBag.mensaje = "";
             return View();
         }
@@ -33,6 +34,7 @@ namespace ProyectoIPC22011903872.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
+            ViewBag.user = this.Session["user"];
             return View();
         }
         [HttpGet]
@@ -120,7 +122,7 @@ namespace ProyectoIPC22011903872.Controllers
         [HttpPost]
         public ActionResult Partida(int nom, string fila, string columna,PartidaViewModel pr)
         {
-            if (!User.Identity.IsAuthenticated && this.Session["user"] == null)
+            if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
             {
                 return RedirectToAction("Login", "User");
             }
@@ -325,6 +327,10 @@ namespace ProyectoIPC22011903872.Controllers
         }
         [HttpPost]
         public ActionResult CargarPartida(HttpPostedFileBase archivo,string jugador22, string color11, string color22) {
+            if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             string[] ran = { "negro", "blanco" };
             Random rnd = new Random();
             int indice = 0;
@@ -355,6 +361,7 @@ namespace ProyectoIPC22011903872.Controllers
             PartidaCargada.movimientos_2 = 0;
             PartidaCargada.punteo_jugador1 = 0;
             PartidaCargada.punteo_jugador2 = 0;
+            PartidaCargada.siguiente_tiro = "";
             foreach (var fil in PartidaCargada.Filas)
             {
                 foreach (var col in fil.columnas)
@@ -371,16 +378,27 @@ namespace ProyectoIPC22011903872.Controllers
                 {
                     foreach(var columna in fila.columnas)
                     {
-                        if (c == columna.nombre && f == fila.nombre)
+                        if (c == columna.nombre && f == fila.nombre && columna.color=="b")
                         {
                             columna.color = color;
+                        }
+                        else if (c==columna.nombre && f == fila.nombre)
+                        {
+                            return RedirectToAction("Index", "Partida", new { mensaje = "Error hay posiciones repetidas en su partida" });
                         }
                     }
                 }
             }
             foreach (XmlNode node in documento.SelectNodes("/tablero/siguienteTiro"))
             {
-                PartidaCargada.siguiente_tiro = node["color"].InnerText;
+                if (PartidaCargada.siguiente_tiro=="")
+                {
+                    PartidaCargada.siguiente_tiro = node["color"].InnerText;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Partida", new { mensaje = "Error el turno siguiente esta repetido en su partida" });
+                }
             }
             object[] objeto = Funciones.ComprobarCasillas(PartidaCargada);
             bool respuesta = (bool)objeto[1];
@@ -391,13 +409,17 @@ namespace ProyectoIPC22011903872.Controllers
                 cargar = true;
                 return RedirectToAction("Partida", "Partida");
             }
+            cargar = true;
+            return RedirectToAction("Partida", "Partida");
             return RedirectToAction("Index", "Partida", new { mensaje = "Error en estructura de la partida" });
         }
 
         public ActionResult GuardarPartida(int nombre)
         {
-            
-
+            if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             PartidaViewModel partida = new PartidaViewModel();
             foreach (var part in modelo.partidas)
             {
@@ -407,7 +429,8 @@ namespace ProyectoIPC22011903872.Controllers
                     break;
                 }
             }
-            string Filename = "Partida_#" + partida.nombre + ".xml";
+            USUARIO user = (USUARIO)this.Session["user"];
+            string Filename = user.Usuario1+"_Partida_#" + partida.nombre + ".xml";
             var path = Path.Combine(Server.MapPath("~/Public/XML_SAVE"), Filename);
             if (System.IO.File.Exists(path))
             {
