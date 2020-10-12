@@ -115,12 +115,12 @@ namespace ProyectoIPC22011903872
         public static PartidaViewModel AgregarFicha(PartidaViewModel partida,string fila,string columna)
         {
             var color = partida.siguiente_tiro;
-            if (partida.color_jugador1 == partida.siguiente_tiro)
+            if (partida.color_jugador1 == partida.siguiente_tiro && fila!= "saltar")
             {
                 partida.punteo_jugador1++;
                 partida.movimientos_1++;
             }
-            else
+            else if(partida.color_jugador2 == partida.siguiente_tiro && fila != "saltar")
             {
                 partida.punteo_jugador2++;
                 partida.movimientos_2++;

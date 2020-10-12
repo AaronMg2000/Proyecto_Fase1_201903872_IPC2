@@ -266,6 +266,10 @@ namespace ProyectoIPC22011903872.Controllers
                     sig = false;
 
                 }
+                else
+                {
+                    fila = "saltar";
+                }
             }
             if (Registrar){ 
                 model = Funciones.AgregarFicha(partida, fila, columna);
@@ -326,7 +330,7 @@ namespace ProyectoIPC22011903872.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult CargarPartida(HttpPostedFileBase archivo,string jugador22, string color11, string color22) {
+        public ActionResult CargarPartida(HttpPostedFileBase archivo, string jugador22, string color11, string color22) {
             if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
             {
                 return RedirectToAction("Login", "User");
@@ -348,20 +352,22 @@ namespace ProyectoIPC22011903872.Controllers
                     color22 = "negro";
                 }
             }
-            
+
             var Filename = Path.GetFileName(archivo.FileName);
             var path = Path.Combine(Server.MapPath("~/Public/XML"), Filename);
             archivo.SaveAs(path);
             XmlDocument documento = new XmlDocument();
             documento.Load(path);
-            
+
             USUARIO user = (USUARIO)this.Session["user"];
-            PartidaCargada = Funciones.CrearPartida(modelo,color11,color22,"",user.Usuario1,jugador22);
+            PartidaCargada = Funciones.CrearPartida(modelo, color11, color22, "", user.Usuario1, jugador22);
             PartidaCargada.movimientos_1 = 0;
             PartidaCargada.movimientos_2 = 0;
             PartidaCargada.punteo_jugador1 = 0;
             PartidaCargada.punteo_jugador2 = 0;
             PartidaCargada.siguiente_tiro = "";
+            string[] letras = { "A", "B", "C", "D", "E", "F", "G", "H" };
+            string[] numeros = {"1", "2", "3", "4", "5", "6", "7", "8", };
             foreach (var fil in PartidaCargada.Filas)
             {
                 foreach (var col in fil.columnas)
@@ -374,19 +380,28 @@ namespace ProyectoIPC22011903872.Controllers
                 var f = node["fila"].InnerText;
                 var c = node["columna"].InnerText;
                 var color = node["color"].InnerText;
-                foreach (var fila in PartidaCargada.Filas)
+                var CF = Array.Exists(letras, element => element == c);
+                var CC = Array.Exists(numeros, element => element == f);
+                if(CC && CF)
                 {
-                    foreach(var columna in fila.columnas)
+                    foreach (var fila in PartidaCargada.Filas)
                     {
-                        if (c == columna.nombre && f == fila.nombre && columna.color=="b")
+                        foreach (var columna in fila.columnas)
                         {
-                            columna.color = color;
-                        }
-                        else if (c==columna.nombre && f == fila.nombre)
-                        {
-                            return RedirectToAction("Index", "Partida", new { mensaje = "Error hay posiciones repetidas en su partida" });
+                            if (c == columna.nombre && f == fila.nombre && columna.color == "b")
+                            {
+                                columna.color = color;
+                            }
+                            else if (c == columna.nombre && f == fila.nombre)
+                            {
+                                return RedirectToAction("Index", "Partida", new { mensaje = "Error hay posiciones repetidas en su partida" });
+                            }
                         }
                     }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Partida", new { mensaje = "Error hay columnas y filas que no existen en una partida" });
                 }
             }
             foreach (XmlNode node in documento.SelectNodes("/tablero/siguienteTiro"))
@@ -409,8 +424,6 @@ namespace ProyectoIPC22011903872.Controllers
                 cargar = true;
                 return RedirectToAction("Partida", "Partida");
             }
-            cargar = true;
-            return RedirectToAction("Partida", "Partida");
             return RedirectToAction("Index", "Partida", new { mensaje = "Error en estructura de la partida" });
         }
 
