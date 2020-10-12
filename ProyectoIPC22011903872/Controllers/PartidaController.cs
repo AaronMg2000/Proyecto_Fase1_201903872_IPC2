@@ -64,6 +64,7 @@ namespace ProyectoIPC22011903872.Controllers
             }
             indice = rnd.Next(ran.Length);
             string siguiente = ran[indice];
+            siguiente = "negro";
             var partida = new PartidaViewModel();
             if (!cargar)
             {
