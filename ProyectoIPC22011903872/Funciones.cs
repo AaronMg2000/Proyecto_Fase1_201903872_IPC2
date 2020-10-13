@@ -1827,7 +1827,7 @@ namespace ProyectoIPC22011903872
                             c++;
                             continue;
                         }
-                        else if (f == 3 && c == 4)
+                        else if (f == 4 && c == 4)
                         {
                             c++;
                             continue;
