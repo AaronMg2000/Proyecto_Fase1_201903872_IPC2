@@ -25,7 +25,8 @@
     <Property Name="Codigo_Usuario_1" Type="int" Nullable="false" />
     <Property Name="Codigo_Usuario_2" Type="int" />
     <Property Name="Codigo_Torneo" Type="int" />
-    <Property Name="Ganador" Type="int" />
+    <Property Name="GanadorOnline" Type="int" />
+    <Property Name="ResultadoLocal" Type="varchar" MaxLength="50" />
     <Property Name="TIPO" Type="int" Nullable="false" />
     <Property Name="Punteo_1" Type="int" />
     <Property Name="Punteo_2" Type="int" />

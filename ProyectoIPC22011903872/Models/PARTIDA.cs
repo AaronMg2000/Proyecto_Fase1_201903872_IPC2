@@ -18,7 +18,8 @@ namespace ProyectoIPC22011903872.Models
         public int Codigo_Usuario_1 { get; set; }
         public Nullable<int> Codigo_Usuario_2 { get; set; }
         public Nullable<int> Codigo_Torneo { get; set; }
-        public Nullable<int> Ganador { get; set; }
+        public Nullable<int> GanadorOnline { get; set; }
+        public string ResultadoLocal { get; set; }
         public int TIPO { get; set; }
         public Nullable<int> Punteo_1 { get; set; }
         public Nullable<int> Punteo_2 { get; set; }

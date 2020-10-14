@@ -28,7 +28,8 @@
     <Property Name="Codigo_Usuario_1" Type="Int32" Nullable="false" />
     <Property Name="Codigo_Usuario_2" Type="Int32" />
     <Property Name="Codigo_Torneo" Type="Int32" />
-    <Property Name="Ganador" Type="Int32" />
+    <Property Name="GanadorOnline" Type="Int32" />
+    <Property Name="ResultadoLocal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="TIPO" Type="Int32" Nullable="false" />
     <Property Name="Punteo_1" Type="Int32" />
     <Property Name="Punteo_2" Type="Int32" />

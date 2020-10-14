@@ -103,11 +103,15 @@ namespace ProyectoIPC22011903872.Controllers
                         par.movimientos_2 = partida.movimientos_2;
                         if (partida.punteo_jugador1 > partida.punteo_jugador2)
                         {
-                            par.Ganador = user.Codigo_Usuario;
+                            par.ResultadoLocal = "Ganador";
+                        }
+                        else if (partida.punteo_jugador2 > partida.punteo_jugador1)
+                        {
+                            par.ResultadoLocal = "Perdedor";
                         }
                         else
                         {
-                            par.Ganador = 0;
+                            par.ResultadoLocal = "Empate";
                         }
                         db.PARTIDA.Add(par);
                         db.SaveChanges();
@@ -311,11 +315,15 @@ namespace ProyectoIPC22011903872.Controllers
                         par.movimientos_2 = partida.movimientos_2;
                         if (partida.punteo_jugador1 > partida.punteo_jugador2)
                         {
-                            par.Ganador = user.Codigo_Usuario;
+                            par.ResultadoLocal = "Ganador";
+                        }
+                        else if (partida.punteo_jugador2 > partida.punteo_jugador1)
+                        {
+                            par.ResultadoLocal = "Perdedor";
                         }
                         else
                         {
-                            par.Ganador = 0;
+                            par.ResultadoLocal = "Empate";
                         }
                         db.PARTIDA.Add(par);
                         db.SaveChanges();
@@ -367,6 +375,7 @@ namespace ProyectoIPC22011903872.Controllers
             PartidaCargada.punteo_jugador1 = 0;
             PartidaCargada.punteo_jugador2 = 0;
             PartidaCargada.siguiente_tiro = "";
+            PartidaCargada.terminado = "";
             string[] letras = { "A", "B", "C", "D", "E", "F", "G", "H" };
             string[] numeros = {"1", "2", "3", "4", "5", "6", "7", "8", };
             foreach (var fil in PartidaCargada.Filas)

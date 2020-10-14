@@ -30,7 +30,8 @@
           <Property Name="Codigo_Usuario_1" Type="int" Nullable="false" />
           <Property Name="Codigo_Usuario_2" Type="int" />
           <Property Name="Codigo_Torneo" Type="int" />
-          <Property Name="Ganador" Type="int" />
+          <Property Name="GanadorOnline" Type="int" />
+          <Property Name="ResultadoLocal" Type="varchar" MaxLength="50" />
           <Property Name="TIPO" Type="int" Nullable="false" />
           <Property Name="Punteo_1" Type="int" />
           <Property Name="Punteo_2" Type="int" />
@@ -245,7 +246,8 @@
           <Property Name="Codigo_Usuario_1" Type="Int32" Nullable="false" />
           <Property Name="Codigo_Usuario_2" Type="Int32" />
           <Property Name="Codigo_Torneo" Type="Int32" />
-          <Property Name="Ganador" Type="Int32" />
+          <Property Name="GanadorOnline" Type="Int32" />
+          <Property Name="ResultadoLocal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TIPO" Type="Int32" Nullable="false" />
           <Property Name="Punteo_1" Type="Int32" />
           <Property Name="Punteo_2" Type="Int32" />
@@ -472,7 +474,8 @@
                 <ScalarProperty Name="Codigo_Usuario_1" ColumnName="Codigo_Usuario_1" />
                 <ScalarProperty Name="Codigo_Usuario_2" ColumnName="Codigo_Usuario_2" />
                 <ScalarProperty Name="Codigo_Torneo" ColumnName="Codigo_Torneo" />
-                <ScalarProperty Name="Ganador" ColumnName="Ganador" />
+                <ScalarProperty Name="GanadorOnline" ColumnName="GanadorOnline" />
+                <ScalarProperty Name="ResultadoLocal" ColumnName="ResultadoLocal" />
                 <ScalarProperty Name="TIPO" ColumnName="TIPO" />
                 <ScalarProperty Name="Punteo_1" ColumnName="Punteo_1" />
                 <ScalarProperty Name="Punteo_2" ColumnName="Punteo_2" />

@@ -27,7 +27,8 @@
           <ScalarProperty Name="Codigo_Usuario_1" ColumnName="Codigo_Usuario_1" />
           <ScalarProperty Name="Codigo_Usuario_2" ColumnName="Codigo_Usuario_2" />
           <ScalarProperty Name="Codigo_Torneo" ColumnName="Codigo_Torneo" />
-          <ScalarProperty Name="Ganador" ColumnName="Ganador" />
+          <ScalarProperty Name="GanadorOnline" ColumnName="GanadorOnline" />
+          <ScalarProperty Name="ResultadoLocal" ColumnName="ResultadoLocal" />
           <ScalarProperty Name="TIPO" ColumnName="TIPO" />
           <ScalarProperty Name="Punteo_1" ColumnName="Punteo_1" />
           <ScalarProperty Name="Punteo_2" ColumnName="Punteo_2" />
