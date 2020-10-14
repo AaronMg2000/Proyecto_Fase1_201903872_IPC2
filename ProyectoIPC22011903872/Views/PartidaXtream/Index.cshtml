@@ -1,81 +1,12 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Othello Xtream";
     Layout = "~/Views/Shared/_LayoutJuego.cshtml";
 }
 
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-verde text-white font-weight-bold">
-                <h5 class="modal-title text-center" id="exampleModalLongTitle">Cargar Partida</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="/Partida/CargarPartida" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <input type="file" required class="form-control-file w-100 m-auto" name="archivo" id="archivo" accept="archivo XML, .xml" />
-                    </div>
-                    <div class="form-group">
-                        <div class="row align-content-around justify-content-around">
-                            <div class="col-12">
-                                <p class="w-100 text-center">Tipo de partida</p>
-                            </div>
-                            <div class="col-5">
-                                <input type="radio" name="tipopartida1" id="tipopartida1" value="M" /> Maquina
-                            </div>
-                            <div class="col-5">
-                                <input type="radio" name="tipopartida1" id="tipopartida1" checked value="J" /> Jugador Local
-                            </div>
-                        </div>
-                    </div>
-                    <div id="j11" class="form-group">
-                        <label for="jugador22">Jugador Invitado</label>
-                        <input required type="text" class="form-control bg-light redondear" name="jugador22" id="jugador22" value="" placeholder="Nombre de Jugador Invitado" />
-                    </div>
-                    <hr />
-                    <div class="form-group">
-                        <div class="row align-content-around justify-content-around">
-                            <div class="col-12">
-                                <p class="w-100 text-center">Color de jugadores</p>
-                            </div>
-                            <div class="col-5">
-                                <input type="radio" name="colorjugador1" id="colorjugador1" value="A" /> Aleatorio
-                            </div>
-                            <div class="col-5">
-                                <input type="radio" name="colorjugador1" id="colorjugador1" checked value="C" /> Seleccionar Color
-                            </div>
-                        </div>
-                    </div>
-                    <div id="c11" class="form-group">
-                        <label for="Color11">Color de Usuario</label>
-                        <select class="form-control bg-light" id="colorr" name="colorr">
-                            <option value="negro">Negro</option>
-                            <option value="blanco">Blanco</option>
-                        </select>
-                    </div>
-                    <hr />
-                    <div class="form-group">
-                        <div class="row justify-content-center  align-content-around">
-                            <input type="text" hidden name="color11" id="color11" value="negro" />
-                            <input type="text" hidden name="color22" id="color22" value="blanco" />
-                            <input type="submit" name="name" value="Cargar" class="btn btt-yellow m-auto" />
-                            <button type="button" class="btn btn-dark m-auto" data-dismiss="modal">Cancelar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
 
-
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="OthelloXtreamSolitario" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-xl modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-verde text-white font-weight-bold">
                 <h5 class="modal-title text-center" id="exampleModalLongTitle">Nueva Partida Solitario</h5>
@@ -84,7 +15,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/Partida/Partida" method="get" enctype="multipart/form-data">
+                <form action="/PartidaXtream/Partida" method="get" enctype="multipart/form-data">
                     <div class="form-group">
                         <div class="row align-content-around justify-content-around">
                             <div class="col-12">
@@ -98,6 +29,29 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col col-md-6">
+                                <label for="M">Ancho del tablero</label>
+                                <select class="form-control" id="M" name="M">
+                                    @for (int i = 6; i <= 20; i += 2)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col col-md-6">
+                                <label for="N">Largo del tablero</label>
+                                <select class="form-control" id="N" name="N">
+                                    @for (int i = 6; i <= 20; i += 2)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="j1" class="form-group">
                         <label for="jugador2">Jugador Invitado</label>
                         <input required type="text" class="form-control bg-light redondear" name="jugador2" id="jugador2" value="" placeholder="Nombre de Jugador Invitado" />
@@ -126,8 +80,8 @@
                     <hr />
                     <div class="form-group">
                         <div class="row justify-content-center  align-content-around">
-                            <input type="text" hidden name="color1" id="color1" value="negro" />
-                            <input type="text" hidden  name="color2" id="color2" value="blanco" />
+                            <input type="text" hidden name="color1" id="color11" value="negro" />
+                            <input type="text" hidden name="color2" id="color22" value="blanco" />
                             <input type="submit" name="name" value="Iniciar" class="btn btt-yellow m-auto" />
                             <button type="button" class="btn btn-dark m-auto" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -143,30 +97,29 @@
 </div>
 @if (!string.IsNullOrEmpty(ViewBag.mensaje))
 {
-    <div id="danger" style='display:none' class="alert alert-danger bg-naranja alert-dismissible" role="alert">
-        <div id="texto">
-            <h1 class="text-white font-weight-bold text-center">
-                @ViewBag.mensaje
-            </h1>
-        </div>
-        
+<div id="danger" style='display:none' class="alert alert-danger bg-naranja alert-dismissible" role="alert">
+    <div id="texto">
+        <h1 class="text-white font-weight-bold text-center">
+            @ViewBag.mensaje
+        </h1>
     </div>
-}
+
+</div>}
 <div class="row justify-content-center align-content-center" style="height:85vh">
     <div class="col col-md-4">
         <div class="card bg-transparent">
             <div class="card-header" style="background-color:rgba(255, 255, 255,0.57)">
-                <h1 style="font-family: Script MT" class="text-white display-2 font-weight-bold text-center borde-texto">Othello</h1>
+                <h1 style="font-family: Script MT" class="text-white display-2 font-weight-bold text-center borde-texto">Othello Xtream</h1>
             </div>
             <div class="card-body" style="background-color:rgba(255, 255, 255,0.57)">
                 <div class="mb-5">
-                   @* @Html.ActionLink("Nueva Partida Solitario", "Partida", "Partida", new { color1="", color2="" }, new { @class = "btn btt-n1 btn-block redondear" })*@
-                    <button type="button" class="btn btt-n1 btn-block redondear" data-toggle="modal" data-target="#exampleModalCenter2">
+                    @* @Html.ActionLink("Nueva Partida Solitario", "Partida", "Partida", new { color1="", color2="" }, new { @class = "btn btt-n1 btn-block redondear" })*@
+                    <button type="button" class="btn btt-n1 btn-block redondear" data-toggle="modal" data-target="#OthelloXtreamSolitario">
                         Nueva Partida Solitario
                     </button>
                 </div>
                 <div class="mb-5">
-                    <button type="button" class="btn btt-n2 btn-block redondear" data-toggle="modal" data-target="#exampleModalCenter">
+                    <button type="button" class="btn btt-n2 btn-block redondear" data-toggle="modal" data-target="#OthelloXtreamSolitario">
                         Cargar Partida
                     </button>
                 </div>
@@ -179,7 +132,7 @@
 </div>
 
 @section scripts{
-<script>
+    <script>
     $(document).ready(function () {
         $("#danger").show();
         $("#danger").hide(10000);
@@ -245,6 +198,6 @@
             }
         });
     });
-</script>
+    </script>
 }
 

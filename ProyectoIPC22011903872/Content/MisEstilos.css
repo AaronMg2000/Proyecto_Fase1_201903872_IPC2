@@ -144,6 +144,34 @@
 .negro {
     background-color: black;
 }
+.rojo {
+    background-color: red;
+}
+
+.cafe {
+    background-color: brown;
+}
+.azul {
+    background-color: blue;
+}
+
+.celeste {
+    background-color: skyblue;
+}
+.naranja {
+    background-color: orange;
+}
+
+.morado {
+    background-color: rebeccapurple;
+}
+.rosado {
+    background-color: deeppink;
+}
+
+.amarillo {
+    background-color: yellow;
+}
 .borde-naranja {
     border-bottom: 0.5em solid #FFCF41;
 }

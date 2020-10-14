@@ -131,10 +131,12 @@
     </Compile>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PartidaController.cs" />
+    <Compile Include="Controllers\PartidaXtreamController.cs" />
     <Compile Include="Controllers\PrincipalController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Encriptar.cs" />
     <Compile Include="Funciones.cs" />
+    <Compile Include="FuncionesXtream.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -177,10 +179,12 @@
     <Compile Include="Models\ViewModels\addUserViewModel.cs" />
     <Compile Include="Models\ViewModels\ColumnaViewModel.cs" />
     <Compile Include="Models\ViewModels\DatosModel.cs" />
+    <Compile Include="Models\ViewModels\DatosXtreamModel.cs" />
     <Compile Include="Models\ViewModels\FilaViewModel.cs" />
     <Compile Include="Models\ViewModels\getPaisViewModel.cs" />
     <Compile Include="Models\ViewModels\getUserViewModel.cs" />
     <Compile Include="Models\ViewModels\PartidaViewModel.cs" />
+    <Compile Include="Models\ViewModels\PartidaXtreamViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -396,6 +400,8 @@
     <Content Include="Views\Partida\Index.cshtml" />
     <Content Include="Views\Partida\Partida.cshtml" />
     <Content Include="Views\Shared\Partials\_Tablero.cshtml" />
+    <Content Include="Views\PartidaXtream\Index.cshtml" />
+    <Content Include="Views\PartidaXtream\Partida.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

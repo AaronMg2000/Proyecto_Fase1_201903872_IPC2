@@ -1,0 +1,425 @@
+﻿@model ProyectoIPC22011903872.Models.ViewModels.PartidaXtreamViewModel
+@{
+    ViewBag.Title = "Partida";
+    Layout = "~/Views/Shared/_LayoutJuego.cshtml";
+}
+@if (((Model.colores_jugador2.Contains(Model.siguiente_tiro) && Model.tipo != "M") || Model.colores_jugador1.Contains(Model.siguiente_tiro)) && ViewBag.terminado == null && ViewBag.saltar == null)
+{
+    <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-verde text-white font-weight-bold">
+                    <h5 class="modal-title text-center w-100" id="exampleModalLongTitle">Turno</h5>
+
+                </div>
+                <div class="modal-body">
+                    @{
+                        var turno = "";
+                        if (Model.colores_jugador2.Contains(Model.siguiente_tiro))
+                        {
+                            turno = Model.jugador2;
+                        }
+                        else
+                        {
+                            turno = Model.jugador1;
+                        }
+                    }
+                    <p class="w-100 text-center">Es el turno de: @turno.</p>
+                    <div class="w-100">
+                        <button type="button" class="btn btn-dark m-auto btn-block" data-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (ViewBag.saltar != null)
+{
+    <div class="modal fade" id="exampleModalCenter" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-verde text-white font-weight-bold">
+                    <h5 class="modal-title text-center w-100" id="exampleModalLongTitle">Saltar Turno</h5>
+
+                </div>
+                <div class="modal-body">
+                    <p class="w-100 text-center">No puede realizar ningun movimiento, debe saltarse su turno.</p>
+                    @using (Html.BeginForm("Partida", "PartidaXtream", FormMethod.Post, new { @class = "w-100 h-100" }))
+                    {
+                        <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
+                        <input type="text" hidden name="fila" id="fila" value="saltar" />
+                        <input type="text" hidden name="columna" id="columna" value="" />
+                        <input type="submit" class="btn btn-dark btn-block" value="Saltar Turno">
+                    }
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (ViewBag.terminado != null)
+{
+    <div class="modal fade" id="exampleModalCenter" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-verde text-white font-weight-bold">
+                    <h5 class="modal-title text-center w-100" id="exampleModalLongTitle">Partida Terminada</h5>
+
+                </div>
+                <div class="modal-body">
+                    @{ var ganador = "";
+                        if (ViewBag.partida.punteo_jugador1 > ViewBag.partida.punteo_jugador2)
+                        {
+                            ganador = "El ganador fue: " + ViewBag.partida.jugador1;
+                        }
+                        else if (ViewBag.partida.punteo_jugador1 < ViewBag.partida.punteo_jugador2)
+                        {
+                            ganador = "El ganador fue: " + ViewBag.partida.jugador2;
+                        }
+                        else
+                        {
+                            ganador = "La partida termino en empate";
+                        }
+                    }
+                    <p class="w-100 text-center">@ganador</p>
+                    @Html.ActionLink("Aceptar", "Index", "Partida", new { @class = "btn btn-dark btn-block redondear" })
+                </div>
+                <div class="modal-footer">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (ViewBag.maquina != null)
+{
+    using (Html.BeginForm("Partida", "PartidaXtream", FormMethod.Post, new { @class = "w-100 h-100", @id = "F_maquina" }))
+    {
+        <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
+        <input type="text" hidden name="fila" id="fila" value="" />
+        <input type="text" hidden name="columna" id="columna" value="" />
+        <input hidden type="submit" class="btn btn-block btn-ficha" value="">
+    }
+}
+@if (ViewBag.maquina != null)
+{
+    <div id="danger" style='display:none' class="alert alert-danger bg-naranja alert-dismissible" role="alert">
+        <div id="texto">
+            <h4 class="text-white font-weight-bold text-center">
+                La maquina esta analizando el movimiento.
+            </h4>
+        </div>
+
+    </div>
+}
+<div class="row justify-content-center align-content-center " style="height:90vh">
+    <div class="col col-md-11 bg-negro-80" style="height:95%">
+        <div class="row h-100">
+            <div class="col col-md-3">
+                <div class="row borde-naranja scroll" style="max-height:70vh">
+                    <div class="col col-md-12">
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">@Model.jugador1</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <div class="ficha @Model.colorA1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Movimientos</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <p class="font-weight-bold text-white h1">@Model.movimientos_1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Puntaje</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <p class="font-weight-bold text-white h1">@ViewBag.partida.punteo_jugador1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row scroll" style="max-height:40vh">
+                    <div class="col col-md-12 h-100">
+                        <div class="form-group mt-4 h-100">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">TURNO</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <div class="ficha @ViewBag.partida.siguiente_tiro">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-6 bg-naranja h-100">
+                <div class="row justify-content-center align-content-center h-100">
+                    <div class="w-100 " style="height:5%">
+                        <div class="row justify-content-center align-content-center">
+                            <div style="width:85%">
+                                <div class="row justify-content-around align-content-around text-white font-weight-bold">
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>A</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>B</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>C</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>D</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>E</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>F</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>G</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>H</h4>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:4.16666%;height:90%">
+                        <div class="row justify-content-end align-content-around h-100">
+                            <div class="w-50" style="height:95%;">
+                                <div class=" row text-white font-weight-bold h-100 w-100 justify-content-around align-content-around text-white font-weight-bold">
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>1</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>2</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>3</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>4</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>5</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>6</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>7</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>8</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-11 bg-secondary" style="height:90%">
+                        <div class="row justify-content-center align-content-center h-100">
+                            <div style="height:95%; width:96%">
+                                <div class="row justify-content-around align-content-around h-100">
+                                    @foreach (var fila in ViewBag.partida.Filas)
+                                    {
+                                        <div class="col col-12" style="height:10%">
+                                            <div class="row justify-content-around align-content-around h-100">
+                                                @foreach (var columna in fila.columnas)
+                                                {
+                                                    <div class="bg-verde h-100" style="width:9%">
+                                                        @if (String.IsNullOrEmpty(columna.color))
+                                                        {
+                                                            if ((Model.tipo != "M" && !Model.colores_jugador2.Contains(Model.siguiente_tiro)) || Model.tipo == "" || Model.tipo == "M" && Model.colores_jugador1.Contains(Model.siguiente_tiro))
+                                                            {
+                                                                using (Html.BeginForm("Partida", "PartidaXtream", FormMethod.Post, new { @class = "w-100 h-100" }))
+                                                                {
+                                                                    <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
+                                                                    <input type="text" hidden name="fila" id="fila" value="@fila.nombre" />
+                                                                    <input type="text" hidden name="columna" id="columna" value="@columna.nombre" />
+                                                                    <input type="submit" class="btn btn-block btn-ficha" value="">
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class=" btn-block btn-ficha"></div>
+                                                            }
+                                                        }
+                                                        else if (fila.nombre == Model.ultimafila && columna.nombre == Model.ultimacolumna && columna.color != "b")
+                                                        {
+                                                            <div class="w-100 btn-ficha @columna.color bg-tra ultimaF"></div>
+                                                        }
+                                                        else if (columna.color != "b")
+                                                        {
+                                                            <div class="w-100 btn-ficha @columna.color bg-tra"></div>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:4.16666%;height:90%">
+                        <div class="row justify-content-end align-content-around h-100">
+                            <div class="w-50" style="height:95%;">
+                                <div class=" row text-white font-weight-bold h-100 w-100 justify-content-around align-content-around text-white font-weight-bold">
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>1</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>2</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>3</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>4</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>5</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>6</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>7</h4>
+                                    </div>
+                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
+                                        <h4>8</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100 " style="height:5%">
+                        <div class="row justify-content-center align-content-center">
+                            <div style="width:85%">
+                                <div class="row justify-content-around align-content-around text-white font-weight-bold">
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>A</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>B</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>C</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>D</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>E</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>F</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>G</h4>
+                                    </div>
+                                    <div div class="text-center h-100" style="width:9%">
+                                        <h4>H</h4>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-3">
+                <div class="row borde-naranja scroll" style="max-height:70vh">
+                    <div class="col col-md-12">
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">@ViewBag.partida.jugador2</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <div class="ficha @Model.colorA2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Movimientos</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <p class="font-weight-bold text-white h1">@Model.movimientos_2</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2 h-30">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Puntaje</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <p class="font-weight-bold text-white h1">@ViewBag.partida.punteo_jugador2</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row scroll" style="max-height:40vh">
+                    <div class="col col-12 mt-3">
+                        <div class="form-group mt-5">
+                            <form action="/Partida/GuardarPartida" method="post">
+                                <div class="form-group">
+                                    <input type="text" name="nombre" hidden value="@ViewBag.partida.nombre" />
+                                </div>
+                                <input type="submit" class="btn btn-dark btn-block" value="GUARDAR PARTIDA">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col col-12">
+                        <div class="form-group mt-5">
+                            <a href="/PartidaXtream/index" class="btn btn-dark btn-block">SALIR DEL JUEGO</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#danger").show();
+            $("#exampleModalCenter").modal({ backdrop: 'static', keyboard: false });
+            $("#exampleModalCenter").modal('show');
+            $("#exampleModalCenter3").modal('show');
+            setTimeout(enviarMaquina, 1000)
+            function enviarMaquina() {
+                $("#F_maquina").submit();
+            }
+        });
+    </script>
+}
+
+
