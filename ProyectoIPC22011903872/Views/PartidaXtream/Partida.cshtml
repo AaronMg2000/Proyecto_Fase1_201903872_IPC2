@@ -117,8 +117,8 @@
     </div>
 }
 <div class="row justify-content-center align-content-center " style="height:90vh">
-    <div class="col col-md-12 bg-negro-80 w-100" style="height:100%">
-        <div class="row h-100 w-100">
+    <div class="col col-12 bg-negro-80" style="height:100%">
+        <div class="row h-100">
             <div class="col col-md-3">
                 <div class="row borde-naranja scroll" style="max-height:70vh">
                     <div class="col col-md-12">
@@ -171,54 +171,93 @@
                     </div>
                 </div>
             </div>
-            <div class="col col-md-6 bg-naranja h-100">
+            <div class="col col-md-6 h-100">
                 <div class="row h-100">
-                    <div class="col col-12 bg-naranja h-100">
-                        <div class="row justify-content-center align-content-center h-100">
-                            <div class="col col-12 h-100">
-                                <div class="row justify-content-around align-content-around h-100">
-                                    <div class="col col-12" style="height:@Model.NP">
-                                        <div class="row h-100">
+                    <div class="col col-12 h-100">
+                        <div class="row justify-content-center h-100">
+                            <div class="col col-12 bg-negro-80 h-100">
+                                <div class="row justify-content-center align-content-center h-100">
+                                    @{ 
+                                        float ft = 16;
+                                        string tamaño = "";
+                                        if (Model.N > Model.M)
+                                        {
+                                            if (Model.N==6)
+                                            {
+                                                ft = 40;
+                                            }
+                                            else if(Model.N>6 && Model.N < 10)
+                                            {
+                                                ft = 25;
+                                            }
+                                            else if (Model.N >=10  && Model.N < 15)
+                                            {
+                                                ft = 18;
+                                            }
+                                            else if (Model.N >= 15 && Model.N <= 20)
+                                            {
+                                                ft = 13;
+                                            }
+                                            tamaño = Model.NP;
+                                        }
+                                        else
+                                        {
+                                            if (Model.M == 6)
+                                            {
+                                                ft = 40;
+                                            }
+                                            else if (Model.M > 6 && Model.M < 10)
+                                            {
+                                                ft = 25;
+                                            }
+                                            else if (Model.M >= 10 && Model.M < 15)
+                                            {
+                                                ft = 18;
+                                            }
+                                            else if (Model.M >= 15 && Model.M <= 20)
+                                            {
+                                                ft = 16;
+                                            }
+                                            tamaño = Model.MP;
+                                        }
+                                        var font = ft + "px";
+                                    }
+                                    <div class="col col-12" style="height:@tamaño">
+                                        <div class="row h-100 justify-content-center">
 
                                             @{
-                                                float ft = 16;
-                                                if (Model.N>Model.M)
-                                                {
-                                                    ft = 16 + 100 / (float)Model.M;
-                                                }
-                                                else
-                                                {
-                                                    ft = 16 + 100 / (float)Model.N;
-                                                }
-                                                var font = ft + "px";
                                                 var cc = Model.Filas[0].columnas;
-                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@Model.MP;">
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
                                                 </div>
                                                 foreach (var col in cc)
                                                 {
-                                                    <div class="d-table h-100 text-center bg-naranja font-weight-bold text-white" style="width:@Model.MP;">
-                                                        <div class="d-table-cell" style="vertical-align: middle;overflow:auto;font-size:@font">
-                                                            @col.nombre
+                                                    <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                        <div class="row h-100 align-items-center">
+                                                            <div class="col col-12">
+                                                                @col.nombre
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 }
-                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@Model.MP;">
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
                                                 </div>
                                             }
                                         </div>
                                     </div>
                                     @foreach (var fila in ViewBag.partida.Filas)
                                         {
-                                            <div class="col col-12" style="height:@Model.NP">
-                                                <div class="row h-100">
-                                                    <div class="d-table h-100 text-center bg-naranja font-weight-bold text-white" style="width:@Model.MP;">
-                                                        <div class="d-table-cell" style="vertical-align: middle;overflow:auto;font-size:@font">
-                                                            @fila.nombre
+                                            <div class="col col-12" style="height:@tamaño">
+                                                <div class="row h-100 justify-content-center">
+                                                    <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                        <div class="row h-100 align-items-center">
+                                                            <div class="col col-12">
+                                                                @fila.nombre
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     @foreach (var columna in fila.columnas)
                                                     {
-                                                        <div class="bg-verde h-100" style="width:@Model.MP;border: solid 4px gray">
+                                                        <div class="bg-verde h-100" style="width:@tamaño;border: solid 4px gray">
                                                             @if (String.IsNullOrEmpty(columna.color))
                                                             {
                                                                 if ((Model.tipo != "M" && !Model.colores_jugador2.Contains(Model.siguiente_tiro)) || Model.tipo == "" || Model.tipo == "M" && Model.colores_jugador1.Contains(Model.siguiente_tiro))
@@ -246,28 +285,33 @@
                                                             }
                                                         </div>
                                                     }
-                                                    <div class="d-table h-100 text-center bg-naranja font-weight-bold text-white" style="width:@Model.MP;">
-                                                        <div class="d-table-cell" style="vertical-align: middle;overflow:auto;font-size:@font">
-                                                            @fila.nombre
+                                                    <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                        <div class="row h-100 align-items-center">
+                                                            <div class="col col-12">
+                                                                @fila.nombre
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         }
-                                    <div class="col col-12" style="height:@Model.NP">
-                                        <div class="row h-100">
+                                    <div class="col col-12" style="height:@tamaño">
+                                        <div class="row h-100 justify-content-center">
+
                                             @{
-                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@Model.MP;">
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
                                                 </div>
                                                 foreach (var col in cc)
                                                 {
-                                                    <div class="d-table h-100 text-center bg-naranja font-weight-bold text-white" style="width:@Model.MP;">
-                                                        <div class="d-table-cell" style="vertical-align: middle;font-size:@font">
-                                                            @col.nombre
+                                                    <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                        <div class="row h-100 align-items-center">
+                                                            <div class="col col-12">
+                                                                @col.nombre
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 }
-                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@Model.MP;">
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
                                                 </div>
                                             }
                                         </div>

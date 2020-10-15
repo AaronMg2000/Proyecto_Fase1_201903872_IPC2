@@ -416,23 +416,96 @@ namespace ProyectoIPC22011903872
             r = false;
             r2 = false;
             r3 = false;
-            if (nc < nf)
+            var G = 0;
+            if (N > M)
             {
-                j = 0;
-                i = nf - nc;
-                n = i;
-                ff = i;
-                cc = j;
+                if (nc < nf)
+                {
+                    if (nf - nc >= (N - 1) - (M - 1))
+                    {
+                        ff = nf - nc;
+                        G = N;
+                        cc = 0;
+                        n = ff;
+                        i = ff;
+                        j = cc;
+                    }
+                    else
+                    {
+                        cc = 0;
+                        ff = nf - nc;
+                        G = M;
+                        n = cc;
+                        i = ff;
+                        j = cc;
+                    }
+                }
+                else
+                {
+                    ff = 0;
+                    G = M;
+                    cc = nc - nf;
+                    n = cc;
+                    i = ff;
+                    j = cc;
+                }
+            }
+            else if (N == M)
+            {
+                if (nc < nf)
+                {
+                    cc = 0;
+                    ff = nf - nc;
+                    n = ff;
+                    G = N;
+                    i = ff;
+                    j = cc;
+                }
+                else
+                {
+                    ff = 0;
+                    cc = nc - nf;
+                    n = cc;
+                    G = N;
+                    i = ff;
+                    j = cc;
+                }
+
             }
             else
             {
-                i = 0;
-                j = nc - nf;
-                n = j;
-                cc = j;
-                ff = i;
+                if (nc < nf)
+                {
+                    ff = nf - nc;
+                    G = N;
+                    cc = 0;
+                    n = ff;
+                    i = ff;
+                    j = cc;
+                }
+                else
+                {
+                    if (nc - nf >= (M - 1) - (N - 1))
+                    {
+                        ff = 0;
+                        G = M;
+                        cc = nc - nf;
+                        n = cc;
+                        i = ff;
+                        j = cc;
+                    }
+                    else
+                    {
+                        cc = nc - nf;
+                        ff = 0;
+                        G = N;
+                        n = ff;
+                        i = ff;
+                        j = cc;
+                    }
+                }
             }
-            while (n < N)
+            while (n < G)
             {
                 var col = partida.Filas[ff].columnas[cc];
                 if (partida.colores_actual.Contains(col.color) && col.nombre == c)
@@ -554,23 +627,93 @@ namespace ProyectoIPC22011903872
             r2 = false;
             r3 = false;
             var m = 0;
-            if (nc2 < nf)
+            if (N > M)
             {
-                j = (nf - nc2);
-                i = N-1;
-                m = j;
-                n = i;
-                ff = i;
-                cc = j;
+                if (nc2 > nf)
+                {
+                    cc = 0;
+                    ff = M - 1 - (nc2 - nf);
+                    m = cc;
+                    n = ff;
+                    j = cc;
+                    i = ff;
+                }
+                else
+                {
+                    if (M - 1 + (nf - nc2) >= N)
+                    {
+                        ff = N - 1;
+                        m = (nf - nc2);
+                        cc = M - 1 - (N - 1 - (nf - nc2));
+                        n = N - 1;
+                        j = cc;
+                        i = ff;
+                    }
+                    else
+                    {
+                        ff = M - 1 + (nf - nc2);
+                        cc = 0;
+                        m = 0;
+                        n = M - 1;
+                        j = cc;
+                        i = ff;
+                    }
+                }
+            }
+            else if (N == M)
+            {
+                if (nc2 < nf)
+                {
+                    cc = (nf - nc2);
+                    ff = N - 1;
+                    m = cc;
+                    n = ff;
+                    j = cc;
+                    i = ff;
+                }
+                else
+                {
+                    ff = N - 1 - (nc2 - nf);
+                    cc = 0;
+                    m = 0;
+                    n = ff;
+                    j = cc;
+                    i = ff;
+                }
+
             }
             else
             {
-                i = N-1 - (nc2 - nf);
-                j = 0;
-                m = 0;
-                n = i;
-                cc = j;
-                ff = i;
+                if (nc2 > nf)
+                {
+                    if (M - 1 - (nc2 - nf) <= N - 1)
+                    {
+                        cc = M - 1 - (nc2 - nf);
+                        ff = M - 1 - (nc2 - nf);
+                        m = M - 1;
+                        n = cc;
+                        j = cc;
+                        i = ff;
+                    }
+                    else
+                    {
+                        cc = Math.Abs(((N - 1) - nf) - nc);
+                        ff = N - 1;
+                        m = 0;
+                        n = ff;
+                        j = cc;
+                        i = ff;
+                    }
+                }
+                else
+                {
+                    cc = nc - ((N - 1) - nf);
+                    ff = N - 1;
+                    m = nf - nc2;
+                    n = ff;
+                    j = cc;
+                    i = ff;
+                }
             }
             while (n >= m)
             {
@@ -836,28 +979,88 @@ namespace ProyectoIPC22011903872
                             h++;
                         }
                         /*digaonal derecha*/
+                        var n = 0;
+                        var ff = 0;
+                        var cc = 0;
                         reg = false;
                         cr = false;
                         cd = false;
                         var nc = j;
                         var nf = i;
-                        var n = 0;
-                        var ff = 0;
-                        var cc = 0;
                         var G = 0;
-                        if (nc < nf)
+                        if (N > M)
                         {
-                            cc = 0;
-                            ff = nf - nc;
-                            n = ff;
+                            if (nc < nf)
+                            {
+                                if (nf - nc >= (N-1) - (M-1))
+                                {
+                                    ff = nf-nc;
+                                    G = N;
+                                    cc = 0;
+                                    n = ff;
+                                }
+                                else
+                                {
+                                    cc = 0;
+                                    ff = nf - nc;
+                                    G = M;
+                                    n = cc;
+                                }
+                            }
+                            else
+                            {
+                                ff = 0;
+                                G = M;
+                                cc = nc - nf;
+                                n = cc;
+                            }
+                        }
+                        else if(N == M)
+                        {
+                            if (nc < nf)
+                            {
+                                cc = 0;
+                                ff = nf - nc;
+                                n = ff;
+                                G = N;
+                            }
+                            else
+                            {
+                                ff = 0;
+                                cc = nc - nf;
+                                n = cc;
+                                G = N;
+                            }
+
                         }
                         else
                         {
-                            ff = 0;
-                            cc = nc - nf;
-                            n = cc;
+                            if (nc < nf)
+                            {
+                                ff = nf - nc;
+                                G = N;
+                                cc = 0;
+                                n = ff;
+                            }
+                            else
+                            {
+                                if (nc - nf >= (M - 1) - (N - 1))
+                                {
+                                    ff = 0;
+                                    G = M;
+                                    cc = nc-nf;
+                                    n = cc;
+                                }
+                                else
+                                {
+                                    cc = nc - nf;
+                                    ff = 0;
+                                    G = N;
+                                    n = ff;
+                                }
+                            }
                         }
-                        while (n < N)
+                        while (n < G)
                         {
                             var c = partida.Filas[ff].columnas[cc];
                             if (!partida.colores_contrario.Contains(c.color) && c.color != "b" && c.color != "" && (cd || cr))
@@ -926,19 +1129,77 @@ namespace ProyectoIPC22011903872
                         cd = false;
                         var nc2 = M - 1 - nc;
                         var m = 0;
-                        if (nc2 < nf)
+                        if (N>M)
                         {
-                            cc = (nf - nc2);
-                            ff = N-1;
-                            m = cc;
-                            n = ff;
+                            if (nc2 > nf)
+                            {
+                                cc = 0;
+                                ff = M - 1 - (nc2 - nf);
+                                m = cc;
+                                n = ff;
+                            }
+                            else
+                            {
+                                if (M - 1 + (nf - nc2) >= N)
+                                {
+                                    ff = N - 1;
+                                    m = (nf - nc2);
+                                    cc =M-1-( N - 1 - (nf - nc2));
+                                    n = N - 1;
+                                }
+                                else
+                                {
+                                    ff = M - 1 + (nf - nc2);
+                                    cc = 0;
+                                    m = 0;
+                                    n = M-1;
+                                }
+                            }
+                        }
+                        else if (N == M)
+                        {
+                            if (nc2 < nf)
+                            {
+                                cc = (nf - nc2);
+                                ff = N - 1;
+                                m = cc;
+                                n = ff;
+                            }
+                            else
+                            {
+                                ff = N - 1 - (nc2 - nf);
+                                cc = 0;
+                                m = 0;
+                                n = ff;
+                            }
+
                         }
                         else
                         {
-                            ff = N-1 - (nc2 - nf);
-                            cc = 0;
-                            m = 0;
-                            n = ff;
+                            if (nc2 > nf)
+                            {
+                                if (M - 1 - (nc2 - nf)<=N-1)
+                                {
+                                    cc = M - 1 - (nc2 - nf);
+                                    ff = M - 1 - (nc2 - nf);
+                                    m = M-1;
+                                    n = cc; 
+                                }
+                                else
+                                {
+                                    cc = Math.Abs(((N-1)-nf)-nc);
+                                    ff = N - 1;
+                                    m = 0;
+                                    n = ff;
+                                }
+                            }
+                            else
+                            {
+                                cc = nc-((N-1)-nf);
+                                ff = N - 1;
+                                m = nf-nc2;
+                                n = ff;
+                            }
                         }
                         while (n >= m)
                         {
