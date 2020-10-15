@@ -35,6 +35,12 @@ namespace ProyectoIPC22011903872
             partida.movimientos_2 = 0;
             partida.punteo_jugador1 = 2;
             partida.punteo_jugador2 = 2;
+            partida.N = N;
+            partida.M = M;
+            double PN = 100 / ((double)N + 2);
+            double PM = 100 / ((double)M + 2);
+            partida.NP = PN + "%";
+            partida.MP = PM + "%";
             siguiente = partida.colores_jugador1[0];
             partida.siguiente_tiro = siguiente;
             for (int i = 1; i <= N; i++)
@@ -156,7 +162,7 @@ namespace ProyectoIPC22011903872
             }
             return partida;
         }
-        public static PartidaXtreamViewModel CambioColor(PartidaXtreamViewModel partida, string f, string c)
+        public static PartidaXtreamViewModel CambioColor(PartidaXtreamViewModel partida, string f, string c)    
         {
             var color = "";
             FilaViewModel fila = new FilaViewModel();
@@ -838,6 +844,7 @@ namespace ProyectoIPC22011903872
                         var n = 0;
                         var ff = 0;
                         var cc = 0;
+                        var G = 0;
                         if (nc < nf)
                         {
                             cc = 0;

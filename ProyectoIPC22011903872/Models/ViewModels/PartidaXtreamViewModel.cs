@@ -36,6 +36,8 @@ namespace ProyectoIPC22011903872.Models.ViewModels
         public int movimientos_2 { get; set; }
         public int N { get; set; }
         public int M { get; set; }
+        public string NP { get; set; }
+        public string MP { get; set; }
         public List<string> colores_actual { get; set; }
         public List<string> colores_contrario { get; set; }
         public string siguiente_tiro { get; set; }

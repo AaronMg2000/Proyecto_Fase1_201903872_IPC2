@@ -38,7 +38,7 @@ namespace ProyectoIPC22011903872.Controllers
         }
 
         [HttpGet]
-        public ActionResult Partida(List<string> color1, List<string> color2, string jugador2)
+        public ActionResult Partida(List<string> color1, List<string> color2, string jugador2, int N, int M)
         {
             if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
             {
@@ -60,7 +60,7 @@ namespace ProyectoIPC22011903872.Controllers
             };
             if (!cargar)
             {
-                partida = FuncionesXtream.CrearPartida(modelo, color1, color2, siguiente, user.Usuario1, jugador2,8,8);
+                partida = FuncionesXtream.CrearPartida(modelo, color1, color2, siguiente, user.Usuario1, jugador2,N,M);
             }
             else
             {

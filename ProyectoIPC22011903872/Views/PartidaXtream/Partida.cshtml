@@ -117,8 +117,8 @@
     </div>
 }
 <div class="row justify-content-center align-content-center " style="height:90vh">
-    <div class="col col-md-11 bg-negro-80" style="height:95%">
-        <div class="row h-100">
+    <div class="col col-md-12 bg-negro-80 w-100" style="height:100%">
+        <div class="row h-100 w-100">
             <div class="col col-md-3">
                 <div class="row borde-naranja scroll" style="max-height:70vh">
                     <div class="col col-md-12">
@@ -172,179 +172,107 @@
                 </div>
             </div>
             <div class="col col-md-6 bg-naranja h-100">
-                <div class="row justify-content-center align-content-center h-100">
-                    <div class="w-100 " style="height:5%">
-                        <div class="row justify-content-center align-content-center">
-                            <div style="width:85%">
-                                <div class="row justify-content-around align-content-around text-white font-weight-bold">
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>A</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>B</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>C</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>D</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>E</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>F</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>G</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>H</h4>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div style="width:4.16666%;height:90%">
-                        <div class="row justify-content-end align-content-around h-100">
-                            <div class="w-50" style="height:95%;">
-                                <div class=" row text-white font-weight-bold h-100 w-100 justify-content-around align-content-around text-white font-weight-bold">
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>1</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>2</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>3</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>4</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>5</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>6</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>7</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>8</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col col-11 bg-secondary" style="height:90%">
+                <div class="row h-100">
+                    <div class="col col-12 bg-naranja h-100">
                         <div class="row justify-content-center align-content-center h-100">
-                            <div style="height:95%; width:96%">
+                            <div class="col col-12 h-100">
                                 <div class="row justify-content-around align-content-around h-100">
-                                    @foreach (var fila in ViewBag.partida.Filas)
-                                    {
-                                        <div class="col col-12" style="height:10%">
-                                            <div class="row justify-content-around align-content-around h-100">
-                                                @foreach (var columna in fila.columnas)
+                                    <div class="col col-12" style="height:@Model.NP">
+                                        <div class="row h-100">
+
+                                            @{
+                                                float ft = 16;
+                                                if (Model.N>Model.M)
                                                 {
-                                                    <div class="bg-verde h-100" style="width:9%">
-                                                        @if (String.IsNullOrEmpty(columna.color))
-                                                        {
-                                                            if ((Model.tipo != "M" && !Model.colores_jugador2.Contains(Model.siguiente_tiro)) || Model.tipo == "" || Model.tipo == "M" && Model.colores_jugador1.Contains(Model.siguiente_tiro))
-                                                            {
-                                                                using (Html.BeginForm("Partida", "PartidaXtream", FormMethod.Post, new { @class = "w-100 h-100" }))
-                                                                {
-                                                                    <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
-                                                                    <input type="text" hidden name="fila" id="fila" value="@fila.nombre" />
-                                                                    <input type="text" hidden name="columna" id="columna" value="@columna.nombre" />
-                                                                    <input type="submit" class="btn btn-block btn-ficha" value="">
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                <div class=" btn-block btn-ficha"></div>
-                                                            }
-                                                        }
-                                                        else if (fila.nombre == Model.ultimafila && columna.nombre == Model.ultimacolumna && columna.color != "b")
-                                                        {
-                                                            <div class="w-100 btn-ficha @columna.color bg-tra ultimaF"></div>
-                                                        }
-                                                        else if (columna.color != "b")
-                                                        {
-                                                            <div class="w-100 btn-ficha @columna.color bg-tra"></div>
-                                                        }
+                                                    ft = 16 + 100 / (float)Model.M;
+                                                }
+                                                else
+                                                {
+                                                    ft = 16 + 100 / (float)Model.N;
+                                                }
+                                                var font = ft + "px";
+                                                var cc = Model.Filas[0].columnas;
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@Model.MP;">
+                                                </div>
+                                                foreach (var col in cc)
+                                                {
+                                                    <div class="d-table h-100 text-center bg-naranja font-weight-bold text-white" style="width:@Model.MP;">
+                                                        <div class="d-table-cell" style="vertical-align: middle;overflow:auto;font-size:@font">
+                                                            @col.nombre
+                                                        </div>
                                                     </div>
                                                 }
-                                            </div>
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@Model.MP;">
+                                                </div>
+                                            }
                                         </div>
-                                    }
+                                    </div>
+                                    @foreach (var fila in ViewBag.partida.Filas)
+                                        {
+                                            <div class="col col-12" style="height:@Model.NP">
+                                                <div class="row h-100">
+                                                    <div class="d-table h-100 text-center bg-naranja font-weight-bold text-white" style="width:@Model.MP;">
+                                                        <div class="d-table-cell" style="vertical-align: middle;overflow:auto;font-size:@font">
+                                                            @fila.nombre
+                                                        </div>
+                                                    </div>
+                                                    @foreach (var columna in fila.columnas)
+                                                    {
+                                                        <div class="bg-verde h-100" style="width:@Model.MP;border: solid 4px gray">
+                                                            @if (String.IsNullOrEmpty(columna.color))
+                                                            {
+                                                                if ((Model.tipo != "M" && !Model.colores_jugador2.Contains(Model.siguiente_tiro)) || Model.tipo == "" || Model.tipo == "M" && Model.colores_jugador1.Contains(Model.siguiente_tiro))
+                                                                {
+                                                                    using (Html.BeginForm("Partida", "PartidaXtream", FormMethod.Post, new { @class = "w-100 h-100" }))
+                                                                    {
+                                                                        <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
+                                                                        <input type="text" hidden name="fila" id="fila" value="@fila.nombre" />
+                                                                        <input type="text" hidden name="columna" id="columna" value="@columna.nombre" />
+                                                                        <input type="submit" class="btn btn-block btn-ficha" value="">
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class=" btn-block btn-ficha"></div>
+                                                                }
+                                                            }
+                                                            else if (fila.nombre == Model.ultimafila && columna.nombre == Model.ultimacolumna && columna.color != "b")
+                                                            {
+                                                                <div class="w-100 btn-ficha @columna.color bg-tra ultimaF"></div>
+                                                            }
+                                                            else if (columna.color != "b")
+                                                            {
+                                                                <div class="w-100 btn-ficha @columna.color bg-tra"></div>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    <div class="d-table h-100 text-center bg-naranja font-weight-bold text-white" style="width:@Model.MP;">
+                                                        <div class="d-table-cell" style="vertical-align: middle;overflow:auto;font-size:@font">
+                                                            @fila.nombre
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    <div class="col col-12" style="height:@Model.NP">
+                                        <div class="row h-100">
+                                            @{
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@Model.MP;">
+                                                </div>
+                                                foreach (var col in cc)
+                                                {
+                                                    <div class="d-table h-100 text-center bg-naranja font-weight-bold text-white" style="width:@Model.MP;">
+                                                        <div class="d-table-cell" style="vertical-align: middle;font-size:@font">
+                                                            @col.nombre
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@Model.MP;">
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="width:4.16666%;height:90%">
-                        <div class="row justify-content-end align-content-around h-100">
-                            <div class="w-50" style="height:95%;">
-                                <div class=" row text-white font-weight-bold h-100 w-100 justify-content-around align-content-around text-white font-weight-bold">
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>1</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>2</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>3</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>4</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>5</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>6</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>7</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>8</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-100 " style="height:5%">
-                        <div class="row justify-content-center align-content-center">
-                            <div style="width:85%">
-                                <div class="row justify-content-around align-content-around text-white font-weight-bold">
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>A</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>B</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>C</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>D</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>E</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>F</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>G</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>H</h4>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
