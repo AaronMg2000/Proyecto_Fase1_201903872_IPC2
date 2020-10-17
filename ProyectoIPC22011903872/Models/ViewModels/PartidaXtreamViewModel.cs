@@ -16,6 +16,7 @@ namespace ProyectoIPC22011903872.Models.ViewModels
             this.colores_actual = new List<string>();
             this.terminado = "";
             this.modalidad = "";
+            this.centro = false;
             this.tipo = "";
         }
         public int nombre { get; set; }
@@ -28,6 +29,7 @@ namespace ProyectoIPC22011903872.Models.ViewModels
         public string ultimacolumna { get; set; }
         public string colorA1 { get; set; }
         public string colorA2 { get; set; }
+        public bool centro { get; set; }
         public List<string> colores_jugador1 { get; set; }
         public List<string> colores_jugador2 { get; set; }
         public int punteo_jugador1 { get; set; }

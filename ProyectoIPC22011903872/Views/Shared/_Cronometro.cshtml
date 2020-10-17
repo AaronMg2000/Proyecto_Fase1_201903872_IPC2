@@ -1,0 +1,12 @@
+﻿@model ProyectoIPC22011903872.Models.ViewModels.PartidaViewModel
+
+@{
+    Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+}
+
+<label class="h4 w-100 text-center text-white font-weight-bold">Tiempo</label>
+<div class="row justify-content-center align-content-center bg-verde h-75">
+    <p class="font-weight-bold text-white h3">@ViewBag.tiempo</p>
+</div>
+
+

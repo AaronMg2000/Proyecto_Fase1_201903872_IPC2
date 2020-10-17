@@ -55,34 +55,17 @@ namespace ProyectoIPC22011903872
 
                     if (j == centroC1 && i == centroF1)
                     {
-                        col.color = partida.colores_jugador1[0];
+                        col.color = "";
                     }
                     else if (j == centroC2 && i == centroF1)
                     {
-                        col.color = partida.colores_jugador2[0];
+                        col.color = "";
                     }
                     else if (j == centroC1 && i == centroF2)
                     {
-                        col.color = partida.colores_jugador2[1];
+                        col.color = "";
                     }
                     else if (j == centroC2 && i == centroF2)
-                    {
-                        col.color = partida.colores_jugador1[1];
-                    }
-
-                    else if (j == centroC1 && i == centroF1-1)
-                    {
-                        col.color = "";
-                    }
-                    else if (j == centroC1-1 && i == centroF1)
-                    {
-                        col.color = "";
-                    }
-                    else if (j == centroC2+1 && i == centroF2)
-                    {
-                        col.color = "";
-                    }
-                    else if (j == centroC2 && i == centroF2+1)
                     {
                         col.color = "";
                     }
@@ -102,6 +85,8 @@ namespace ProyectoIPC22011903872
         
         public static PartidaXtreamViewModel AgregarFicha(PartidaXtreamViewModel partida, string fila, string columna)
         {
+            var centroF = partida.N / 2;
+            var centroC = partida.M / 2;
             var color = partida.siguiente_tiro;
             if (partida.colores_jugador1.Contains(color) && fila != "saltar")
             {
@@ -131,8 +116,17 @@ namespace ProyectoIPC22011903872
                     }
                 }
             }
+            var centro1 = partida.Filas[centroF - 1].columnas[centroC - 1];
+            var centro2 = partida.Filas[centroF].columnas[centroC - 1];
+            var centro3 = partida.Filas[centroF - 1].columnas[centroC];
+            var centro4 = partida.Filas[centroF].columnas[centroC];
+
+            if (centro1.color!="" && centro2.color != "" && centro3.color != "" && centro4.color != "")
+            {
+            partida.centro=true;
             partida = CambioColor(partida, fila, columna);
             partida = Movimientos(partida);
+            }
             partida = Punteos(partida);
             
             if (partida.colores_jugador1.Contains(color)) {

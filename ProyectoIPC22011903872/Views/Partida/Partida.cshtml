@@ -3,7 +3,8 @@
     ViewBag.Title = "Partida";
     Layout = "~/Views/Shared/_LayoutJuego.cshtml";
 }
-@if (((Model.siguiente_tiro == Model.color_jugador2 && Model.tipo != "M") || Model.siguiente_tiro == Model.color_jugador1) && ViewBag.terminado == null && ViewBag.saltar==null) {
+@if (((Model.colores_jugador2.Contains(Model.siguiente_tiro) && Model.tipo != "M") || Model.colores_jugador1.Contains(Model.siguiente_tiro)) && ViewBag.terminado == null && ViewBag.saltar == null)
+{
     <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -14,13 +15,13 @@
                 <div class="modal-body">
                     @{
                         var turno = "";
-                        if (Model.siguiente_tiro == Model.color_jugador1)
+                        if (Model.colores_jugador2.Contains(Model.siguiente_tiro))
                         {
-                            turno = Model.jugador1;
+                            turno = Model.jugador2;
                         }
                         else
                         {
-                            turno = Model.jugador2;
+                            turno = Model.jugador1;
                         }
                     }
                     <p class="w-100 text-center">Es el turno de: @turno.</p>
@@ -70,11 +71,11 @@
                 </div>
                 <div class="modal-body">
                     @{ var ganador = "";
-                        if (ViewBag.partida.punteo_jugador1 > ViewBag.partida.punteo_jugador2)
+                        if ((ViewBag.partida.punteo_jugador1 > ViewBag.partida.punteo_jugador2 && Model.modalidad=="Normal")|| (ViewBag.partida.punteo_jugador1 < ViewBag.partida.punteo_jugador2 && Model.modalidad == "Inversa"))
                         {
                             ganador = "El ganador fue: " + ViewBag.partida.jugador1;
                         }
-                        else if (ViewBag.partida.punteo_jugador1 < ViewBag.partida.punteo_jugador2)
+                        else if ((ViewBag.partida.punteo_jugador1 < ViewBag.partida.punteo_jugador2 && Model.modalidad == "Normal") || (ViewBag.partida.punteo_jugador1 > ViewBag.partida.punteo_jugador2 && Model.modalidad == "Inversa"))
                         {
                             ganador = "El ganador fue: " + ViewBag.partida.jugador2;
                         }
@@ -106,52 +107,55 @@
 }
 @if (ViewBag.maquina != null)
 {
-<div id="danger" style='display:none' class="alert alert-danger bg-naranja alert-dismissible" role="alert">
-    <div id="texto">
-        <h4 class="text-white font-weight-bold text-center">
-            La maquina esta analizando el movimiento.
-        </h4>
-    </div>
+    <div id="danger" style='display:none' class="alert alert-danger bg-naranja alert-dismissible" role="alert">
+        <div id="texto">
+            <h4 class="text-white font-weight-bold text-center">
+                La maquina esta analizando el movimiento.
+            </h4>
+        </div>
 
-</div>
+    </div>
 }
 <div class="row justify-content-center align-content-center " style="height:90vh">
-    <div class="col col-md-11 bg-negro-80" style="height:95%">
+    <div class="col col-12 bg-negro-80" style="height:100%">
         <div class="row h-100">
             <div class="col col-md-3">
                 <div class="row borde-naranja scroll" style="max-height:70vh">
                     <div class="col col-md-12">
                         <div class="form-group mt-2 h-30">
-                            <label class="h4 w-100 text-center text-white font-weight-bold">@ViewBag.partida.jugador1</label>
+                            <label class="h4 w-100 text-center text-white font-weight-bold">@Model.jugador1</label>
                             <div class="row justify-content-center align-content-center mt-2 h-75">
                                 <div class="col col-sm-6 h-100">
                                     <div class="row justify-content-center align-content-center bg-verde h-100">
-                                        <div class="ficha @ViewBag.partida.color_jugador1">
+                                        <div class="ficha @Model.colorA1">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group mt-2 h-30">
+                        <div class="form-group mt-2 h-25">
                             <label class="h4 w-100 text-center text-white font-weight-bold">Movimientos</label>
                             <div class="row justify-content-center align-content-center mt-2 h-75">
                                 <div class="col col-sm-6 h-100">
-                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-75">
                                         <p class="font-weight-bold text-white h1">@Model.movimientos_1</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group mt-2 h-30">
-                            <label class="h4 w-100 text-center text-white font-weight-bold">Puntaje</label>
-                            <div class="row justify-content-center align-content-center mt-2 h-75">
-                                <div class="col col-sm-6 h-100">
-                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                        <div class="form-group ml-2 mt-2 h-25">
+                            <div class="row justify-content-around align-content-around mt-2 h-75">
+                                <div class="col col-sm-5 h-100">
+                                    <label class="h4 w-100 text-center text-white font-weight-bold">Puntaje</label>
+                                    <div class="row justify-content-center align-content-center bg-verde h-75">
                                         <p class="font-weight-bold text-white h1">@ViewBag.partida.punteo_jugador1</p>
                                     </div>
                                 </div>
+                                <div class="col col-sm-5 h-100" id="Cronometro1">
+                                </div>  
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="row scroll" style="max-height:40vh">
@@ -167,183 +171,165 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group mt-4 h-100">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Modalidad</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                          <p class="text-white font-weight-bold h3">@Model.modalidad</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col col-md-6 bg-naranja h-100">
-                <div class="row justify-content-center align-content-center h-100">
-                    <div class="w-100 " style="height:5%">
-                        <div class="row justify-content-center align-content-center">
-                            <div style="width:85%">
-                                <div class="row justify-content-around align-content-around text-white font-weight-bold">
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>A</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>B</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>C</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>D</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>E</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>F</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>G</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>H</h4>
-                                    </div>
-                                </div>
+            <div class="col col-md-6 h-100">
+                <div class="row h-100">
+                    <div class="col col-12 h-100">
+                        <div class="row justify-content-center h-100">
+                            <div class="col col-12 bg-negro-80 h-100">
+                                <div class="row justify-content-center align-content-center h-100">
+                                    @{
+                                        float ft = 16;
+                                        string tamaño = "";
+                                        if (Model.N > Model.M)
+                                        {
+                                            if (Model.N == 6)
+                                            {
+                                                ft = 40;
+                                            }
+                                            else if (Model.N > 6 && Model.N < 10)
+                                            {
+                                                ft = 25;
+                                            }
+                                            else if (Model.N >= 10 && Model.N < 15)
+                                            {
+                                                ft = 18;
+                                            }
+                                            else if (Model.N >= 15 && Model.N <= 20)
+                                            {
+                                                ft = 13;
+                                            }
+                                            tamaño = Model.NP;
+                                        }
+                                        else
+                                        {
+                                            if (Model.M == 6)
+                                            {
+                                                ft = 40;
+                                            }
+                                            else if (Model.M > 6 && Model.M < 10)
+                                            {
+                                                ft = 25;
+                                            }
+                                            else if (Model.M >= 10 && Model.M < 15)
+                                            {
+                                                ft = 18;
+                                            }
+                                            else if (Model.M >= 15 && Model.M <= 20)
+                                            {
+                                                ft = 16;
+                                            }
+                                            tamaño = Model.MP;
+                                        }
+                                        var font = ft + "px";
+                                    }
+                                    <div class="col col-12" style="height:@tamaño">
+                                        <div class="row h-100 justify-content-center">
 
-                            </div>
-                        </div>
-                    </div>
-                    <div style="width:4.16666%;height:90%">
-                        <div class="row justify-content-end align-content-around h-100">
-                            <div class="w-50" style="height:95%;">
-                                <div class=" row text-white font-weight-bold h-100 w-100 justify-content-around align-content-around text-white font-weight-bold">
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>1</h4>
+                                            @{
+                                                var cc = Model.Filas[0].columnas;
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
+                                                </div>
+                                                foreach (var col in cc)
+                                                {
+                                                    <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                        <div class="row h-100 align-items-center">
+                                                            <div class="col col-12">
+                                                                @col.nombre
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
+                                                </div>
+                                            }
+                                        </div>
                                     </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>2</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>3</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>4</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>5</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>6</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>7</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>8</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col col-11 bg-secondary" style="height:90%">
-                        <div class="row justify-content-center align-content-center h-100">
-                            <div style="height:95%; width:96%">
-                                <div class="row justify-content-around align-content-around h-100">
                                     @foreach (var fila in ViewBag.partida.Filas)
                                     {
-                                        <div class="col col-12" style="height:10%">
-                                            <div class="row justify-content-around align-content-around h-100">
+                                        <div class="col col-12" style="height:@tamaño">
+                                            <div class="row h-100 justify-content-center">
+                                                <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                    <div class="row h-100 align-items-center">
+                                                        <div class="col col-12">
+                                                            @fila.nombre
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 @foreach (var columna in fila.columnas)
                                                 {
-                                                <div class="bg-verde h-100" style="width:9%">
-                                                    @if (String.IsNullOrEmpty(columna.color))
-                                                    {
-                                                        if ((Model.tipo != "M" && Model.color_jugador2 != Model.siguiente_tiro) || Model.tipo == "" || Model.tipo == "M" && Model.color_jugador1 == Model.siguiente_tiro)
+                                                    <div class="bg-verde h-100" style="width:@tamaño;border: solid 4px gray">
+                                                        @if (String.IsNullOrEmpty(columna.color))
                                                         {
-                                                            using (Html.BeginForm("Partida", "Partida", FormMethod.Post, new { @class = "w-100 h-100" }))
+                                                            if ((Model.tipo != "M" && !Model.colores_jugador2.Contains(Model.siguiente_tiro)) || Model.tipo == "" || Model.tipo == "M" && Model.colores_jugador1.Contains(Model.siguiente_tiro))
                                                             {
-                                                                <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
-                                                                <input type="text" hidden name="fila" id="fila" value="@fila.nombre" />
-                                                                <input type="text" hidden name="columna" id="columna" value="@columna.nombre" />
-                                                                <input type="submit" class="btn btn-block btn-ficha" value="">
+                                                                using (Html.BeginForm("Partida", "Partida", FormMethod.Post, new { @class = "w-100 h-100" }))
+                                                                {
+                                                                    <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
+                                                                    <input type="text" hidden name="fila" id="fila" value="@fila.nombre" />
+                                                                    <input type="text" hidden name="columna" id="columna" value="@columna.nombre" />
+                                                                    <input type="submit" class="btn btn-block btn-ficha" value="">
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class=" btn-block btn-ficha"></div>
                                                             }
                                                         }
-                                                        else
+                                                        else if (fila.nombre == Model.ultimafila && columna.nombre == Model.ultimacolumna && columna.color != "b")
                                                         {
-                                                            <div class=" btn-block btn-ficha"></div>
+                                                            <div class="w-100 btn-ficha @columna.color bg-tra ultimaF"></div>
                                                         }
-                                                    }
-                                                    else if (fila.nombre == Model.ultimafila && columna.nombre == Model.ultimacolumna && columna.color != "b")
-                                                    {
-                                                        <div class="w-100 btn-ficha @columna.color bg-tra ultimaF"></div>
-                                                    }
-                                                    else if (columna.color != "b")
-                                                    {
-                                                        <div class="w-100 btn-ficha @columna.color bg-tra"></div>
-                                                    }
-                                                </div>
+                                                        else if (columna.color != "b")
+                                                        {
+                                                            <div class="w-100 btn-ficha @columna.color bg-tra"></div>
+                                                        }
+                                                    </div>
                                                 }
+                                                <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                    <div class="row h-100 align-items-center">
+                                                        <div class="col col-12">
+                                                            @fila.nombre
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="width:4.16666%;height:90%">
-                        <div class="row justify-content-end align-content-around h-100">
-                            <div class="w-50" style="height:95%;">
-                                <div class=" row text-white font-weight-bold h-100 w-100 justify-content-around align-content-around text-white font-weight-bold">
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>1</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>2</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>3</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>4</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>5</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>6</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>7</h4>
-                                    </div>
-                                    <div class=" text-center w-100 mt-auto mb-auto text-right">
-                                        <h4>8</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-100 " style="height:5%">
-                        <div class="row justify-content-center align-content-center">
-                            <div style="width:85%">
-                                <div class="row justify-content-around align-content-around text-white font-weight-bold">
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>A</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>B</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>C</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>D</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>E</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>F</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>G</h4>
-                                    </div>
-                                    <div div class="text-center h-100" style="width:9%">
-                                        <h4>H</h4>
-                                    </div>
-                                </div>
+                                    <div class="col col-12" style="height:@tamaño">
+                                        <div class="row h-100 justify-content-center">
 
+                                            @{
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
+                                                </div>
+                                                foreach (var col in cc)
+                                                {
+                                                    <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                        <div class="row h-100 align-items-center">
+                                                            <div class="col col-12">
+                                                                @col.nombre
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -356,30 +342,32 @@
                             <label class="h4 w-100 text-center text-white font-weight-bold">@ViewBag.partida.jugador2</label>
                             <div class="row justify-content-center align-content-center mt-2 h-75">
                                 <div class="col col-sm-6 h-100">
-                                    <div class="row justify-content-center align-content-center bg-verde h-100">
-                                        <div class="ficha @ViewBag.partida.color_jugador2">
+                                    <div class="row justify-content-center align-content-center bg-verde h-75">
+                                        <div class="ficha @Model.colorA2">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group mt-2 h-30">
+                        <div class="form-group mt-2 h-25">
                             <label class="h4 w-100 text-center text-white font-weight-bold">Movimientos</label>
                             <div class="row justify-content-center align-content-center mt-2 h-75">
                                 <div class="col col-sm-6 h-100">
-                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-75">
                                         <p class="font-weight-bold text-white h1">@Model.movimientos_2</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group mt-2 h-30">
-                            <label class="h4 w-100 text-center text-white font-weight-bold">Puntaje</label>
-                            <div class="row justify-content-center align-content-center mt-2 h-75">
-                                <div class="col col-sm-6 h-100">
-                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                        <div class="form-group mt-2 ml-2 h-25">
+                            <div class="row justify-content-around align-content-around mt-2 h-75">
+                                <div class="col col-sm-5 h-100">
+                                    <label class="h4 w-100 text-center text-white font-weight-bold">Puntaje</label>
+                                    <div class="row justify-content-center align-content-center bg-verde h-75">
                                         <p class="font-weight-bold text-white h1">@ViewBag.partida.punteo_jugador2</p>
                                     </div>
+                                </div>
+                                <div class="col col-sm-5 h-100" id="Cronometro2">
                                 </div>
                             </div>
                         </div>
@@ -397,9 +385,18 @@
                         </div>
                     </div>
                     <div class="col col-12">
-                        <div class="form-group mt-5">
-                            <a href="/Partida/index" class="btn btn-dark btn-block">SALIR DEL JUEGO</a>
-                        </div>
+                        @if (Model.TipoPartida == "xtream")
+                        {
+                            <div class="form-group mt-5">
+                                <a href="/Partida/Xtream" class="btn btn-dark btn-block">SALIR DEL JUEGO</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group mt-5">
+                                <a href="/Partida/index" class="btn btn-dark btn-block">SALIR DEL JUEGO</a>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -417,7 +414,30 @@
             function enviarMaquina() {
                 $("#F_maquina").submit();
             }
+            cronometros();
+            setInterval(cronometros, 1000)
+
+
         });
+        function cronometros() {
+            $.ajax({
+                url: "/Partida/Cronometro1",
+                data: { nombre: @Model.nombre},
+                type: "POST",
+                success: function (response) {
+                    $('#Cronometro1').html(response);
+                }
+            });
+            $.ajax({
+                url: "/Partida/Cronometro2",
+                data: { nombre: @Model.nombre},
+                type: "POST",
+                success: function (response) {
+                    $('#Cronometro2').html(response);
+                }
+            });
+        }
     </script>
 }
+
 

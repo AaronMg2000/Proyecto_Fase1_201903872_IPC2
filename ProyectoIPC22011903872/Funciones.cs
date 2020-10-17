@@ -20,9 +20,14 @@ namespace ProyectoIPC22011903872
             return returnActive ? "active" : "joo";
         }
 
-        public static PartidaViewModel CrearPartida(DatosModel dato,string color1,string color2,string siguiente,string jugador1,string jugador2){
+        public static PartidaViewModel CrearPartida(DatosModel dato, List<string> color1, List<string> color2, string siguiente, string jugador1, string jugador2, int N, int M, string TipoPartida, string modalidad)
+        {
+            var centroF1 = (N / 2);
+            var centroF2 = (N / 2) + 1;
+            var centroC1 = (M / 2) - 1;
+            var centroC2 = (M / 2);
             PartidaViewModel partida = new PartidaViewModel();
-            string[] columnas = { "A", "B", "C", "D", "E", "F", "G", "H" };
+            string[] columnas = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T" };
             partida.nombre = dato.nombre + 1;
             partida.jugador1 = jugador1;
             partida.jugador2 = jugador2;
@@ -30,38 +35,86 @@ namespace ProyectoIPC22011903872
             {
                 partida.tipo = "M";
             }
-            partida.color_jugador1 = color1;
-            partida.color_jugador2 = color2;
+            partida.colores_jugador1 = color1;
+            partida.colores_jugador2 = color2;
+            partida.colorA1 = color1[0];
+            partida.colorA2 = color2[0];
+            partida.TipoPartida = TipoPartida;
             partida.movimientos_1 = 0;
             partida.movimientos_2 = 0;
             partida.punteo_jugador1 = 2;
             partida.punteo_jugador2 = 2;
+            partida.modalidad = modalidad;
+            partida.N = N;
+            partida.M = M;
+            double PN = 100 / ((double)N + 2);
+            double PM = 100 / ((double)M + 2);
+            partida.NP = PN + "%";
+            partida.MP = PM + "%";
+            if (TipoPartida == "xtream")
+            {
+                siguiente = partida.colores_jugador1[0];
+            }
+            else
+            {
+                siguiente = "negro";
+                partida.colores_contrario = partida.colores_jugador1;
+                partida.centro = true;
+            }
             partida.siguiente_tiro = siguiente;
-            for (int i = 1; i <= 8; i++)
+            for (int i = 1; i <= N; i++)
             {
                 FilaViewModel fila = new FilaViewModel();
                 fila.nombre = i.ToString();
-                for (int j = 0; j < columnas.Length; j++)
+                for (int j = 0; j < M; j++)
                 {
                     ColumnaViewModel col = new ColumnaViewModel();
                     col.color = "";
                     col.nombre = columnas[j];
 
-                    if (j == 3 && i == 4)
+                    if (j == centroC1 && i == centroF1)
                     {
-                        col.color = "blanco";
+                        if (TipoPartida == "xtream")
+                        {
+                            col.color = "";
+                        }
+                        else
+                        {
+                            col.color = "negro";
+                        }
                     }
-                    else if (j == 3 && i == 5)
+                    else if (j == centroC2 && i == centroF1)
                     {
-                        col.color = "negro";
+                        if (TipoPartida == "xtream")
+                        {
+                            col.color = "";
+                        }
+                        else
+                        {
+                            col.color = "blanco";
+                        }
                     }
-                    else if (j == 4 && i == 4)
+                    else if (j == centroC1 && i == centroF2)
                     {
-                        col.color = "negro";
+                        if (TipoPartida == "xtream")
+                        {
+                            col.color = "";
+                        }
+                        else
+                        {
+                            col.color = "blanco";
+                        }
                     }
-                    else if (j == 4 && i == 5)
+                    else if (j == centroC2 && i == centroF2)
                     {
-                        col.color = "blanco";
+                        if (TipoPartida == "xtream")
+                        {
+                            col.color = "";
+                        }
+                        else
+                        {
+                            col.color = "negro";
+                        }
                     }
                     else
                     {
@@ -72,31 +125,36 @@ namespace ProyectoIPC22011903872
                 }
                 partida.Filas.Add(fila);
             }
+            if (TipoPartida!= "xtream")
+            {
+                partida = Movimientos(partida);
+            }
             dato.partidas.Add(partida);
             dato.nombre++;
             return partida;
         }
-        
-        public static PartidaViewModel AgregarFicha(PartidaViewModel partida,string fila,string columna)
+        public static PartidaViewModel AgregarFicha(PartidaViewModel partida, string fila, string columna)
         {
+            var centroF = partida.N / 2;
+            var centroC = partida.M / 2;
             var color = partida.siguiente_tiro;
-            if (partida.color_jugador1 == partida.siguiente_tiro && fila!= "saltar")
+            if (partida.colores_jugador1.Contains(color) && fila != "saltar")
             {
                 partida.punteo_jugador1++;
                 partida.movimientos_1++;
             }
-            else if(partida.color_jugador2 == partida.siguiente_tiro && fila != "saltar")
+            else if (partida.colores_jugador2.Contains(color) && fila != "saltar")
             {
                 partida.punteo_jugador2++;
                 partida.movimientos_2++;
             }
-            if (color=="blanco")
+            if (partida.colores_jugador1.Contains(color))
             {
-                partida.siguiente_tiro = "negro";
+                partida.siguiente_tiro = partida.colorA2;
             }
             else
             {
-                partida.siguiente_tiro = "blanco";
+                partida.siguiente_tiro = partida.colorA1;
             }
             foreach (var fil in partida.Filas)
             {
@@ -108,26 +166,66 @@ namespace ProyectoIPC22011903872
                     }
                 }
             }
-            partida = CambioColor(partida,fila,columna);
-            partida = Movimientos(partida);
+            var centro1 = partida.Filas[centroF - 1].columnas[centroC - 1];
+            var centro2 = partida.Filas[centroF].columnas[centroC - 1];
+            var centro3 = partida.Filas[centroF - 1].columnas[centroC];
+            var centro4 = partida.Filas[centroF].columnas[centroC];
+
+            if (centro1.color != "" && centro2.color != "" && centro3.color != "" && centro4.color != "")
+            {
+                partida.centro = true;
+                partida = CambioColor(partida, fila, columna);
+                partida = Movimientos(partida);
+            }
             partida = Punteos(partida);
+
+            if (partida.colores_jugador1.Contains(color))
+            {
+                var index = partida.colores_jugador1.IndexOf(color);
+                if (index == (partida.colores_jugador1.Count() - 1))
+                {
+                    partida.colorA1 = partida.colores_jugador1[0];
+                }
+                else
+                {
+                    index++;
+                    partida.colorA1 = partida.colores_jugador1[index];
+                }
+            }
+            else if (partida.colores_jugador2.Contains(color))
+            {
+                var index = partida.colores_jugador2.IndexOf(color);
+                if (index == (partida.colores_jugador2.Count() - 1))
+                {
+                    partida.colorA2 = partida.colores_jugador2[0];
+                }
+                else
+                {
+                    index++;
+                    partida.colorA2 = partida.colores_jugador2[index];
+                }
+            }
             return partida;
         }
-
         public static PartidaViewModel CambioColor(PartidaViewModel partida, string f, string c)
         {
             var color = "";
             FilaViewModel fila = new FilaViewModel();
             var nc = 0;
             var nf = 0;
+            var N = 0;
+            var M = 0;
             foreach (var fil in partida.Filas)
             {
-                if (fil.nombre == f) {
+                if (fil.nombre == f)
+                {
                     fila = fil;
                     foreach (var col in fil.columnas)
                     {
                         if (col.nombre == c)
                         {
+                            N = partida.Filas.Count();
+                            M = fil.columnas.Count();
                             break;
                         }
                         nc++;
@@ -137,13 +235,17 @@ namespace ProyectoIPC22011903872
                 nf++;
             }
 
-            if (partida.siguiente_tiro == "negro")
+            if (partida.colores_jugador1.Contains(partida.siguiente_tiro))
             {
-                color = "blanco";
+                color = partida.colorA2;
+                partida.colores_contrario = partida.colores_jugador1;
+                partida.colores_actual = partida.colores_jugador2;
             }
             else
             {
-                color = "negro";
+                color = partida.colorA1;
+                partida.colores_contrario = partida.colores_jugador2;
+                partida.colores_actual = partida.colores_jugador1;
             }
             /*Horizontal*/
             var i = 0;
@@ -152,24 +254,24 @@ namespace ProyectoIPC22011903872
             var r2 = false;
             var n1 = 0;
             var r3 = false;
-            foreach (var col in fila.columnas)  
+            foreach (var col in fila.columnas)
             {
-                if (col.color == color && col.nombre == c)
+                if (partida.colores_actual.Contains(col.color) && col.nombre == c)
                 {
                     r = true;
-                    if(r2 && !reg)
+                    if (r2 && !reg)
                     {
                         r2 = false;
                         i++;
                     }
                     r3 = true;
                 }
-                else if (col.color == color && col.nombre != c && !r2)
+                else if (partida.colores_actual.Contains(col.color) && col.nombre != c && !r2)
                 {
                     r2 = true;
                     r3 = true;
                 }
-                else if (col.color==color & col.nombre!=c && r2)
+                else if (partida.colores_actual.Contains(col.color) & col.nombre != c && r2)
                 {
                     r2 = true;
                     i = n1;
@@ -177,7 +279,7 @@ namespace ProyectoIPC22011903872
                     reg = false;
                 }
 
-                if (col.color != "" && col.color != color && col.color != "b" )
+                if (col.color != "" && partida.colores_contrario.Contains(col.color) && col.color != "b")
                 {
                     reg = true;
                     r3 = true;
@@ -195,7 +297,7 @@ namespace ProyectoIPC22011903872
                         i++;
                     }
                 }
-                else if (reg && col.color == color && r && r2)
+                else if (reg && partida.colores_actual.Contains(col.color) && r && r2)
                 {
                     var u = 0;
                     var k = 0;
@@ -214,7 +316,7 @@ namespace ProyectoIPC22011903872
                         fila.columnas[u].color = color;
                         u++;
                     }
-                    if (i<nc)
+                    if (i < nc)
                     {
                         r = true;
                         i = nc;
@@ -223,14 +325,14 @@ namespace ProyectoIPC22011903872
                         r3 = true;
                     }
                 }
-                
+
                 else
                 {
                     if ((r && !r3))
                     {
                         break;
                     }
-                    if((r2 && !r3))
+                    if ((r2 && !r3))
                     {
                         r2 = false;
                     }
@@ -257,7 +359,7 @@ namespace ProyectoIPC22011903872
             foreach (var fil in partida.Filas)
             {
                 var col = fil.columnas[nc];
-                if (col.color == color && fil.nombre==f)
+                if (partida.colores_actual.Contains(col.color) && fil.nombre == f)
                 {
                     r = true;
                     if (r2 && !reg)
@@ -267,12 +369,12 @@ namespace ProyectoIPC22011903872
                     }
                     r3 = true;
                 }
-                else if(col.color==color && fil.nombre != f && !r2)
+                else if (partida.colores_actual.Contains(col.color) && fil.nombre != f && !r2)
                 {
                     r2 = true;
                     r3 = true;
                 }
-                else if (col.color == color & fil.nombre != f && r2)
+                else if (partida.colores_actual.Contains(col.color) & fil.nombre != f && r2)
                 {
                     r2 = true;
                     i = n1;
@@ -280,7 +382,7 @@ namespace ProyectoIPC22011903872
                     reg = false;
                 }
 
-                if (col.color!=color && fil.nombre!=f && col.color!="b" && col.color!="")  
+                if (partida.colores_contrario.Contains(col.color) && fil.nombre != f && col.color != "b" && col.color != "")
                 {
                     reg = true;
                     r3 = true;
@@ -298,7 +400,7 @@ namespace ProyectoIPC22011903872
                         i++;
                     }
                 }
-                else if(reg && col.color==color && r && r2)
+                else if (reg && partida.colores_actual.Contains(col.color) && r && r2)
                 {
                     var u = 0;
                     var k = 0;
@@ -312,7 +414,7 @@ namespace ProyectoIPC22011903872
                         u = nf + 1;
                         k = i;
                     }
-                    while (u<k)
+                    while (u < k)
                     {
                         partida.Filas[u].columnas[nc].color = color;
                         u++;
@@ -326,7 +428,7 @@ namespace ProyectoIPC22011903872
                         r3 = true;
                     }
                 }
-                
+
                 else
                 {
                     if ((r && !r3))
@@ -359,26 +461,99 @@ namespace ProyectoIPC22011903872
             r = false;
             r2 = false;
             r3 = false;
-            if (nc < nf)
+            var G = 0;
+            if (N > M)
             {
-                j = 0;
-                i = nf - nc;
-                n = i;
-                ff = i;
-                cc = j;
+                if (nc < nf)
+                {
+                    if (nf - nc >= (N - 1) - (M - 1))
+                    {
+                        ff = nf - nc;
+                        G = N;
+                        cc = 0;
+                        n = ff;
+                        i = ff;
+                        j = cc;
+                    }
+                    else
+                    {
+                        cc = 0;
+                        ff = nf - nc;
+                        G = M;
+                        n = cc;
+                        i = ff;
+                        j = cc;
+                    }
+                }
+                else
+                {
+                    ff = 0;
+                    G = M;
+                    cc = nc - nf;
+                    n = cc;
+                    i = ff;
+                    j = cc;
+                }
+            }
+            else if (N == M)
+            {
+                if (nc < nf)
+                {
+                    cc = 0;
+                    ff = nf - nc;
+                    n = ff;
+                    G = N;
+                    i = ff;
+                    j = cc;
+                }
+                else
+                {
+                    ff = 0;
+                    cc = nc - nf;
+                    n = cc;
+                    G = N;
+                    i = ff;
+                    j = cc;
+                }
+
             }
             else
             {
-                i = 0;
-                j = nc - nf;
-                n = j;
-                cc = j;
-                ff = i;
+                if (nc < nf)
+                {
+                    ff = nf - nc;
+                    G = N;
+                    cc = 0;
+                    n = ff;
+                    i = ff;
+                    j = cc;
+                }
+                else
+                {
+                    if (nc - nf >= (M - 1) - (N - 1))
+                    {
+                        ff = 0;
+                        G = M;
+                        cc = nc - nf;
+                        n = cc;
+                        i = ff;
+                        j = cc;
+                    }
+                    else
+                    {
+                        cc = nc - nf;
+                        ff = 0;
+                        G = N;
+                        n = ff;
+                        i = ff;
+                        j = cc;
+                    }
+                }
             }
-            while (n < 8)
+            while (n < G)
             {
                 var col = partida.Filas[ff].columnas[cc];
-                if (col.color == color && col.nombre == c)
+                if (partida.colores_actual.Contains(col.color) && col.nombre == c)
                 {
                     r = true;
                     if (r2 && !reg)
@@ -389,12 +564,12 @@ namespace ProyectoIPC22011903872
                     }
                     r3 = true;
                 }
-                else if (col.color == color && col.nombre != c && !r2)
+                else if (partida.colores_actual.Contains(col.color) && col.nombre != c && !r2)
                 {
                     r2 = true;
                     r3 = true;
                 }
-                else if (col.color == color & col.nombre != c && r2)
+                else if (partida.colores_actual.Contains(col.color) & col.nombre != c && r2)
                 {
                     r2 = true;
                     i = ff;
@@ -403,7 +578,7 @@ namespace ProyectoIPC22011903872
                     reg = false;
                 }
 
-                if (col.color != "" && col.color != color && col.color != "b")
+                if (col.color != "" && partida.colores_contrario.Contains(col.color) && col.color != "b")
                 {
                     reg = true;
                     r3 = true;
@@ -422,33 +597,33 @@ namespace ProyectoIPC22011903872
                         j++;
                     }
                 }
-                else if (reg && col.color == color && r && r2)
+                else if (reg && partida.colores_actual.Contains(col.color) && r && r2)
                 {
                     var u = 0;
                     var k = 0;
                     var u2 = 0;
                     var k2 = 0;
-                    if (j < nc && i<nf)
+                    if (j < nc && i < nf)
                     {
-                        u = i+1;
+                        u = i + 1;
                         k = nf;
                         k2 = nc;
-                        u2 = j+1;
+                        u2 = j + 1;
                     }
                     else
                     {
-                        u = nf+1;
+                        u = nf + 1;
                         k = i;
-                        u2 = nc+1;
+                        u2 = nc + 1;
                         k2 = j;
                     }
-                    while (u < k && u2<k2)
+                    while (u < k && u2 < k2)
                     {
                         partida.Filas[u].columnas[u2].color = color;
                         u++;
                         u2++;
                     }
-                    if (j < nc && i<nf)
+                    if (j < nc && i < nf)
                     {
                         r = true;
                         i = nf;
@@ -458,7 +633,7 @@ namespace ProyectoIPC22011903872
                         r3 = true;
                     }
                 }
-                
+
                 else
                 {
                     if ((r && !r3))
@@ -485,40 +660,110 @@ namespace ProyectoIPC22011903872
                 cc++;
                 ff++;
                 n++;
-                }
+            }
             /*Diagonal izquierda*/
             i = 0;
             j = 0;
             n = 0;
             ff = 0;
             cc = 0;
-            var nc2 = 7 - nc;
+            var nc2 = M - 1 - nc;
             r = false;
             r2 = false;
             r3 = false;
             var m = 0;
-            if (nc2 < nf)
+            if (N > M)
             {
-                j = (nf-nc2);
-                i = 7;
-                m = j;
-                n = i;
-                ff = i;
-                cc = j;
+                if (nc2 > nf)
+                {
+                    cc = 0;
+                    ff = M - 1 - (nc2 - nf);
+                    m = cc;
+                    n = ff;
+                    j = cc;
+                    i = ff;
+                }
+                else
+                {
+                    if (M - 1 + (nf - nc2) >= N)
+                    {
+                        ff = N - 1;
+                        m = (nf - nc2);
+                        cc = M - 1 - (N - 1 - (nf - nc2));
+                        n = N - 1;
+                        j = cc;
+                        i = ff;
+                    }
+                    else
+                    {
+                        ff = M - 1 + (nf - nc2);
+                        cc = 0;
+                        m = 0;
+                        n = M - 1;
+                        j = cc;
+                        i = ff;
+                    }
+                }
+            }
+            else if (N == M)
+            {
+                if (nc2 < nf)
+                {
+                    cc = (nf - nc2);
+                    ff = N - 1;
+                    m = cc;
+                    n = ff;
+                    j = cc;
+                    i = ff;
+                }
+                else
+                {
+                    ff = N - 1 - (nc2 - nf);
+                    cc = 0;
+                    m = 0;
+                    n = ff;
+                    j = cc;
+                    i = ff;
+                }
+
             }
             else
             {
-                i = 7-(nc2-nf);
-                j = 0;
-                m = 0;
-                n = i;
-                cc = j;
-                ff = i;
+                if (nc2 > nf)
+                {
+                    if (M - 1 - (nc2 - nf) <= N - 1)
+                    {
+                        cc = M - 1 - (nc2 - nf);
+                        ff = M - 1 - (nc2 - nf);
+                        m = M - 1;
+                        n = cc;
+                        j = cc;
+                        i = ff;
+                    }
+                    else
+                    {
+                        cc = Math.Abs(((N - 1) - nf) - nc);
+                        ff = N - 1;
+                        m = 0;
+                        n = ff;
+                        j = cc;
+                        i = ff;
+                    }
+                }
+                else
+                {
+                    cc = nc - ((N - 1) - nf);
+                    ff = N - 1;
+                    m = nf - nc2;
+                    n = ff;
+                    j = cc;
+                    i = ff;
+                }
             }
-            while (n >=m)
+            while (n >= m)
             {
                 var col = partida.Filas[ff].columnas[cc];
-                    if (col.color == color && col.nombre == c)
+                if (partida.colores_actual.Contains(col.color) && col.nombre == c)
                 {
                     r = true;
                     if (r2 && !reg)
@@ -529,12 +774,12 @@ namespace ProyectoIPC22011903872
                     }
                     r3 = true;
                 }
-                else if (col.color == color && col.nombre != c && !r2)
+                else if (partida.colores_actual.Contains(col.color) && col.nombre != c && !r2)
                 {
                     r2 = true;
                     r3 = true;
                 }
-                else if (col.color == color & col.nombre != c && r2)
+                else if (partida.colores_actual.Contains(col.color) & col.nombre != c && r2)
                 {
                     r2 = true;
                     i = ff;
@@ -543,7 +788,7 @@ namespace ProyectoIPC22011903872
                     reg = false;
                 }
 
-                if (col.color != "" && col.color != color && col.color != "b")
+                if (col.color != "" && partida.colores_contrario.Contains(col.color) && col.color != "b")
                 {
                     reg = true;
                     r3 = true;
@@ -562,17 +807,18 @@ namespace ProyectoIPC22011903872
                         j++;
                     }
                 }
-                else if (reg && col.color == color && r && r2)
+                else if (reg && partida.colores_actual.Contains(col.color) && r && r2)
                 {
                     var u = 0;
                     var k = 0;
                     var u2 = 0;
                     var k2 = 0;
-                    if(nf>i && nc < j) { 
-                        u = nf-1;
+                    if (nf > i && nc < j)
+                    {
+                        u = nf - 1;
                         k = i;
                         k2 = j;
-                        u2 = nc+1;
+                        u2 = nc + 1;
                     }
                     else
                     {
@@ -597,7 +843,7 @@ namespace ProyectoIPC22011903872
                         r3 = true;
                     }
                 }
-                
+
                 else
                 {
                     if ((r && !r3))
@@ -631,10 +877,14 @@ namespace ProyectoIPC22011903872
         }
         public static PartidaViewModel Movimientos(PartidaViewModel partida)
         {
-            foreach(var fil in partida.Filas)
+            var N = 0;
+            var M = 0;
+            foreach (var fil in partida.Filas)
             {
-                foreach(var col in fil.columnas)
+                foreach (var col in fil.columnas)
                 {
+                    N = partida.Filas.Count();
+                    M = fil.columnas.Count();
                     if (col.color == "")
                     {
                         col.color = "b";
@@ -645,7 +895,7 @@ namespace ProyectoIPC22011903872
             foreach (var fil in partida.Filas)
             {
                 var j = 0;
-                foreach(var col in fil.columnas)
+                foreach (var col in fil.columnas)
                 {
                     if (col.color == "b")
                     {
@@ -655,150 +905,7 @@ namespace ProyectoIPC22011903872
                         var cd = false;
                         foreach (var c in fil.columnas)
                         {
-                            if (c.color != partida.siguiente_tiro && c.color!="b" && c.color!="" && (cd || cr))
-                            {
-                                reg = true;
-                            }
-                            else if (c.color == "b" && cd)
-                            {
-                                cr = false;
-                                break;
-                            }
-                            else if (c.color=="b" && cr && !reg)
-                            {
-                                cr = false;
-                                if (c.nombre == col.nombre)
-                                {
-                                    cd = true;
-                                }
-                            }
-                            else if (c.color == "" && cd)
-                            {
-                                break;
-                            }
-                            else if(c.nombre==col.nombre && cr && reg)
-                            {
-                                col.color = "";
-                                break;
-                            }
-                            else if(c.color==partida.siguiente_tiro && cd && !reg)
-                            {
-                                break;
-                            }
-                            else if ((c.color==partida.siguiente_tiro || c.nombre==col.nombre) && !reg)
-                            {
-                                cr = true;
-                                if (c.nombre == col.nombre)
-                                {
-                                    cd = true;
-                                }
-                            }
-                            else if ((c.color == partida.siguiente_tiro || c.nombre == col.nombre) && !cr && cd && reg)
-                            {
-                                col.color = "";
-                                break;
-                            }
-                            
-                            else if((c.color==partida.siguiente_tiro && c.nombre!=col.nombre && cd || c.nombre==col.nombre && cr) && reg)
-                            {
-                                col.color="";
-                                break;
-                            }
-                            else
-                            {
-                                reg = false;
-                                cr = false;
-                            }
-                        }
-                        /*vertical*/
-                        reg = false;
-                        cr = false;
-                        cd = false;
-                        var h = 0;
-                        while (h < 8)
-                        {
-                            var c = partida.Filas[h].columnas[j];
-                            var f = partida.Filas[h];
-                            if (c.color != partida.siguiente_tiro && c.color != "b" && c.color != "" && (cd || cr))
-                            {
-                                reg = true;
-                            }
-                            else if (c.color == "b" && cd)
-                            {
-                                cr = false;
-                                break;
-                            }
-                            else if (c.color == "b" && cr && !reg)
-                            {
-                                cr = false;
-                                if (fil.nombre == f.nombre)
-                                {
-                                    cd = true;
-                                }
-                            }
-                            else if (c.color == "" && cd)
-                            {
-                                break;
-                            }
-                            else if (f.nombre == fil.nombre && cr && reg)
-                            {
-                                col.color = "";
-                                break;
-                            }
-                            else if (c.color == partida.siguiente_tiro && cd && !reg)
-                            {
-                                break;
-                            }
-                            else if ((c.color == partida.siguiente_tiro || f.nombre == fil.nombre) && !reg)
-                            {
-                                cr = true;
-                                if (f.nombre == fil.nombre)
-                                {
-                                    cd = true;
-                                }
-                            }
-                            else if (c.color == partida.siguiente_tiro && f.nombre != fil.nombre && reg && !cd)
-                            {
-                                cr = true;
-                                reg = false;
-                            }
-                            else if ((c.color == partida.siguiente_tiro && cd || f.nombre == fil.nombre && cr) && reg)
-                            {
-                                col.color = "";
-                                break;
-                            }
-                            else
-                            {
-                                reg = false;
-                                cr = false;
-                            }
-                            h++;
-                        }
-                        /*digaonal derecha*/
-                        reg = false;
-                        cr = false;
-                        cd = false;
-                        var nc = j;
-                        var nf = i;
-                        var n = 0;
-                        var ff = 0;
-                        var cc = 0;
-                        if (nc < nf)
-                        {
-                            cc = 0;
-                            ff = nf - nc;
-                            n = ff;
-                        }
-                        else
-                        {
-                            ff = 0;
-                            cc = nc - nf;
-                            n = cc;
-                        }
-                        while (n < 8)
-                        {
-                            var c = partida.Filas[ff].columnas[cc];
-                            if (c.color != partida.siguiente_tiro && c.color != "b" && c.color != "" && (cd || cr))
+                            if (!partida.colores_contrario.Contains(c.color) && c.color != "b" && c.color != "" && (cd || cr))
                             {
                                 reg = true;
                             }
@@ -824,11 +931,11 @@ namespace ProyectoIPC22011903872
                                 col.color = "";
                                 break;
                             }
-                            else if (c.color == partida.siguiente_tiro && cd && !reg)
+                            else if (partida.colores_contrario.Contains(c.color) && cd && !reg)
                             {
                                 break;
                             }
-                            else if ((c.color == partida.siguiente_tiro || c.nombre == col.nombre) && !reg)
+                            else if ((partida.colores_contrario.Contains(c.color) || c.nombre == col.nombre) && !reg)
                             {
                                 cr = true;
                                 if (c.nombre == col.nombre)
@@ -836,12 +943,215 @@ namespace ProyectoIPC22011903872
                                     cd = true;
                                 }
                             }
-                            else if (c.color == partida.siguiente_tiro && c.nombre != col.nombre && reg && !cd)
+                            else if (partida.colores_contrario.Contains(c.color) && c.nombre != col.nombre && reg && !cd)
                             {
                                 cr = true;
                                 reg = false;
                             }
-                            else if ((c.color == partida.siguiente_tiro && cr || c.nombre == col.nombre && cd) && reg)
+                            else if ((partida.colores_contrario.Contains(c.color) && cd || c.nombre == col.nombre && cr) && reg)
+                            {
+                                col.color = "";
+                                break;
+                            }
+                            else
+                            {
+                                reg = false;
+                                cr = false;
+                            }
+                        }
+                        /*vertical*/
+                        reg = false;
+                        cr = false;
+                        cd = false;
+                        var h = 0;
+                        while (h < N)
+                        {
+                            var c = partida.Filas[h].columnas[j];
+                            var f = partida.Filas[h];
+                            if (!partida.colores_contrario.Contains(c.color) && c.color != "b" && c.color != "" && (cd || cr))
+                            {
+                                reg = true;
+                            }
+                            else if (c.color == "b" && cd)
+                            {
+                                cr = false;
+                                break;
+                            }
+                            else if (c.color == "b" && cr && !reg)
+                            {
+                                cr = false;
+                                if (c.nombre == col.nombre)
+                                {
+                                    cd = true;
+                                }
+                            }
+                            else if (c.color == "" && cd)
+                            {
+                                break;
+                            }
+                            else if (f.nombre == fil.nombre && cr && reg)
+                            {
+                                col.color = "";
+                                break;
+                            }
+                            else if (partida.colores_contrario.Contains(c.color) && cd && !reg)
+                            {
+                                break;
+                            }
+                            else if ((partida.colores_contrario.Contains(c.color) || f.nombre == fil.nombre) && !reg)
+                            {
+                                cr = true;
+                                if (f.nombre == fil.nombre)
+                                {
+                                    cd = true;
+                                }
+                            }
+                            else if (partida.colores_contrario.Contains(c.color) && f.nombre != fil.nombre && reg && !cd)
+                            {
+                                cr = true;
+                                reg = false;
+                            }
+                            else if ((partida.colores_contrario.Contains(c.color) && cd || f.nombre == fil.nombre && cr) && reg)
+                            {
+                                col.color = "";
+                                break;
+                            }
+                            else
+                            {
+                                reg = false;
+                                cr = false;
+                            }
+                            h++;
+                        }
+                        /*digaonal derecha*/
+                        var n = 0;
+                        var ff = 0;
+                        var cc = 0;
+                        reg = false;
+                        cr = false;
+                        cd = false;
+                        var nc = j;
+                        var nf = i;
+                        var G = 0;
+                        if (N > M)
+                        {
+                            if (nc < nf)
+                            {
+                                if (nf - nc >= (N - 1) - (M - 1))
+                                {
+                                    ff = nf - nc;
+                                    G = N;
+                                    cc = 0;
+                                    n = ff;
+                                }
+                                else
+                                {
+                                    cc = 0;
+                                    ff = nf - nc;
+                                    G = M;
+                                    n = cc;
+                                }
+                            }
+                            else
+                            {
+                                ff = 0;
+                                G = M;
+                                cc = nc - nf;
+                                n = cc;
+                            }
+                        }
+                        else if (N == M)
+                        {
+                            if (nc < nf)
+                            {
+                                cc = 0;
+                                ff = nf - nc;
+                                n = ff;
+                                G = N;
+                            }
+                            else
+                            {
+                                ff = 0;
+                                cc = nc - nf;
+                                n = cc;
+                                G = N;
+                            }
+
+                        }
+                        else
+                        {
+                            if (nc < nf)
+                            {
+                                ff = nf - nc;
+                                G = N;
+                                cc = 0;
+                                n = ff;
+                            }
+                            else
+                            {
+                                if (nc - nf >= (M - 1) - (N - 1))
+                                {
+                                    ff = 0;
+                                    G = M;
+                                    cc = nc - nf;
+                                    n = cc;
+                                }
+                                else
+                                {
+                                    cc = nc - nf;
+                                    ff = 0;
+                                    G = N;
+                                    n = ff;
+                                }
+                            }
+                        }
+                        while (n < G)
+                        {
+                            var c = partida.Filas[ff].columnas[cc];
+                            if (!partida.colores_contrario.Contains(c.color) && c.color != "b" && c.color != "" && (cd || cr))
+                            {
+                                reg = true;
+                            }
+                            else if (c.color == "b" && cd)
+                            {
+                                cr = false;
+                                break;
+                            }
+                            else if (c.color == "b" && cr && !reg)
+                            {
+                                cr = false;
+                                if (c.nombre == col.nombre)
+                                {
+                                    cd = true;
+                                }
+                            }
+                            else if (c.color == "" && cd)
+                            {
+                                break;
+                            }
+                            else if (c.nombre == col.nombre && cr && reg)
+                            {
+                                col.color = "";
+                                break;
+                            }
+                            else if (partida.colores_contrario.Contains(c.color) && cd && !reg)
+                            {
+                                break;
+                            }
+                            else if ((partida.colores_contrario.Contains(c.color) || c.nombre == col.nombre) && !reg)
+                            {
+                                cr = true;
+                                if (c.nombre == col.nombre)
+                                {
+                                    cd = true;
+                                }
+                            }
+                            else if (partida.colores_contrario.Contains(c.color) && c.nombre != col.nombre && reg && !cd)
+                            {
+                                cr = true;
+                                reg = false;
+                            }
+                            else if ((partida.colores_contrario.Contains(c.color) && cd || c.nombre == col.nombre && cr) && reg)
                             {
                                 col.color = "";
                                 break;
@@ -862,26 +1172,84 @@ namespace ProyectoIPC22011903872
                         reg = false;
                         cr = false;
                         cd = false;
-                        var nc2 = 7 - nc;
+                        var nc2 = M - 1 - nc;
                         var m = 0;
-                        if (nc2 < nf)
+                        if (N > M)
                         {
-                            cc = (nf - nc2);
-                            ff = 7;
-                            m = cc;
-                            n = ff;
+                            if (nc2 > nf)
+                            {
+                                cc = 0;
+                                ff = M - 1 - (nc2 - nf);
+                                m = cc;
+                                n = ff;
+                            }
+                            else
+                            {
+                                if (M - 1 + (nf - nc2) >= N)
+                                {
+                                    ff = N - 1;
+                                    m = (nf - nc2);
+                                    cc = M - 1 - (N - 1 - (nf - nc2));
+                                    n = N - 1;
+                                }
+                                else
+                                {
+                                    ff = M - 1 + (nf - nc2);
+                                    cc = 0;
+                                    m = 0;
+                                    n = M - 1;
+                                }
+                            }
+                        }
+                        else if (N == M)
+                        {
+                            if (nc2 < nf)
+                            {
+                                cc = (nf - nc2);
+                                ff = N - 1;
+                                m = cc;
+                                n = ff;
+                            }
+                            else
+                            {
+                                ff = N - 1 - (nc2 - nf);
+                                cc = 0;
+                                m = 0;
+                                n = ff;
+                            }
+
                         }
                         else
                         {
-                            ff = 7 - (nc2 - nf);
-                            cc = 0;
-                            m = 0;
-                            n = ff;
+                            if (nc2 > nf)
+                            {
+                                if (M - 1 - (nc2 - nf) <= N - 1)
+                                {
+                                    cc = M - 1 - (nc2 - nf);
+                                    ff = M - 1 - (nc2 - nf);
+                                    m = M - 1;
+                                    n = cc;
+                                }
+                                else
+                                {
+                                    cc = Math.Abs(((N - 1) - nf) - nc);
+                                    ff = N - 1;
+                                    m = 0;
+                                    n = ff;
+                                }
+                            }
+                            else
+                            {
+                                cc = nc - ((N - 1) - nf);
+                                ff = N - 1;
+                                m = nf - nc2;
+                                n = ff;
+                            }
                         }
                         while (n >= m)
                         {
                             var c = partida.Filas[ff].columnas[cc];
-                            if (c.color != partida.siguiente_tiro && c.color != "b" && c.color != "" && (cd || cr))
+                            if (!partida.colores_contrario.Contains(c.color) && c.color != "b" && c.color != "" && (cd || cr))
                             {
                                 reg = true;
                             }
@@ -907,11 +1275,11 @@ namespace ProyectoIPC22011903872
                                 col.color = "";
                                 break;
                             }
-                            else if (c.color == partida.siguiente_tiro && cd && !reg)
+                            else if (partida.colores_contrario.Contains(c.color) && cd && !reg)
                             {
                                 break;
                             }
-                            else if ((c.color == partida.siguiente_tiro || c.nombre == col.nombre) && !reg)
+                            else if ((partida.colores_contrario.Contains(c.color) || c.nombre == col.nombre) && !reg)
                             {
                                 cr = true;
                                 if (c.nombre == col.nombre)
@@ -919,12 +1287,12 @@ namespace ProyectoIPC22011903872
                                     cd = true;
                                 }
                             }
-                            else if (c.color == partida.siguiente_tiro && c.nombre != col.nombre && reg && !cd)
+                            else if (partida.colores_contrario.Contains(c.color) && c.nombre != col.nombre && reg && !cd)
                             {
                                 cr = true;
                                 reg = false;
                             }
-                            else if ((c.color == partida.siguiente_tiro && cd || c.nombre == col.nombre && cr) && reg)
+                            else if ((partida.colores_contrario.Contains(c.color) && cd || c.nombre == col.nombre && cr) && reg)
                             {
                                 col.color = "";
                                 break;
@@ -949,11 +1317,15 @@ namespace ProyectoIPC22011903872
         }
         public static bool[] CantidadMovimientos(PartidaViewModel partida)
         {
-            bool j1=false,j2=false;
+            /*movimientos jugador actual*/
+            bool j1 = false, j2 = false;
+            string AC1 = partida.colorA1, AC2 = partida.colorA2;
+            string sig = partida.siguiente_tiro;
             partida = Movimientos(partida);
+            /*Probando movimientos del jugador siguiente*/
             foreach (var l in partida.Filas)
             {
-                foreach(var c in l.columnas)
+                foreach (var c in l.columnas)
                 {
                     if (c.color == "")
                     {
@@ -962,13 +1334,15 @@ namespace ProyectoIPC22011903872
                     }
                 }
             }
-            if (partida.siguiente_tiro == "negro")
+            if (partida.siguiente_tiro == partida.colorA1)
             {
-                partida.siguiente_tiro = "blanco";
+                partida.siguiente_tiro = partida.colorA2;
+                partida.colores_contrario = partida.colores_jugador2;
             }
             else
             {
-                partida.siguiente_tiro = "negro";
+                partida.siguiente_tiro = partida.colorA1;
+                partida.colores_contrario = partida.colores_jugador1;
             }
             partida = Movimientos(partida);
             foreach (var l in partida.Filas)
@@ -982,31 +1356,36 @@ namespace ProyectoIPC22011903872
                     }
                 }
             }
-            if (partida.siguiente_tiro == "negro")
+
+            /*DEvolviendo original*/
+            partida.siguiente_tiro = sig;
+            partida.colorA1 = AC1;
+            partida.colorA2 = AC2;
+            if (partida.siguiente_tiro == partida.colorA1)
             {
-                partida.siguiente_tiro = "blanco";
+                partida.colores_contrario = partida.colores_jugador1;
             }
             else
             {
-                partida.siguiente_tiro = "negro";
+                partida.colores_contrario = partida.colores_jugador2;
             }
             partida = Movimientos(partida);
-            bool[] i = { j1,j2 };
+            bool[] i = { j1, j2 };
             return i;
         }
         public static PartidaViewModel Punteos(PartidaViewModel partida)
         {
             partida.punteo_jugador1 = 0;
             partida.punteo_jugador2 = 0;
-            foreach(var fil in partida.Filas)
+            foreach (var fil in partida.Filas)
             {
-                foreach(var col in fil.columnas)
+                foreach (var col in fil.columnas)
                 {
-                    if (col.color == partida.color_jugador1)
+                    if (partida.colores_jugador1.Contains(col.color))
                     {
                         partida.punteo_jugador1++;
                     }
-                    else if(col.color==partida.color_jugador2)
+                    else if (partida.colores_jugador2.Contains(col.color))
                     {
                         partida.punteo_jugador2++;
                     }
@@ -1014,9 +1393,14 @@ namespace ProyectoIPC22011903872
             }
             return partida;
         }
-
         public static object[] ComprobarCasillas(PartidaViewModel partida)
         {
+            var N = partida.Filas.Count();
+            var M = partida.Filas[0].columnas.Count();
+            var centroF1 = (N / 2) - 1;
+            var centroF2 = (N / 2);
+            var centroC1 = (M / 2) - 1;
+            var centroC2 = (M / 2);
             List<List<bool>> mapa = new List<List<bool>>();
             foreach (var fil in partida.Filas)
             {
@@ -1027,134 +1411,45 @@ namespace ProyectoIPC22011903872
                 }
                 mapa.Add(fila);
             }
-            var f = 3;
-            var c = 3;
+            var f = centroF1;
+            var c = centroC1;
             object[] res;
             var centro = true;
             /*sector 1*/
-            while (f>=0)
+            while (f >= 0)
             {
-                c = 3;
-                
+                c = centroC1;
+
                 while (c >= 0)
                 {
                     var col = partida.Filas[f].columnas[c];
-                    if(c==3 && f == 3)
+                    if (c == centroC1 && f == centroF1)
                     {
-                        if(col.color=="" || col.color == "b")
+                        if (col.color == "" || col.color == "b")
                         {
                             centro = false;
                         }
                         else
                         {
                             var colA = partida.Filas[f - 1].columnas[c];
-                            var colI = partida.Filas[f].columnas[c-1];
+                            var colI = partida.Filas[f].columnas[c - 1];
                             var colAI = partida.Filas[f - 1].columnas[c - 1];
-                            if(colA.color!="" && colA.color != "b")
+                            if (colA.color != "" && colA.color != "b")
                             {
                                 mapa[f - 1][c] = true;
                             }
                             if (colI.color != "" && colI.color != "b")
                             {
-                                mapa[f][c-1] = true;
+                                mapa[f][c - 1] = true;
                             }
                             if (colAI.color != "" && colAI.color != "b")
                             {
-                                mapa[f - 1][c-1] = true;
+                                mapa[f - 1][c - 1] = true;
                             }
                             mapa[f][c] = true;
                         }
                     }
-                    else if(c>0 && f > 0 && c<3 && f<3 && col.color!="" && col.color!="b")
-                    {
-                        var colA = partida.Filas[f-1].columnas[c];
-                        var colB = partida.Filas[f+1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c+1];
-                        var colI = partida.Filas[f].columnas[c-1];
-                        var colAD = partida.Filas[f-1].columnas[c+1];
-                        var colAI = partida.Filas[f-1].columnas[c-1];
-                        var colBD = partida.Filas[f+1].columnas[c+1];
-                        var colBI = partida.Filas[f+1].columnas[c-1];
-                        if (mapa[f][c])
-                        {
-                            if(colA.color!="b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c-1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c+1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c-1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c+1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c-1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c+1] = true; }
-                        }
-                        
-                    }
-                    else if(c>0 && f==3 && c < 3)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if(c==0 && f==0)
-                    {
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        if (mapa[f][c])
-                        {
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if(c==3 && f == 0) 
-                    {
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if(c==0 && f == 3)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if(c==3 && f>0 && f < 3)
+                    else if (c > 0 && f > 0 && c < centroC1 && f < centroF1 && col.color != "" && col.color != "b")
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1177,24 +1472,41 @@ namespace ProyectoIPC22011903872
                         }
 
                     }
-                    else if(c==0 && f>0 && f < 3)
+                    else if (c > 0 && f == 3 && c < centroC1)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
                         var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
                         var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
                         if (mapa[f][c])
                         {
                             if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
                             if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+                    }
+                    else if (c == 0 && f == 0)
+                    {
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        if (mapa[f][c])
+                        {
                             if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
                             if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
-                       
                     }
-                    else if(f==0 && c>0 && c < 3)
+                    else if (c == centroC1 && f == 0)
                     {
                         var colB = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
@@ -1209,7 +1521,79 @@ namespace ProyectoIPC22011903872
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
-                        
+                    }
+                    else if (c == 0 && f == centroF1)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+                    }
+                    else if (c == centroC1 && f > 0 && f < centroF1)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+
+                    }
+                    else if (c == 0 && f > 0 && f < centroF1)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+
+                    }
+                    else if (f == 0 && c > 0 && c < centroC1)
+                    {
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+
                     }
                     if (!centro)
                     {
@@ -1221,16 +1605,16 @@ namespace ProyectoIPC22011903872
                 f--;
             }
             /*sector2*/
-            c = 3;
-            f = 4;
-            while (f <= 7)
+            c = centroC1;
+            f = centroF2;
+            while (f <= N - 1)
             {
-                c = 3;
-                
+                c = centroC1;
+
                 while (c >= 0)
                 {
                     var col = partida.Filas[f].columnas[c];
-                    if (c == 3 && f == 4)
+                    if (c == centroC1 && f == centroF2)
                     {
                         if (col.color == "" || col.color == "b")
                         {
@@ -1256,7 +1640,7 @@ namespace ProyectoIPC22011903872
                             mapa[f][c] = true;
                         }
                     }
-                    else if (c == 0 && f == 4)
+                    else if (c == 0 && f == centroF2)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1272,7 +1656,7 @@ namespace ProyectoIPC22011903872
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
                     }
-                    else if (c == 3 && f == 7)
+                    else if (c == centroC1 && f == N - 1)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
@@ -1288,7 +1672,7 @@ namespace ProyectoIPC22011903872
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
                     }
-                    else if (c == 0 && f == 7)
+                    else if (c == 0 && f == N - 1)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
@@ -1300,47 +1684,7 @@ namespace ProyectoIPC22011903872
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
                     }
-                    else if (c > 0 && f > 4 && c < 3 && f < 7 && col.color != "" && col.color != "b")
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                        
-                    }
-                    else if (c > 0 && f == 7 && c < 3)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colI.color != "b" && colAI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colAD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                       
-                    }
-                    else if (c == 3 && f > 4 && f < 7)
+                    else if (c > 0 && f > centroF2 && c < centroC1 && f < N - 1 && col.color != "" && col.color != "b")
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1363,7 +1707,47 @@ namespace ProyectoIPC22011903872
                         }
 
                     }
-                    else if (c == 0 && f > 4 && f < 7)
+                    else if (c > 0 && f == N - 1 && c < centroC1)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colI.color != "b" && colAI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colAD.color != "") { mapa[f][c + 1] = true; }
+                        }
+
+                    }
+                    else if (c == centroC1 && f > centroF2 && f < N - 1)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+
+                    }
+                    else if (c == 0 && f > centroF2 && f < N - 1)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1378,9 +1762,9 @@ namespace ProyectoIPC22011903872
                             if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
-                        
+
                     }
-                    else if (f == 4 && c > 0 && c < 3)
+                    else if (f == centroF2 && c > 0 && c < centroC1)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1414,15 +1798,15 @@ namespace ProyectoIPC22011903872
                 f++;
             }
             /*sector3*/
-            c = 4;
-            f = 3;
+            c = centroC2;
+            f = centroF1;
             while (f >= 0)
             {
-                c = 4;
-                while (c <= 7)
+                c = centroC2;
+                while (c <= M - 1)
                 {
                     var col = partida.Filas[f].columnas[c];
-                    if (c == 4 && f == 3)
+                    if (c == centroC2 && f == centroF1)
                     {
                         if (col.color == "" || col.color == "b")
                         {
@@ -1448,7 +1832,7 @@ namespace ProyectoIPC22011903872
                             mapa[f][c] = true;
                         }
                     }
-                    else if (c==4 && f == 0) 
+                    else if (c == centroC2 && f == 0)
                     {
                         var colB = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
@@ -1464,7 +1848,7 @@ namespace ProyectoIPC22011903872
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
                     }
-                    else if (c==7 && f == 0) 
+                    else if (c == M - 1 && f == 0)
                     {
                         var colB = partida.Filas[f + 1].columnas[c];
                         var colI = partida.Filas[f].columnas[c - 1];
@@ -1476,7 +1860,7 @@ namespace ProyectoIPC22011903872
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                         }
                     }
-                    else if(c==7 && f == 3)
+                    else if (c == M - 1 && f == centroF1)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1492,30 +1876,7 @@ namespace ProyectoIPC22011903872
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                         }
                     }
-                    else if (c > 4 && f > 0 && c < 7 && f < 3 && col.color != "" && col.color != "b")
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                      
-                    }
-                    else if (c > 4 && f == 3 && c < 7)
+                    else if (c > centroC2 && f > 0 && c < M - 1 && f < centroF1 && col.color != "" && col.color != "b")
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1538,24 +1899,7 @@ namespace ProyectoIPC22011903872
                         }
 
                     }
-                    else if (c == 7 && f > 0 && f < 3)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                        }
-                        
-                    }
-                    else if (c == 4 && f > 0 && f < 3)
+                    else if (c > centroC2 && f == centroF1 && c < M - 1)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1578,7 +1922,47 @@ namespace ProyectoIPC22011903872
                         }
 
                     }
-                    else if (f == 0 && c > 0 && c < 7)
+                    else if (c == M - 1 && f > 0 && f < centroF1)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                        }
+
+                    }
+                    else if (c == centroC2 && f > 0 && f < centroF1)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+
+                    }
+                    else if (f == 0 && c > 0 && c < M - 1)
                     {
                         var colA = partida.Filas[f + 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
@@ -1593,7 +1977,7 @@ namespace ProyectoIPC22011903872
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
-                        
+
                     }
 
                     if (!centro)
@@ -1606,19 +1990,15 @@ namespace ProyectoIPC22011903872
                 f--;
             }
             /*sector4*/
-            c = 4;
-            f = 4;
-            while (f <= 7)
+            c = centroC2;
+            f = centroF2;
+            while (f <= N - 1)
             {
-                c = 4;
-                while (c <= 7)
+                c = centroC2;
+                while (c <= M - 1)
                 {
-                    if(f==5 && c == 6)
-                    {
-
-                    }
                     var col = partida.Filas[f].columnas[c];
-                    if (c == 4 && f == 4)
+                    if (c == centroC2 && f == centroF2)
                     {
                         if (col.color == "" || col.color == "b")
                         {
@@ -1644,7 +2024,7 @@ namespace ProyectoIPC22011903872
                             mapa[f][c] = true;
                         }
                     }
-                    else if (c==4 && f==7)
+                    else if (c == centroC2 && f == N - 1)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colD = partida.Filas[f].columnas[c + 1];
@@ -1660,7 +2040,7 @@ namespace ProyectoIPC22011903872
                             if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                         }
                     }
-                    else if (c == 7 && f==7)
+                    else if (c == M - 1 && f == N - 1)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colI = partida.Filas[f].columnas[c - 1];
@@ -1672,7 +2052,7 @@ namespace ProyectoIPC22011903872
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                         }
                     }
-                    else if (c == 7 && f==4)
+                    else if (c == M - 1 && f == centroF2)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1688,64 +2068,7 @@ namespace ProyectoIPC22011903872
                             if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
                         }
                     }
-                    else if (c > 4 && f > 4 && c < 7 && f < 7 && col.color != "" && col.color != "b")
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                        
-                    }
-                    else if (c > 4 && f == 7 && c < 7)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colI.color != "b" && colAI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colAD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                        
-                    }
-                    else if (c == 7 && f > 4 && f < 7)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                        }
-                        
-                    }
-                    else if (c == 4 && f > 4 && f < 7)
+                    else if (c > centroC2 && f > centroF2 && c < M - 1 && f < N - 1 && col.color != "" && col.color != "b")
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1768,7 +2091,64 @@ namespace ProyectoIPC22011903872
                         }
 
                     }
-                    else if (f == 4 && c > 4 && c < 7)
+                    else if (c > centroC2 && f == N - 1 && c < M - 1)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colI.color != "b" && colAI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colAD.color != "") { mapa[f][c + 1] = true; }
+                        }
+
+                    }
+                    else if (c == M - 1 && f > centroF2 && f < N - 1)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                        }
+
+                    }
+                    else if (c == centroC2 && f > centroF2 && f < N - 1)
+                    {
+                        var colA = partida.Filas[f - 1].columnas[c];
+                        var colB = partida.Filas[f + 1].columnas[c];
+                        var colD = partida.Filas[f].columnas[c + 1];
+                        var colI = partida.Filas[f].columnas[c - 1];
+                        var colAD = partida.Filas[f - 1].columnas[c + 1];
+                        var colAI = partida.Filas[f - 1].columnas[c - 1];
+                        var colBD = partida.Filas[f + 1].columnas[c + 1];
+                        var colBI = partida.Filas[f + 1].columnas[c - 1];
+                        if (mapa[f][c])
+                        {
+                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                        }
+
+                    }
+                    else if (f == centroF2 && c > centroC2 && c < M - 1)
                     {
                         var colA = partida.Filas[f - 1].columnas[c];
                         var colB = partida.Filas[f + 1].columnas[c];
@@ -1803,34 +2183,34 @@ namespace ProyectoIPC22011903872
             /*Comprobando fichas validas*/
             f = 0;
             c = 0;
-            while (f<=7)
+            while (f <= N - 1)
             {
                 c = 0;
-                while (c<=7)
+                while (c <= M - 1)
                 {
                     if (mapa[f][c] == true)
                     {
-                        if(f==3 && c == 3)
+                        if (f == centroF1 && c == centroC1)
                         {
                             c++;
                             continue;
                         }
-                        else if (f == 3 && c == 4)
+                        else if (f == centroF1 && c == centroC2)
                         {
                             c++;
                             continue;
                         }
-                        else if (f == 4 && c == 3)
+                        else if (f == centroF2 && c == centroC1)
                         {
                             c++;
                             continue;
                         }
-                        else if (f == 4 && c == 4)
+                        else if (f == centroF2 && c == centroC2)
                         {
                             c++;
                             continue;
                         }
-                        else if (f > 1 && f < 6 && c < 6 && c > 1)
+                        else if (f > 1 && f < N - 2 && c < M - 2 && c > 1)
                         {
                             var d1 = mapa[f][c + 1];
                             var d2 = mapa[f][c + 2];
@@ -1888,12 +2268,12 @@ namespace ProyectoIPC22011903872
                                 c++;
                                 continue;
                             }
-                            else 
-                            { 
-                                mapa[f][c] = false; 
+                            else
+                            {
+                                mapa[f][c] = false;
                             }
                         }
-                        else if (f >= 0 && f <= 1 && c <=1 && c >= 0)
+                        else if (f >= 0 && f <= 1 && c <= 1 && c >= 0)
                         {
                             var d1 = mapa[f][c + 1];
                             var d2 = mapa[f][c + 2];
@@ -1921,7 +2301,7 @@ namespace ProyectoIPC22011903872
                                 mapa[f][c] = false;
                             }
                         }
-                        else if (f >= 0 && f <= 1 && c <= 7 && c >= 6)
+                        else if (f >= 0 && f <= 1 && c <= M - 1 && c >= M - 2)
                         {
                             var i1 = mapa[f][c - 1];
                             var i2 = mapa[f][c - 2];
@@ -1949,7 +2329,7 @@ namespace ProyectoIPC22011903872
                                 mapa[f][c] = false;
                             }
                         }
-                        else if (f >= 6 && f <= 7 && c <= 1 && c >= 0)
+                        else if (f >= N - 2 && f <= N - 1 && c <= 1 && c >= 0)
                         {
                             var i1 = mapa[f][c + 1];
                             var i2 = mapa[f][c + 2];
@@ -1977,7 +2357,7 @@ namespace ProyectoIPC22011903872
                                 mapa[f][c] = false;
                             }
                         }
-                        else if (f >= 6 && f <= 7 && c <= 7 && c >= 6)
+                        else if (f >= N - 2 && f <= N - 1 && c <= M - 1 && c >= M - 2)
                         {
                             var i1 = mapa[f][c - 1];
                             var i2 = mapa[f][c - 2];
@@ -2047,7 +2427,7 @@ namespace ProyectoIPC22011903872
                                 mapa[f][c] = false;
                             }
                         }
-                        else if (f >= 6 && f <= 7 && c < 6 && c > 1)
+                        else if (f >= N - 2 && f <= N - 1 && c < M - 2 && c > 1)
                         {
                             var d1 = mapa[f][c + 1];
                             var d2 = mapa[f][c + 2];
@@ -2089,7 +2469,7 @@ namespace ProyectoIPC22011903872
                                 mapa[f][c] = false;
                             }
                         }
-                        else if (f > 1 && f < 6 && c <= 1 && c >= 0)
+                        else if (f > 1 && f < N - 2 && c <= 1 && c >= 0)
                         {
                             var d1 = mapa[f][c + 1];
                             var d2 = mapa[f][c + 2];
@@ -2131,7 +2511,7 @@ namespace ProyectoIPC22011903872
                                 mapa[f][c] = false;
                             }
                         }
-                        else if (f > 1 && f < 6 && c <= 7 && c >= 6)
+                        else if (f > 1 && f < N - 2 && c <= M - 1 && c >= M - 2)
                         {
                             var i1 = mapa[f][c - 1];
                             var i2 = mapa[f][c - 2];
@@ -2181,12 +2561,12 @@ namespace ProyectoIPC22011903872
             /*Verificando validez*/
             var i = 0;
             var j = 0;
-            while (i < 8)
+            while (i < N)
             {
-                j = 0;  
-                while (j < 8)
+                j = 0;
+                while (j < M)
                 {
-                    if (!mapa[i][j] && partida.Filas[i].columnas[j].color!="" && partida.Filas[i].columnas[j].color!="b")
+                    if (!mapa[i][j] && partida.Filas[i].columnas[j].color != "" && partida.Filas[i].columnas[j].color != "b")
                     {
                         res = new object[] { partida, false };
                         return res;
@@ -2202,6 +2582,36 @@ namespace ProyectoIPC22011903872
             /*Retorno si todo esta correcto*/
             res = new object[] { partida, true };
             return res;
+        }
+        public static string CalcularTiempo(int T)
+        {
+            int hora = 0;
+            int min = 0;
+            int seg = 0;
+            int restante = 0;
+            restante = T;
+            hora = restante / 3600;
+            restante -= hora * 3600;
+            min = restante / 60;
+            restante -= min * 60;
+            seg = restante;
+            string th = "" + hora;
+            string tm = "" + min;
+            string ts = "" + seg;
+            if (hora < 10)
+            {
+                th = "0" + hora;
+            }
+            if (min < 10)
+            {
+                tm = "0" + min;
+            }
+            if (seg < 10)
+            {
+                ts = "0" + seg;
+            }
+            string tiempo = th + ":" + tm + ":" + ts;
+            return tiempo;
         }
     }
 }

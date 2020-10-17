@@ -172,6 +172,24 @@
 .amarillo {
     background-color: yellow;
 }
+.verde {
+    background-color: darkgreen;
+}
+.marron {
+    background-color: maroon;
+}
+.purpura {
+    background-color: purple;
+}
+.turquesa {
+    background-color: turquoise;
+}
+.cian {
+    background-color: darkcyan;
+}
+.salmon {
+    background-color: salmon;
+}
 .borde-naranja {
     border-bottom: 0.5em solid #FFCF41;
 }
@@ -182,4 +200,11 @@
 
 .ultimaF{
     border: 5px solid #FFCF41;
+}
+
+.h-20{
+    height:20%;
+}
+.h-25 {
+    height: 25%;
 }

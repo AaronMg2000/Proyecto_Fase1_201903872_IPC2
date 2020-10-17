@@ -37,30 +37,8 @@
                     </div>
                     <hr />
                     <div class="form-group">
-                        <div class="row align-content-around justify-content-around">
-                            <div class="col-12">
-                                <p class="w-100 text-center">Color de jugadores</p>
-                            </div>
-                            <div class="col-5">
-                                <input type="radio" name="colorjugador1" id="colorjugador1" value="A" /> Aleatorio
-                            </div>
-                            <div class="col-5">
-                                <input type="radio" name="colorjugador1" id="colorjugador1" checked value="C" /> Seleccionar Color
-                            </div>
-                        </div>
-                    </div>
-                    <div id="c11" class="form-group">
-                        <label for="Color11">Color de Usuario</label>
-                        <select class="form-control bg-light" id="colorr" name="colorr">
-                            <option value="negro">Negro</option>
-                            <option value="blanco">Blanco</option>
-                        </select>
-                    </div>
-                    <hr />
-                    <div class="form-group">
                         <div class="row justify-content-center  align-content-around">
-                            <input type="text" hidden name="color11" id="color11" value="negro" />
-                            <input type="text" hidden name="color22" id="color22" value="blanco" />
+                            <input type="text" hidden name="Tpartida" id="Tpartida" value="Normal" />
                             <input type="submit" name="name" value="Cargar" class="btn btt-yellow m-auto" />
                             <button type="button" class="btn btn-dark m-auto" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -98,6 +76,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="row align-content-around justify-content-around">
+                            <div class="col-12">
+                                <p class="w-100 text-center">Modalidad</p>
+                            </div>
+                            <div class="col-5">
+                                <input type="radio" name="modalidad" id="modalidad" checked value="Normal" /> Normal
+                            </div>
+                            <div class="col-5">
+                                <input type="radio" name="modalidad" id="modalidad"  value="Inversa" /> Inversa
+                            </div>
+                        </div>
+                    </div>
                     <div id="j1" class="form-group">
                         <label for="jugador2">Jugador Invitado</label>
                         <input required type="text" class="form-control bg-light redondear" name="jugador2" id="jugador2" value="" placeholder="Nombre de Jugador Invitado" />
@@ -127,7 +118,10 @@
                     <div class="form-group">
                         <div class="row justify-content-center  align-content-around">
                             <input type="text" hidden name="color1" id="color1" value="negro" />
-                            <input type="text" hidden  name="color2" id="color2" value="blanco" />
+                            <input type="text" hidden name="N" id="N" value="8" />
+                            <input type="text" hidden name="M" id="M" value="8" />
+                            <input type="text" hidden name="Tpartida" id="Tpartida" value="Normal" />
+                            <input type="text" hidden name="color2" id="color2" value="blanco" />
                             <input type="submit" name="name" value="Iniciar" class="btn btt-yellow m-auto" />
                             <button type="button" class="btn btn-dark m-auto" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -145,9 +139,9 @@
 {
     <div id="danger" style='display:none' class="alert alert-danger bg-naranja alert-dismissible" role="alert">
         <div id="texto">
-            <h1 class="text-white font-weight-bold text-center">
+            <h3 class="text-white font-weight-bold text-center">
                 @ViewBag.mensaje
-            </h1>
+            </h3>
         </div>
         
     </div>

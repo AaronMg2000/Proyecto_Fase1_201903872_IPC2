@@ -72,7 +72,11 @@ namespace ProyectoIPC22011903872.Controllers
             {
                 ViewBag.maquina = true;
             }
-            bool[] tiros = FuncionesXtream.CantidadMovimientos(partida);
+            bool[] tiros = { true, true };
+            if (partida.centro)
+            {
+                tiros = FuncionesXtream.CantidadMovimientos(partida);
+            }
             if ((!tiros[0] && !tiros[1] && partida.tipo != "M") || (partida.siguiente_tiro == "M" && !tiros[0] && !tiros[1] && partida.colores_jugador2.Contains(partida.siguiente_tiro)))
             {
                 ViewBag.saltar = true;
@@ -111,7 +115,6 @@ namespace ProyectoIPC22011903872.Controllers
                     }
                 }
             }
-
             ViewBag.mensaje = "partida";
             ViewBag.partida = partida;
             return View(partida);
@@ -287,8 +290,11 @@ namespace ProyectoIPC22011903872.Controllers
                 partida.ultimafila = "";
             }
             ViewBag.partida = partida;
-
-            bool[] tiros = FuncionesXtream.CantidadMovimientos(partida);
+            bool[] tiros = { true,true};
+            if (partida.centro)
+            {
+                tiros = FuncionesXtream.CantidadMovimientos(partida);
+            }
             if ((!tiros[0] && tiros[1] && partida.tipo != "M") || (partida.siguiente_tiro == "M" && !tiros[0] && tiros[1] && !partida.jugador2.Contains(partida.siguiente_tiro)))
             {
                 ViewBag.saltar = true;
@@ -332,11 +338,11 @@ namespace ProyectoIPC22011903872.Controllers
                     }
                 }
             }
-
             else if (partida.colores_jugador2.Contains(partida.siguiente_tiro) && partida.tipo == "M")
             {
                 ViewBag.maquina = true;
             }
+
             return View(model);
         }
 
