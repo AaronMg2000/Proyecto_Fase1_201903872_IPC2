@@ -750,7 +750,15 @@ namespace ProyectoIPC22011903872.Controllers
                 }
             }
             USUARIO user = (USUARIO)this.Session["user"];
-            string Filename = user.Usuario1 + "_Partida_#" + partida.nombre + ".xml";
+            string Filename = "";
+            if (partida.TipoPartida=="Xtream")
+            {
+                Filename = user.Usuario1 + "_PartidaXtream_#" + partida.nombre + ".xml";
+            }
+            else
+            {
+                Filename = user.Usuario1 + "_Partida_#" + partida.nombre + ".xml";
+            }
             var path = Path.Combine(Server.MapPath("~/Public/XML_SAVE"), Filename);
             if (System.IO.File.Exists(path))
             {
@@ -804,7 +812,14 @@ namespace ProyectoIPC22011903872.Controllers
             Raiz.Add(siguiente);
             part.Add(Raiz);
             documento.Save(path);
-            return RedirectToAction("Index", "Partida", new { mensaje = "Partida Guardada" });
+            if (partida.TipoPartida=="Normal")
+            {
+                return RedirectToAction("Index", "Partida", new { mensaje = "Partida Guardada" });
+            }
+            else
+            {
+                return RedirectToAction("Xtream", "Partida", new { mensaje = "Partida Guardada" });
+            }
         }
         [HttpPost]
         public ActionResult Cronometro1(int nombre)
