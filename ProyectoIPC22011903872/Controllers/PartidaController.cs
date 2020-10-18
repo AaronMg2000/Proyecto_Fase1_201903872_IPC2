@@ -74,7 +74,7 @@ namespace ProyectoIPC22011903872.Controllers
             string siguiente = ran[indice];
             siguiente = "negro";
             var partida = new PartidaViewModel();
-            if (Tpartida != "xtream" && !cargar)
+            if (Tpartida == "Normal" && !cargar)
             {
                 indice = 0;
                 if (color1.Count() == 0)
@@ -395,8 +395,9 @@ namespace ProyectoIPC22011903872.Controllers
         {
             var N = 0;
             var M = 0;
+            var p = 0;
             var modalidad = "";
-            List<string> ColoresValidos = new List<string>(){"blanco", "negro", "rojo", "cafe", "celeste", "naranja", "morado", "rosado", "amarillo", "verde", "marron", "purpura", "turquesa", "cyan", "salmon" };
+            List<string> ColoresValidos = new List<string>(){"blanco", "negro", "rojo", "cafe", "celeste", "naranja", "morado", "rosado", "amarillo", "verde", "marron", "purpura", "turquesa", "cyan", "salmon" , "azul"};
             if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
             {
                 return RedirectToAction("Login", "User");
@@ -413,34 +414,87 @@ namespace ProyectoIPC22011903872.Controllers
             /*Colores*/
             foreach (XmlNode node in documento.SelectNodes("/partida/Jugador1/color"))
             {
+                p++;
                 var color = node.InnerText;
                 if (!ColoresValidos.Contains(color))
                 {
-                    return RedirectToAction("Index", "Partida", new { mensaje = "Error colores invalidos" });
+                    if (Tpartida == "Normal")
+                    {
+                        return RedirectToAction("Index", "Partida", new { mensaje = "Error colores Invalidos" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Xtream", "Partida", new { mensaje = "Error colores Invalidos" });
+                    }
                 }
                 else if (color11.Contains(color))
                 {
-                    return RedirectToAction("Index", "Partida", new { mensaje = "Error colores repetidos" });
+                    if (Tpartida=="Normal")
+                    {
+                        return RedirectToAction("Index", "Partida", new { mensaje = "Error colores repetidos" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Xtream", "Partida", new { mensaje = "Error colores repetidos" });
+                    }
                 }
                 else
                 {
                     color11.Add(color);
                 }
             }
+            if (p==0)
+            {
+                if (Tpartida=="Normal")
+                {
+                    return RedirectToAction("Index", "Partida", new { mensaje = "Error en estructura de la partida" });
+                }
+                else
+                {
+                    return RedirectToAction("Xtream", "Partida", new { mensaje = "Error en estructura de la partida" });
+                }
+            }
+            p = 0;
             foreach (XmlNode node in documento.SelectNodes("/partida/Jugador2/color"))
             {
+                p++;
                 var color = node.InnerText;
                 if (!ColoresValidos.Contains(color))
                 {
-                    return RedirectToAction("Index", "Partida", new { mensaje = "Error colores invalidos" });
+                    if (Tpartida == "Normal")
+                    {
+                        return RedirectToAction("Index", "Partida", new { mensaje = "Error colores Invalidos" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Xtream", "Partida", new { mensaje = "Error colores Invalidos" });
+                    }
                 }
                 else if(color11.Contains(color) || color22.Contains(color))
                 {
-                    return RedirectToAction("Index", "Partida", new { mensaje = "Error colores repetidos" });
+                    if (Tpartida == "Normal")
+                    {
+                        return RedirectToAction("Index", "Partida", new { mensaje = "Error colores repetidos" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Xtream", "Partida", new { mensaje = "Error colores repetidos" });
+                    }
                 }
                 else
                 {
                     color22.Add(color);
+                }
+            }
+            if (p == 0)
+            {
+                if (Tpartida == "Normal")
+                {
+                    return RedirectToAction("Index", "Partida", new { mensaje = "Error en estructura de la partida" });
+                }
+                else
+                {
+                    return RedirectToAction("Xtream", "Partida", new { mensaje = "Error en estructura de la partida" });
                 }
             }
             if (Tpartida == "Normal")
@@ -468,7 +522,7 @@ namespace ProyectoIPC22011903872.Controllers
                     try
                     {
                         N = int.Parse(node["filas"].InnerText);
-                        M = int.Parse(node["filas"].InnerText);
+                        M = int.Parse(node["columnas"].InnerText);
                     }
                     catch(Exception e)
                     {
@@ -498,6 +552,17 @@ namespace ProyectoIPC22011903872.Controllers
                     }
                 }
                 modalidad = node["Modalidad"].InnerText;
+            }
+            if (modalidad=="")
+            {
+                if (Tpartida == "Normal")
+                {
+                    return RedirectToAction("Index", "Partida", new { mensaje = "Error en estructura de la partida" });
+                }
+                else
+                {
+                    return RedirectToAction("Xtream", "Partida", new { mensaje = "Error en estructura de la partida" });
+                }
             }
             PartidaCargada = Funciones.CrearPartida(modelo, color11, color22, "", user.Usuario1, jugador22, N, M, Tpartida, modalidad);
             PartidaCargada.movimientos_1 = 0;
@@ -546,14 +611,29 @@ namespace ProyectoIPC22011903872.Controllers
                             }
                             else if (c == columna.nombre && f == fila.nombre)
                             {
-                                return RedirectToAction("Index", "Partida", new { mensaje = "Error hay posiciones repetidas en su partida" });
+                                if (Tpartida == "Normal")
+                                {
+                                    return RedirectToAction("Index", "Partida", new { mensaje = "Error hay posiciones repetidas en su partida" });
+                                }
+                                else
+                                {
+                                    return RedirectToAction("Xtream", "Partida", new { mensaje = "Error hay posiciones repetidas en su partida" });
+                                }
                             }
                         }
                     }
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Partida", new { mensaje = "Error hay columnas y filas que no existen en una partida" });
+                    if (Tpartida == "Normal")
+                    {
+                        return RedirectToAction("Index", "Partida", new { mensaje = "Error hay columnas y filas que no existen en una partida" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Xtream", "Partida", new { mensaje = "Error hay columnas y filas que no existen en una partida" });
+                    }
+                    
                 }
             }
             /*Siguiente tiro*/
@@ -565,21 +645,93 @@ namespace ProyectoIPC22011903872.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Partida", new { mensaje = "Error el turno siguiente esta repetido en su partida" });
+                    if (Tpartida == "Normal")
+                    {
+                        return RedirectToAction("Index", "Partida", new { mensaje = "Error el turno siguiente esta repetido en su partida" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Xtream", "Partida", new { mensaje = "Error el turno siguiente esta repetido en su partida" });
+                    }
+                    
                 }
             }
-            /**/
+            /*siguiente tiro*/
+            if (PartidaCargada.colores_jugador1.Contains(PartidaCargada.siguiente_tiro))
+            {
+                PartidaCargada.colorA1 = PartidaCargada.siguiente_tiro;
+                PartidaCargada.colorA2 = PartidaCargada.colores_jugador2[0];
+                PartidaCargada.colores_contrario = PartidaCargada.colores_jugador1;
+            }
+            else
+            {
+                PartidaCargada.colorA2 = PartidaCargada.siguiente_tiro;
+                PartidaCargada.colorA1 = PartidaCargada.colores_jugador1[0];
+                PartidaCargada.colores_contrario = PartidaCargada.colores_jugador2;
+            }
+            /*Verificar centro*/
+            if (Tpartida=="Xtream")
+            {
+                var centrof1 = (N / 2) - 1;
+                var centroc1 = (M / 2) - 1;
+                var centrof2 = (N / 2);
+                var centroc2 = (M / 2);
+                var ficha1 = PartidaCargada.Filas[centrof1].columnas[centroc1].color;
+                var ficha2 = PartidaCargada.Filas[centrof1].columnas[centroc2].color;
+                var ficha3 = PartidaCargada.Filas[centrof2].columnas[centroc1].color;
+                var ficha4 = PartidaCargada.Filas[centrof2].columnas[centroc2].color;
+                if (ficha1!="" && ficha1!= "b" && ficha2 != "" && ficha2 != "b" && ficha3 != "" && ficha3 != "b" && ficha4 != "" && ficha4 != "b")
+                {
+                    PartidaCargada.centro = true;
+                    PartidaCargada = Funciones.Movimientos(PartidaCargada);
+                }
+                else
+                {
+                    PartidaCargada.centro = false;
+                    if (ficha1=="b")
+                    {
+                        PartidaCargada.Filas[centrof1].columnas[centroc1].color = "";
+                    }
+                    if (ficha2 == "b")
+                    {
+                        PartidaCargada.Filas[centrof1].columnas[centroc2].color = "";
+                    }
+                    if (ficha3 == "b")
+                    {
+                        PartidaCargada.Filas[centrof2].columnas[centroc1].color = "";
+                    }
+                    if (ficha4 == "b")
+                    {
+                        PartidaCargada.Filas[centrof2].columnas[centroc2].color = "";
+                    }
+                }
+            }
+            else
+            {
+                PartidaCargada = Funciones.Movimientos(PartidaCargada);
+            }
             object[] objeto = Funciones.ComprobarCasillas(PartidaCargada);
             bool respuesta = (bool)objeto[1];
             if (respuesta)
             {
                 PartidaCargada = (PartidaViewModel)objeto[0];
-                PartidaCargada = Funciones.Movimientos(PartidaCargada);
+                if (PartidaCargada.centro)
+                {
+                    PartidaCargada = Funciones.Movimientos(PartidaCargada);
+                }
                 PartidaCargada = Funciones.Punteos(PartidaCargada);
                 cargar = true;
                 return RedirectToAction("Partida", "Partida", new { N = 8, M = 8 });
             }
-            return RedirectToAction("Index", "Partida", new { mensaje = "Error en estructura de la partida" });
+            if (Tpartida == "Normal")
+            {
+                return RedirectToAction("Index", "Partida", new { mensaje = "Error en estructura de la partida" });
+            }
+            else
+            {
+                return RedirectToAction("Xtream", "Partida", new { mensaje = "Error en estructura de la partida" });
+            }
+            
         }
 
         public ActionResult GuardarPartida(int nombre)
@@ -589,11 +741,11 @@ namespace ProyectoIPC22011903872.Controllers
                 return RedirectToAction("Login", "User");
             }
             PartidaViewModel partida = new PartidaViewModel();
-            foreach (var part in modelo.partidas)
+            foreach (var parti in modelo.partidas)
             {
-                if (part.nombre == nombre)
+                if (parti.nombre == nombre)
                 {
-                    partida = part;
+                    partida = parti;
                     break;
                 }
             }
@@ -606,7 +758,29 @@ namespace ProyectoIPC22011903872.Controllers
             }
             XDocument documento = new XDocument(new XDeclaration("1.0", "utf-8", null));
             XElement Raiz = new XElement("tablero");
-            documento.Add(Raiz);
+            XElement part = new XElement("partida");
+            XElement alto = new XElement("filas",partida.N);
+            XElement ancho = new XElement("columnas", partida.M);
+            XElement mod = new XElement("Modalidad", partida.modalidad);
+            XElement Cj1 = new XElement("Jugador1");
+            XElement Cj2 = new XElement("Jugador2");
+
+            documento.Add(part);
+            part.Add(alto);
+            part.Add(ancho);
+            part.Add(Cj1);
+            part.Add(Cj2);
+            part.Add(mod);
+            foreach (var color1 in partida.colores_jugador1)
+            {
+                XElement c = new XElement("color", color1);
+                Cj1.Add(c);
+            }
+            foreach (var color1 in partida.colores_jugador2)
+            {
+                XElement c = new XElement("color", color1);
+                Cj2.Add(c);
+            }
             foreach (var fila in partida.Filas)
             {
                 foreach (var columna in fila.columnas)
@@ -628,7 +802,7 @@ namespace ProyectoIPC22011903872.Controllers
             XElement color = new XElement("color", partida.siguiente_tiro);
             siguiente.Add(color);
             Raiz.Add(siguiente);
-
+            part.Add(Raiz);
             documento.Save(path);
             return RedirectToAction("Index", "Partida", new { mensaje = "Partida Guardada" });
         }

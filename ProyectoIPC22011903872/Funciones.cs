@@ -51,7 +51,7 @@ namespace ProyectoIPC22011903872
             double PM = 100 / ((double)M + 2);
             partida.NP = PN + "%";
             partida.MP = PM + "%";
-            if (TipoPartida == "xtream")
+            if (TipoPartida == "Xtream")
             {
                 siguiente = partida.colores_jugador1[0];
             }
@@ -74,7 +74,7 @@ namespace ProyectoIPC22011903872
 
                     if (j == centroC1 && i == centroF1)
                     {
-                        if (TipoPartida == "xtream")
+                        if (TipoPartida == "Xtream")
                         {
                             col.color = "";
                         }
@@ -85,7 +85,7 @@ namespace ProyectoIPC22011903872
                     }
                     else if (j == centroC2 && i == centroF1)
                     {
-                        if (TipoPartida == "xtream")
+                        if (TipoPartida == "Xtream")
                         {
                             col.color = "";
                         }
@@ -96,7 +96,7 @@ namespace ProyectoIPC22011903872
                     }
                     else if (j == centroC1 && i == centroF2)
                     {
-                        if (TipoPartida == "xtream")
+                        if (TipoPartida == "Xtream")
                         {
                             col.color = "";
                         }
@@ -107,7 +107,7 @@ namespace ProyectoIPC22011903872
                     }
                     else if (j == centroC2 && i == centroF2)
                     {
-                        if (TipoPartida == "xtream")
+                        if (TipoPartida == "Xtream")
                         {
                             col.color = "";
                         }
@@ -125,7 +125,7 @@ namespace ProyectoIPC22011903872
                 }
                 partida.Filas.Add(fila);
             }
-            if (TipoPartida!= "xtream")
+            if (TipoPartida!= "Xtream")
             {
                 partida = Movimientos(partida);
             }
@@ -1401,6 +1401,7 @@ namespace ProyectoIPC22011903872
             var centroF2 = (N / 2);
             var centroC1 = (M / 2) - 1;
             var centroC2 = (M / 2);
+
             List<List<bool>> mapa = new List<List<bool>>();
             foreach (var fil in partida.Filas)
             {
@@ -1415,1148 +1416,1158 @@ namespace ProyectoIPC22011903872
             var c = centroC1;
             object[] res;
             var centro = true;
-            /*sector 1*/
-            while (f >= 0)
+            if (partida.centro)
             {
-                c = centroC1;
-
-                while (c >= 0)
+                /*sector 1*/
+                while (f >= 0)
                 {
-                    var col = partida.Filas[f].columnas[c];
-                    if (c == centroC1 && f == centroF1)
+                    c = centroC1;
+
+                    while (c >= 0)
                     {
-                        if (col.color == "" || col.color == "b")
+                        var col = partida.Filas[f].columnas[c];
+                        if (c == centroC1 && f == centroF1)
                         {
-                            centro = false;
+                            if (col.color == "" || col.color == "b")
+                            {
+                                centro = false;
+                            }
+                            else
+                            {
+                                var colA = partida.Filas[f - 1].columnas[c];
+                                var colI = partida.Filas[f].columnas[c - 1];
+                                var colAI = partida.Filas[f - 1].columnas[c - 1];
+                                if (colA.color != "" && colA.color != "b")
+                                {
+                                    mapa[f - 1][c] = true;
+                                }
+                                if (colI.color != "" && colI.color != "b")
+                                {
+                                    mapa[f][c - 1] = true;
+                                }
+                                if (colAI.color != "" && colAI.color != "b")
+                                {
+                                    mapa[f - 1][c - 1] = true;
+                                }
+                                mapa[f][c] = true;
+                            }
                         }
-                        else
+                        else if (c > 0 && f > 0 && c < centroC1 && f < centroF1 && col.color != "" && col.color != "b")
                         {
                             var colA = partida.Filas[f - 1].columnas[c];
-                            var colI = partida.Filas[f].columnas[c - 1];
-                            var colAI = partida.Filas[f - 1].columnas[c - 1];
-                            if (colA.color != "" && colA.color != "b")
-                            {
-                                mapa[f - 1][c] = true;
-                            }
-                            if (colI.color != "" && colI.color != "b")
-                            {
-                                mapa[f][c - 1] = true;
-                            }
-                            if (colAI.color != "" && colAI.color != "b")
-                            {
-                                mapa[f - 1][c - 1] = true;
-                            }
-                            mapa[f][c] = true;
-                        }
-                    }
-                    else if (c > 0 && f > 0 && c < centroC1 && f < centroF1 && col.color != "" && col.color != "b")
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-
-                    }
-                    else if (c > 0 && f == 3 && c < centroC1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if (c == 0 && f == 0)
-                    {
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        if (mapa[f][c])
-                        {
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if (c == centroC1 && f == 0)
-                    {
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if (c == 0 && f == centroF1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if (c == centroC1 && f > 0 && f < centroF1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-
-                    }
-                    else if (c == 0 && f > 0 && f < centroF1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-
-                    }
-                    else if (f == 0 && c > 0 && c < centroC1)
-                    {
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-
-                    }
-                    if (!centro)
-                    {
-                        res = new object[] { partida, false };
-                        return res;
-                    }
-                    c--;
-                }
-                f--;
-            }
-            /*sector2*/
-            c = centroC1;
-            f = centroF2;
-            while (f <= N - 1)
-            {
-                c = centroC1;
-
-                while (c >= 0)
-                {
-                    var col = partida.Filas[f].columnas[c];
-                    if (c == centroC1 && f == centroF2)
-                    {
-                        if (col.color == "" || col.color == "b")
-                        {
-                            centro = false;
-                        }
-                        else
-                        {
                             var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
                             var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
                             var colBI = partida.Filas[f + 1].columnas[c - 1];
-                            if (colB.color != "" && colB.color != "b")
+                            if (mapa[f][c])
                             {
-                                mapa[f + 1][c] = true;
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
-                            if (colI.color != "" && colI.color != "b")
-                            {
-                                mapa[f][c - 1] = true;
-                            }
-                            if (colBI.color != "" && colBI.color != "b")
-                            {
-                                mapa[f + 1][c - 1] = true;
-                            }
-                            mapa[f][c] = true;
-                        }
-                    }
-                    else if (c == 0 && f == centroF2)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if (c == centroC1 && f == N - 1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if (c == 0 && f == N - 1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if (c > 0 && f > centroF2 && c < centroC1 && f < N - 1 && col.color != "" && col.color != "b")
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
 
-                    }
-                    else if (c > 0 && f == N - 1 && c < centroC1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colI.color != "b" && colAI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colAD.color != "") { mapa[f][c + 1] = true; }
                         }
-
-                    }
-                    else if (c == centroC1 && f > centroF2 && f < N - 1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-
-                    }
-                    else if (c == 0 && f > centroF2 && f < N - 1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-
-                    }
-                    else if (f == centroF2 && c > 0 && c < centroC1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-
-                    }
-
-                    if (!centro)
-                    {
-                        res = new object[] { partida, false };
-                        return res;
-                    }
-                    c--;
-                }
-                f++;
-            }
-            /*sector3*/
-            c = centroC2;
-            f = centroF1;
-            while (f >= 0)
-            {
-                c = centroC2;
-                while (c <= M - 1)
-                {
-                    var col = partida.Filas[f].columnas[c];
-                    if (c == centroC2 && f == centroF1)
-                    {
-                        if (col.color == "" || col.color == "b")
-                        {
-                            centro = false;
-                        }
-                        else
+                        else if (c > 0 && f == 3 && c < centroC1)
                         {
                             var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
                             var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
                             var colAD = partida.Filas[f - 1].columnas[c + 1];
-                            if (colA.color != "" && colA.color != "b")
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
                             {
-                                mapa[f - 1][c] = true;
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
-                            if (colD.color != "" && colD.color != "b")
-                            {
-                                mapa[f][c + 1] = true;
-                            }
-                            if (colAD.color != "" && colAD.color != "b")
-                            {
-                                mapa[f - 1][c + 1] = true;
-                            }
-                            mapa[f][c] = true;
                         }
-                    }
-                    else if (c == centroC2 && f == 0)
-                    {
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if (c == M - 1 && f == 0)
-                    {
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                        }
-                    }
-                    else if (c == M - 1 && f == centroF1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                        }
-                    }
-                    else if (c > centroC2 && f > 0 && c < M - 1 && f < centroF1 && col.color != "" && col.color != "b")
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-
-                    }
-                    else if (c > centroC2 && f == centroF1 && c < M - 1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-
-                    }
-                    else if (c == M - 1 && f > 0 && f < centroF1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                        }
-
-                    }
-                    else if (c == centroC2 && f > 0 && f < centroF1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-
-                    }
-                    else if (f == 0 && c > 0 && c < M - 1)
-                    {
-                        var colA = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f + 1].columnas[c + 1];
-                        var colAI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f + 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-
-                    }
-
-                    if (!centro)
-                    {
-                        res = new object[] { partida, false };
-                        return res;
-                    }
-                    c++;
-                }
-                f--;
-            }
-            /*sector4*/
-            c = centroC2;
-            f = centroF2;
-            while (f <= N - 1)
-            {
-                c = centroC2;
-                while (c <= M - 1)
-                {
-                    var col = partida.Filas[f].columnas[c];
-                    if (c == centroC2 && f == centroF2)
-                    {
-                        if (col.color == "" || col.color == "b")
-                        {
-                            centro = false;
-                        }
-                        else
+                        else if (c == 0 && f == 0)
                         {
                             var colB = partida.Filas[f + 1].columnas[c];
                             var colD = partida.Filas[f].columnas[c + 1];
                             var colBD = partida.Filas[f + 1].columnas[c + 1];
-                            if (colB.color != "" && colB.color != "b")
+                            if (mapa[f][c])
                             {
-                                mapa[f + 1][c] = true;
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
-                            if (colD.color != "" && colD.color != "b")
+                        }
+                        else if (c == centroC1 && f == 0)
+                        {
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
                             {
-                                mapa[f][c + 1] = true;
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
-                            if (colBD.color != "" && colBD.color != "b")
+                        }
+                        else if (c == 0 && f == centroF1)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            if (mapa[f][c])
                             {
-                                mapa[f + 1][c + 1] = true;
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
-                            mapa[f][c] = true;
                         }
-                    }
-                    else if (c == centroC2 && f == N - 1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        if (mapa[f][c])
+                        else if (c == centroC1 && f > 0 && f < centroF1)
                         {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
-                    }
-                    else if (c == M - 1 && f == N - 1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                        }
-                    }
-                    else if (c == M - 1 && f == centroF2)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                        }
-                    }
-                    else if (c > centroC2 && f > centroF2 && c < M - 1 && f < N - 1 && col.color != "" && col.color != "b")
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
 
-                    }
-                    else if (c > centroC2 && f == N - 1 && c < M - 1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        if (mapa[f][c])
-                        {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colI.color != "b" && colAI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colAD.color != "") { mapa[f][c + 1] = true; }
                         }
-
-                    }
-                    else if (c == M - 1 && f > centroF2 && f < N - 1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
+                        else if (c == 0 && f > 0 && f < centroF1)
                         {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                        }
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
 
-                    }
-                    else if (c == centroC2 && f > centroF2 && f < N - 1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
+                        }
+                        else if (f == 0 && c > 0 && c < centroC1)
                         {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
-                        }
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
 
-                    }
-                    else if (f == centroF2 && c > centroC2 && c < M - 1)
-                    {
-                        var colA = partida.Filas[f - 1].columnas[c];
-                        var colB = partida.Filas[f + 1].columnas[c];
-                        var colD = partida.Filas[f].columnas[c + 1];
-                        var colI = partida.Filas[f].columnas[c - 1];
-                        var colAD = partida.Filas[f - 1].columnas[c + 1];
-                        var colAI = partida.Filas[f - 1].columnas[c - 1];
-                        var colBD = partida.Filas[f + 1].columnas[c + 1];
-                        var colBI = partida.Filas[f + 1].columnas[c - 1];
-                        if (mapa[f][c])
+                        }
+                        if (!centro)
                         {
-                            if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
-                            if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
-                            if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
-                            if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
-                            if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
-                            if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
-                            if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
-                            if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            res = new object[] { partida, false };
+                            return res;
                         }
+                        c--;
                     }
-
-                    if (!centro)
-                    {
-                        res = new object[] { partida, false };
-                        return res;
-                    }
-                    c++;
+                    f--;
                 }
-                f++;
-            }
-            /*Comprobando fichas validas*/
-            f = 0;
-            c = 0;
-            while (f <= N - 1)
-            {
-                c = 0;
-                while (c <= M - 1)
+                /*sector2*/
+                c = centroC1;
+                f = centroF2;
+                while (f <= N - 1)
                 {
-                    if (mapa[f][c] == true)
+                    c = centroC1;
+
+                    while (c >= 0)
                     {
-                        if (f == centroF1 && c == centroC1)
+                        var col = partida.Filas[f].columnas[c];
+                        if (c == centroC1 && f == centroF2)
                         {
-                            c++;
-                            continue;
-                        }
-                        else if (f == centroF1 && c == centroC2)
-                        {
-                            c++;
-                            continue;
-                        }
-                        else if (f == centroF2 && c == centroC1)
-                        {
-                            c++;
-                            continue;
-                        }
-                        else if (f == centroF2 && c == centroC2)
-                        {
-                            c++;
-                            continue;
-                        }
-                        else if (f > 1 && f < N - 2 && c < M - 2 && c > 1)
-                        {
-                            var d1 = mapa[f][c + 1];
-                            var d2 = mapa[f][c + 2];
-                            var i1 = mapa[f][c - 1];
-                            var i2 = mapa[f][c - 2];
-                            var b1 = mapa[f + 1][c];
-                            var b2 = mapa[f + 2][c];
-                            var bi1 = mapa[f + 1][c - 1];
-                            var bi2 = mapa[f + 2][c - 2];
-                            var bd1 = mapa[f + 1][c + 1];
-                            var bd2 = mapa[f + 2][c + 2];
-                            var ai1 = mapa[f - 1][c - 1];
-                            var ai2 = mapa[f - 2][c - 2];
-                            var a1 = mapa[f - 1][c];
-                            var a2 = mapa[f - 2][c];
-                            var ad1 = mapa[f - 1][c + 1];
-                            var ad2 = mapa[f - 2][c + 2];
-                            if (bi1 && bi2)
+                            if (col.color == "" || col.color == "b")
                             {
-                                c++;
-                                continue;
-                            }
-                            else if (bd1 && bd2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (b1 && b2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (a1 && a2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (ai1 && ai2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (ad1 && ad2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (d1 && d2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (i1 && i2)
-                            {
-                                c++;
-                                continue;
+                                centro = false;
                             }
                             else
                             {
-                                mapa[f][c] = false;
+                                var colB = partida.Filas[f + 1].columnas[c];
+                                var colI = partida.Filas[f].columnas[c - 1];
+                                var colBI = partida.Filas[f + 1].columnas[c - 1];
+                                if (colB.color != "" && colB.color != "b")
+                                {
+                                    mapa[f + 1][c] = true;
+                                }
+                                if (colI.color != "" && colI.color != "b")
+                                {
+                                    mapa[f][c - 1] = true;
+                                }
+                                if (colBI.color != "" && colBI.color != "b")
+                                {
+                                    mapa[f + 1][c - 1] = true;
+                                }
+                                mapa[f][c] = true;
                             }
                         }
-                        else if (f >= 0 && f <= 1 && c <= 1 && c >= 0)
+                        else if (c == 0 && f == centroF2)
                         {
-                            var d1 = mapa[f][c + 1];
-                            var d2 = mapa[f][c + 2];
-                            var b1 = mapa[f + 1][c];
-                            var b2 = mapa[f + 2][c];
-                            var bd1 = mapa[f + 1][c + 1];
-                            var bd2 = mapa[f + 2][c + 2];
-                            if (bd1 && bd2)
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            if (mapa[f][c])
                             {
-                                c++;
-                                continue;
-                            }
-                            else if (b1 && b2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (d1 && d2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else
-                            {
-                                mapa[f][c] = false;
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
                         }
-                        else if (f >= 0 && f <= 1 && c <= M - 1 && c >= M - 2)
+                        else if (c == centroC1 && f == N - 1)
                         {
-                            var i1 = mapa[f][c - 1];
-                            var i2 = mapa[f][c - 2];
-                            var b1 = mapa[f + 1][c];
-                            var b2 = mapa[f + 2][c];
-                            var bi1 = mapa[f + 1][c - 1];
-                            var bi2 = mapa[f + 2][c - 2];
-                            if (bi1 && bi2)
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            if (mapa[f][c])
                             {
-                                c++;
-                                continue;
-                            }
-                            else if (b1 && b2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (i1 && i2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else
-                            {
-                                mapa[f][c] = false;
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
                         }
-                        else if (f >= N - 2 && f <= N - 1 && c <= 1 && c >= 0)
+                        else if (c == 0 && f == N - 1)
                         {
-                            var i1 = mapa[f][c + 1];
-                            var i2 = mapa[f][c + 2];
-                            var a1 = mapa[f - 1][c];
-                            var a2 = mapa[f - 2][c];
-                            var ad1 = mapa[f - 1][c + 1];
-                            var ad2 = mapa[f - 2][c + 2];
-                            if (a1 && a2)
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            if (mapa[f][c])
                             {
-                                c++;
-                                continue;
-                            }
-                            else if (ad1 && ad2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (i1 && i2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else
-                            {
-                                mapa[f][c] = false;
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
                         }
-                        else if (f >= N - 2 && f <= N - 1 && c <= M - 1 && c >= M - 2)
+                        else if (c > 0 && f > centroF2 && c < centroC1 && f < N - 1 && col.color != "" && col.color != "b")
                         {
-                            var i1 = mapa[f][c - 1];
-                            var i2 = mapa[f][c - 2];
-                            var ai1 = mapa[f - 1][c - 1];
-                            var ai2 = mapa[f - 2][c - 2];
-                            var a1 = mapa[f - 1][c];
-                            var a2 = mapa[f - 2][c];
-                            if (a1 && a2)
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
                             {
-                                c++;
-                                continue;
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
-                            else if (ai1 && ai2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (i1 && i2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else
-                            {
-                                mapa[f][c] = false;
-                            }
+
                         }
-                        else if (f >= 0 && f <= 1 && c > 1 && c < 6)
+                        else if (c > 0 && f == N - 1 && c < centroC1)
                         {
-                            var d1 = mapa[f][c + 1];
-                            var d2 = mapa[f][c + 2];
-                            var i1 = mapa[f][c - 1];
-                            var i2 = mapa[f][c - 2];
-                            var b1 = mapa[f + 1][c];
-                            var b2 = mapa[f + 2][c];
-                            var bi1 = mapa[f + 1][c - 1];
-                            var bi2 = mapa[f + 2][c - 2];
-                            var bd1 = mapa[f + 1][c + 1];
-                            var bd2 = mapa[f + 2][c + 2];
-                            if (bi1 && bi2)
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            if (mapa[f][c])
                             {
-                                c++;
-                                continue;
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colI.color != "b" && colAI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colAD.color != "") { mapa[f][c + 1] = true; }
                             }
-                            else if (bd1 && bd2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (b1 && b2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (d1 && d2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (i1 && i2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else
-                            {
-                                mapa[f][c] = false;
-                            }
+
                         }
-                        else if (f >= N - 2 && f <= N - 1 && c < M - 2 && c > 1)
+                        else if (c == centroC1 && f > centroF2 && f < N - 1)
                         {
-                            var d1 = mapa[f][c + 1];
-                            var d2 = mapa[f][c + 2];
-                            var i1 = mapa[f][c - 1];
-                            var i2 = mapa[f][c - 2];
-                            var ai1 = mapa[f - 1][c - 1];
-                            var ai2 = mapa[f - 2][c - 2];
-                            var a1 = mapa[f - 1][c];
-                            var a2 = mapa[f - 2][c];
-                            var ad1 = mapa[f - 1][c + 1];
-                            var ad2 = mapa[f - 2][c + 2];
-                            if (a1 && a2)
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
                             {
-                                c++;
-                                continue;
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
-                            else if (ai1 && ai2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (ad1 && ad2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (d1 && d2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (i1 && i2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else
-                            {
-                                mapa[f][c] = false;
-                            }
+
                         }
-                        else if (f > 1 && f < N - 2 && c <= 1 && c >= 0)
+                        else if (c == 0 && f > centroF2 && f < N - 1)
                         {
-                            var d1 = mapa[f][c + 1];
-                            var d2 = mapa[f][c + 2];
-                            var b1 = mapa[f + 1][c];
-                            var b2 = mapa[f + 2][c];
-                            var bd1 = mapa[f + 1][c + 1];
-                            var bd2 = mapa[f + 2][c + 2];
-                            var a1 = mapa[f - 1][c];
-                            var a2 = mapa[f - 2][c];
-                            var ad1 = mapa[f - 1][c + 1];
-                            var ad2 = mapa[f - 2][c + 2];
-                            if (bd1 && bd2)
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            if (mapa[f][c])
                             {
-                                c++;
-                                continue;
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
-                            else if (b1 && b2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (a1 && a2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (ad1 && ad2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (d1 && d2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else
-                            {
-                                mapa[f][c] = false;
-                            }
+
                         }
-                        else if (f > 1 && f < N - 2 && c <= M - 1 && c >= M - 2)
+                        else if (f == centroF2 && c > 0 && c < centroC1)
                         {
-                            var i1 = mapa[f][c - 1];
-                            var i2 = mapa[f][c - 2];
-                            var b1 = mapa[f + 1][c];
-                            var b2 = mapa[f + 2][c];
-                            var bi1 = mapa[f + 1][c - 1];
-                            var bi2 = mapa[f + 2][c - 2];
-                            var ai1 = mapa[f - 1][c - 1];
-                            var ai2 = mapa[f - 2][c - 2];
-                            var a1 = mapa[f - 1][c];
-                            var a2 = mapa[f - 2][c];
-                            if (bi1 && bi2)
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
                             {
-                                c++;
-                                continue;
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
                             }
-                            else if (b1 && b2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (a1 && a2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (ai1 && ai2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else if (i1 && i2)
-                            {
-                                c++;
-                                continue;
-                            }
-                            else
-                            {
-                                mapa[f][c] = false;
-                            }
+
                         }
+
+                        if (!centro)
+                        {
+                            res = new object[] { partida, false };
+                            return res;
+                        }
+                        c--;
                     }
-                    c++;
+                    f++;
                 }
-                f++;
+                /*sector3*/
+                c = centroC2;
+                f = centroF1;
+                while (f >= 0)
+                {
+                    c = centroC2;
+                    while (c <= M - 1)
+                    {
+                        var col = partida.Filas[f].columnas[c];
+                        if (c == centroC2 && f == centroF1)
+                        {
+                            if (col.color == "" || col.color == "b")
+                            {
+                                centro = false;
+                            }
+                            else
+                            {
+                                var colA = partida.Filas[f - 1].columnas[c];
+                                var colD = partida.Filas[f].columnas[c + 1];
+                                var colAD = partida.Filas[f - 1].columnas[c + 1];
+                                if (colA.color != "" && colA.color != "b")
+                                {
+                                    mapa[f - 1][c] = true;
+                                }
+                                if (colD.color != "" && colD.color != "b")
+                                {
+                                    mapa[f][c + 1] = true;
+                                }
+                                if (colAD.color != "" && colAD.color != "b")
+                                {
+                                    mapa[f - 1][c + 1] = true;
+                                }
+                                mapa[f][c] = true;
+                            }
+                        }
+                        else if (c == centroC2 && f == 0)
+                        {
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
+                        }
+                        else if (c == M - 1 && f == 0)
+                        {
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            }
+                        }
+                        else if (c == M - 1 && f == centroF1)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            }
+                        }
+                        else if (c > centroC2 && f > 0 && c < M - 1 && f < centroF1 && col.color != "" && col.color != "b")
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
+
+                        }
+                        else if (c > centroC2 && f == centroF1 && c < M - 1)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
+
+                        }
+                        else if (c == M - 1 && f > 0 && f < centroF1)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            }
+
+                        }
+                        else if (c == centroC2 && f > 0 && f < centroF1)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
+
+                        }
+                        else if (f == 0 && c > 0 && c < M - 1)
+                        {
+                            var colA = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f + 1].columnas[c + 1];
+                            var colAI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f + 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
+
+                        }
+
+                        if (!centro)
+                        {
+                            res = new object[] { partida, false };
+                            return res;
+                        }
+                        c++;
+                    }
+                    f--;
+                }
+                /*sector4*/
+                c = centroC2;
+                f = centroF2;
+                while (f <= N - 1)
+                {
+                    c = centroC2;
+                    while (c <= M - 1)
+                    {
+                        var col = partida.Filas[f].columnas[c];
+                        if (c == centroC2 && f == centroF2)
+                        {
+                            if (col.color == "" || col.color == "b")
+                            {
+                                centro = false;
+                            }
+                            else
+                            {
+                                var colB = partida.Filas[f + 1].columnas[c];
+                                var colD = partida.Filas[f].columnas[c + 1];
+                                var colBD = partida.Filas[f + 1].columnas[c + 1];
+                                if (colB.color != "" && colB.color != "b")
+                                {
+                                    mapa[f + 1][c] = true;
+                                }
+                                if (colD.color != "" && colD.color != "b")
+                                {
+                                    mapa[f][c + 1] = true;
+                                }
+                                if (colBD.color != "" && colBD.color != "b")
+                                {
+                                    mapa[f + 1][c + 1] = true;
+                                }
+                                mapa[f][c] = true;
+                            }
+                        }
+                        else if (c == centroC2 && f == N - 1)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
+                        }
+                        else if (c == M - 1 && f == N - 1)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            }
+                        }
+                        else if (c == M - 1 && f == centroF2)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            }
+                        }
+                        else if (c > centroC2 && f > centroF2 && c < M - 1 && f < N - 1 && col.color != "" && col.color != "b")
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
+
+                        }
+                        else if (c > centroC2 && f == N - 1 && c < M - 1)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colI.color != "b" && colAI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colAD.color != "") { mapa[f][c + 1] = true; }
+                            }
+
+                        }
+                        else if (c == M - 1 && f > centroF2 && f < N - 1)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                            }
+
+                        }
+                        else if (c == centroC2 && f > centroF2 && f < N - 1)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
+
+                        }
+                        else if (f == centroF2 && c > centroC2 && c < M - 1)
+                        {
+                            var colA = partida.Filas[f - 1].columnas[c];
+                            var colB = partida.Filas[f + 1].columnas[c];
+                            var colD = partida.Filas[f].columnas[c + 1];
+                            var colI = partida.Filas[f].columnas[c - 1];
+                            var colAD = partida.Filas[f - 1].columnas[c + 1];
+                            var colAI = partida.Filas[f - 1].columnas[c - 1];
+                            var colBD = partida.Filas[f + 1].columnas[c + 1];
+                            var colBI = partida.Filas[f + 1].columnas[c - 1];
+                            if (mapa[f][c])
+                            {
+                                if (colA.color != "b" && colA.color != "") { mapa[f - 1][c] = true; }
+                                if (colAI.color != "b" && colAI.color != "") { mapa[f - 1][c - 1] = true; }
+                                if (colAD.color != "b" && colAD.color != "") { mapa[f - 1][c + 1] = true; }
+                                if (colB.color != "b" && colB.color != "") { mapa[f + 1][c] = true; }
+                                if (colBI.color != "b" && colBI.color != "") { mapa[f + 1][c - 1] = true; }
+                                if (colBD.color != "b" && colBD.color != "") { mapa[f + 1][c + 1] = true; }
+                                if (colI.color != "b" && colI.color != "") { mapa[f][c - 1] = true; }
+                                if (colD.color != "b" && colD.color != "") { mapa[f][c + 1] = true; }
+                            }
+                        }
+
+                        if (!centro)
+                        {
+                            res = new object[] { partida, false };
+                            return res;
+                        }
+                        c++;
+                    }
+                    f++;
+                }
+                /*Comprobando fichas validas*/
+                f = 0;
+                c = 0;
+                while (f <= N - 1)
+                {
+                    c = 0;
+                    while (c <= M - 1)
+                    {
+                        if (mapa[f][c] == true)
+                        {
+                            if (f == centroF1 && c == centroC1)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (f == centroF1 && c == centroC2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (f == centroF2 && c == centroC1)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (f == centroF2 && c == centroC2)
+                            {
+                                c++;
+                                continue;
+                            }
+                            else if (f > 1 && f < N - 2 && c < M - 2 && c > 1)
+                            {
+                                var d1 = mapa[f][c + 1];
+                                var d2 = mapa[f][c + 2];
+                                var i1 = mapa[f][c - 1];
+                                var i2 = mapa[f][c - 2];
+                                var b1 = mapa[f + 1][c];
+                                var b2 = mapa[f + 2][c];
+                                var bi1 = mapa[f + 1][c - 1];
+                                var bi2 = mapa[f + 2][c - 2];
+                                var bd1 = mapa[f + 1][c + 1];
+                                var bd2 = mapa[f + 2][c + 2];
+                                var ai1 = mapa[f - 1][c - 1];
+                                var ai2 = mapa[f - 2][c - 2];
+                                var a1 = mapa[f - 1][c];
+                                var a2 = mapa[f - 2][c];
+                                var ad1 = mapa[f - 1][c + 1];
+                                var ad2 = mapa[f - 2][c + 2];
+                                if (bi1 && bi2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (bd1 && bd2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (b1 && b2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (a1 && a2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (ai1 && ai2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (ad1 && ad2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (d1 && d2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (i1 && i2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else
+                                {
+                                    mapa[f][c] = false;
+                                }
+                            }
+                            else if (f >= 0 && f <= 1 && c <= 1 && c >= 0)
+                            {
+                                var d1 = mapa[f][c + 1];
+                                var d2 = mapa[f][c + 2];
+                                var b1 = mapa[f + 1][c];
+                                var b2 = mapa[f + 2][c];
+                                var bd1 = mapa[f + 1][c + 1];
+                                var bd2 = mapa[f + 2][c + 2];
+                                if (bd1 && bd2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (b1 && b2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (d1 && d2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else
+                                {
+                                    mapa[f][c] = false;
+                                }
+                            }
+                            else if (f >= 0 && f <= 1 && c <= M - 1 && c >= M - 2)
+                            {
+                                var i1 = mapa[f][c - 1];
+                                var i2 = mapa[f][c - 2];
+                                var b1 = mapa[f + 1][c];
+                                var b2 = mapa[f + 2][c];
+                                var bi1 = mapa[f + 1][c - 1];
+                                var bi2 = mapa[f + 2][c - 2];
+                                if (bi1 && bi2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (b1 && b2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (i1 && i2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else
+                                {
+                                    mapa[f][c] = false;
+                                }
+                            }
+                            else if (f >= N - 2 && f <= N - 1 && c <= 1 && c >= 0)
+                            {
+                                var i1 = mapa[f][c + 1];
+                                var i2 = mapa[f][c + 2];
+                                var a1 = mapa[f - 1][c];
+                                var a2 = mapa[f - 2][c];
+                                var ad1 = mapa[f - 1][c + 1];
+                                var ad2 = mapa[f - 2][c + 2];
+                                if (a1 && a2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (ad1 && ad2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (i1 && i2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else
+                                {
+                                    mapa[f][c] = false;
+                                }
+                            }
+                            else if (f >= N - 2 && f <= N - 1 && c <= M - 1 && c >= M - 2)
+                            {
+                                var i1 = mapa[f][c - 1];
+                                var i2 = mapa[f][c - 2];
+                                var ai1 = mapa[f - 1][c - 1];
+                                var ai2 = mapa[f - 2][c - 2];
+                                var a1 = mapa[f - 1][c];
+                                var a2 = mapa[f - 2][c];
+                                if (a1 && a2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (ai1 && ai2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (i1 && i2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else
+                                {
+                                    mapa[f][c] = false;
+                                }
+                            }
+                            else if (f >= 0 && f <= 1 && c > 1 && c < 6)
+                            {
+                                var d1 = mapa[f][c + 1];
+                                var d2 = mapa[f][c + 2];
+                                var i1 = mapa[f][c - 1];
+                                var i2 = mapa[f][c - 2];
+                                var b1 = mapa[f + 1][c];
+                                var b2 = mapa[f + 2][c];
+                                var bi1 = mapa[f + 1][c - 1];
+                                var bi2 = mapa[f + 2][c - 2];
+                                var bd1 = mapa[f + 1][c + 1];
+                                var bd2 = mapa[f + 2][c + 2];
+                                if (bi1 && bi2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (bd1 && bd2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (b1 && b2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (d1 && d2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (i1 && i2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else
+                                {
+                                    mapa[f][c] = false;
+                                }
+                            }
+                            else if (f >= N - 2 && f <= N - 1 && c < M - 2 && c > 1)
+                            {
+                                var d1 = mapa[f][c + 1];
+                                var d2 = mapa[f][c + 2];
+                                var i1 = mapa[f][c - 1];
+                                var i2 = mapa[f][c - 2];
+                                var ai1 = mapa[f - 1][c - 1];
+                                var ai2 = mapa[f - 2][c - 2];
+                                var a1 = mapa[f - 1][c];
+                                var a2 = mapa[f - 2][c];
+                                var ad1 = mapa[f - 1][c + 1];
+                                var ad2 = mapa[f - 2][c + 2];
+                                if (a1 && a2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (ai1 && ai2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (ad1 && ad2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (d1 && d2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (i1 && i2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else
+                                {
+                                    mapa[f][c] = false;
+                                }
+                            }
+                            else if (f > 1 && f < N - 2 && c <= 1 && c >= 0)
+                            {
+                                var d1 = mapa[f][c + 1];
+                                var d2 = mapa[f][c + 2];
+                                var b1 = mapa[f + 1][c];
+                                var b2 = mapa[f + 2][c];
+                                var bd1 = mapa[f + 1][c + 1];
+                                var bd2 = mapa[f + 2][c + 2];
+                                var a1 = mapa[f - 1][c];
+                                var a2 = mapa[f - 2][c];
+                                var ad1 = mapa[f - 1][c + 1];
+                                var ad2 = mapa[f - 2][c + 2];
+                                if (bd1 && bd2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (b1 && b2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (a1 && a2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (ad1 && ad2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (d1 && d2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else
+                                {
+                                    mapa[f][c] = false;
+                                }
+                            }
+                            else if (f > 1 && f < N - 2 && c <= M - 1 && c >= M - 2)
+                            {
+                                var i1 = mapa[f][c - 1];
+                                var i2 = mapa[f][c - 2];
+                                var b1 = mapa[f + 1][c];
+                                var b2 = mapa[f + 2][c];
+                                var bi1 = mapa[f + 1][c - 1];
+                                var bi2 = mapa[f + 2][c - 2];
+                                var ai1 = mapa[f - 1][c - 1];
+                                var ai2 = mapa[f - 2][c - 2];
+                                var a1 = mapa[f - 1][c];
+                                var a2 = mapa[f - 2][c];
+                                if (bi1 && bi2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (b1 && b2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (a1 && a2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (ai1 && ai2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else if (i1 && i2)
+                                {
+                                    c++;
+                                    continue;
+                                }
+                                else
+                                {
+                                    mapa[f][c] = false;
+                                }
+                            }
+                        }
+                        c++;
+                    }
+                    f++;
+                }
+            }
+            else
+            {
+                mapa[centroF1][centroC1] = true;
+                mapa[centroF1][centroC2] = true;
+                mapa[centroF2][centroC1] = true;
+                mapa[centroF2][centroC2] = true;
             }
             /*Verificando validez*/
             var i = 0;
