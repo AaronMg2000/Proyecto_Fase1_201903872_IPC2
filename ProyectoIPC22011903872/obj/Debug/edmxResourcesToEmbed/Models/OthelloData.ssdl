@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OthelloModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Othello.dbo.DETALLE_EQUIPO' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="DETALLE_EQUIPO">
+    <Key>
+      <PropertyRef Name="Codigo_equipo" />
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Codigo_equipo" Type="int" Nullable="false" />
+    <Property Name="Codigo_Usuario" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ENCUENTRO">
+    <Key>
+      <PropertyRef Name="Codigo_Encuentro" />
+    </Key>
+    <Property Name="Codigo_Encuentro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo_Equipo1" Type="int" Nullable="false" />
+    <Property Name="Codigo_Equipo2" Type="int" Nullable="false" />
+    <Property Name="Numero_Fase" Type="int" Nullable="false" />
+    <Property Name="Ganador" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Punteo_Equipo1" Type="int" Nullable="false" />
+    <Property Name="Punteo_Equipo2" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EQUIPO">
+    <Key>
+      <PropertyRef Name="Codigo_Equipo" />
+    </Key>
+    <Property Name="Codigo_Equipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo_Torneo" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="PUNTEO" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MODO">
+    <Key>
+      <PropertyRef Name="Codigo_MODO" />
+    </Key>
+    <Property Name="Codigo_MODO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PAIS">
+    <Key>
+      <PropertyRef Name="codigo_Pais" />
+    </Key>
+    <Property Name="codigo_Pais" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="100" />
+    <Property Name="ISO3" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="PARTIDA">
+    <Key>
+      <PropertyRef Name="Codigo_Partida" />
+    </Key>
+    <Property Name="Codigo_Partida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo_Usuario_1" Type="int" Nullable="false" />
+    <Property Name="ResultadoLocal" Type="varchar" MaxLength="50" />
+    <Property Name="TIPO" Type="int" Nullable="false" />
+    <Property Name="MODO" Type="int" Nullable="false" />
+    <Property Name="CONTRINCANTE" Type="int" Nullable="false" />
+    <Property Name="Punteo_1" Type="int" />
+    <Property Name="Punteo_2" Type="int" />
+    <Property Name="movimientos_1" Type="int" />
+    <Property Name="movimientos_2" Type="int" />
+    <Property Name="Tiempo_Jugador1" Type="varchar" MaxLength="20" />
+    <Property Name="Tiempo_Jugador2" Type="varchar" MaxLength="20" />
+    <Property Name="Fecha" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PARTIDA_TORNEO">
+    <Key>
+      <PropertyRef Name="Codigo" />
+    </Key>
+    <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo_Encuentro" Type="int" Nullable="false" />
+    <Property Name="Codigo_Usuario_1" Type="int" Nullable="false" />
+    <Property Name="Codigo_Usuario_2" Type="int" />
+    <Property Name="ResultadoLocal" Type="varchar" MaxLength="50" />
+    <Property Name="Punteo_1" Type="int" />
+    <Property Name="Punteo_2" Type="int" />
+    <Property Name="movimientos_1" Type="int" />
+    <Property Name="movimientos_2" Type="int" />
+    <Property Name="Tiempo_Jugador1" Type="varchar" MaxLength="20" />
+    <Property Name="Tiempo_Jugador2" Type="varchar" MaxLength="20" />
+    <Property Name="Fecha" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TIPO_CONTRINCANTE">
+    <Key>
+      <PropertyRef Name="Codigo_Tipo_Contrincante" />
+    </Key>
+    <Property Name="Codigo_Tipo_Contrincante" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TIPO_PARTIDA">
+    <Key>
+      <PropertyRef Name="Codigo_Tipo_Partida" />
+    </Key>
+    <Property Name="Codigo_Tipo_Partida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TIPO_TORNEO">
+    <Key>
+      <PropertyRef Name="Codigo_Tipo_Torneo" />
+    </Key>
+    <Property Name="Codigo_Tipo_Torneo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Numero_participantes" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TORNEO">
+    <Key>
+      <PropertyRef Name="Codigo_Torneo" />
+    </Key>
+    <Property Name="Codigo_Torneo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="TIPO" Type="int" Nullable="false" />
+    <Property Name="fecha_inicio" Type="date" Nullable="false" />
+    <Property Name="Ganador" Type="int" />
+  </EntityType>
+  <EntityType Name="USUARIO">
+    <Key>
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Codigo_Usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo_Pais" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Usuario" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Contraseña" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Fecha_nacimiento" Type="date" Nullable="false" />
+    <Property Name="Correo_Electronico" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__DETALLE_E__Codig__37A5467C">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="DETALLE_EQUIPO" Type="Self.DETALLE_EQUIPO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Principal>
+      <Dependent Role="DETALLE_EQUIPO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DETALLE_E__Codig__38996AB5">
+    <End Role="EQUIPO" Type="Self.EQUIPO" Multiplicity="1" />
+    <End Role="DETALLE_EQUIPO" Type="Self.DETALLE_EQUIPO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EQUIPO">
+        <PropertyRef Name="Codigo_Equipo" />
+      </Principal>
+      <Dependent Role="DETALLE_EQUIPO">
+        <PropertyRef Name="Codigo_equipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ENCUENTRO__Codig__3B75D760">
+    <End Role="EQUIPO" Type="Self.EQUIPO" Multiplicity="1" />
+    <End Role="ENCUENTRO" Type="Self.ENCUENTRO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EQUIPO">
+        <PropertyRef Name="Codigo_Equipo" />
+      </Principal>
+      <Dependent Role="ENCUENTRO">
+        <PropertyRef Name="Codigo_Equipo1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ENCUENTRO__Codig__3C69FB99">
+    <End Role="EQUIPO" Type="Self.EQUIPO" Multiplicity="1" />
+    <End Role="ENCUENTRO" Type="Self.ENCUENTRO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EQUIPO">
+        <PropertyRef Name="Codigo_Equipo" />
+      </Principal>
+      <Dependent Role="ENCUENTRO">
+        <PropertyRef Name="Codigo_Equipo2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__EQUIPO__Codigo_T__35BCFE0A">
+    <End Role="TORNEO" Type="Self.TORNEO" Multiplicity="1" />
+    <End Role="EQUIPO" Type="Self.EQUIPO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TORNEO">
+        <PropertyRef Name="Codigo_Torneo" />
+      </Principal>
+      <Dependent Role="EQUIPO">
+        <PropertyRef Name="Codigo_Torneo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__Codigo___49C3F6B7">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="Codigo_Usuario_1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__CONTRIN__4BAC3F29">
+    <End Role="TIPO_CONTRINCANTE" Type="Self.TIPO_CONTRINCANTE" Multiplicity="1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TIPO_CONTRINCANTE">
+        <PropertyRef Name="Codigo_Tipo_Contrincante" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="CONTRINCANTE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__MODO__4CA06362">
+    <End Role="MODO" Type="Self.MODO" Multiplicity="1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MODO">
+        <PropertyRef Name="Codigo_MODO" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="MODO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__TIPO__4AB81AF0">
+    <End Role="TIPO_PARTIDA" Type="Self.TIPO_PARTIDA" Multiplicity="1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TIPO_PARTIDA">
+        <PropertyRef Name="Codigo_Tipo_Partida" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="TIPO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA_T__Codig__4316F928">
+    <End Role="ENCUENTRO" Type="Self.ENCUENTRO" Multiplicity="1" />
+    <End Role="PARTIDA_TORNEO" Type="Self.PARTIDA_TORNEO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ENCUENTRO">
+        <PropertyRef Name="Codigo_Encuentro" />
+      </Principal>
+      <Dependent Role="PARTIDA_TORNEO">
+        <PropertyRef Name="Codigo_Encuentro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TORNEO__TIPO__32E0915F">
+    <End Role="TIPO_TORNEO" Type="Self.TIPO_TORNEO" Multiplicity="1" />
+    <End Role="TORNEO" Type="Self.TORNEO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TIPO_TORNEO">
+        <PropertyRef Name="Codigo_Tipo_Torneo" />
+      </Principal>
+      <Dependent Role="TORNEO">
+        <PropertyRef Name="TIPO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__USUARIO__Codigo___286302EC">
+    <End Role="PAIS" Type="Self.PAIS" Multiplicity="1" />
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PAIS">
+        <PropertyRef Name="codigo_Pais" />
+      </Principal>
+      <Dependent Role="USUARIO">
+        <PropertyRef Name="Codigo_Pais" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OthelloModelStoreContainer">
+    <EntitySet Name="ENCUENTRO" EntityType="Self.ENCUENTRO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EQUIPO" EntityType="Self.EQUIPO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MODO" EntityType="Self.MODO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PAIS" EntityType="Self.PAIS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PARTIDA" EntityType="Self.PARTIDA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PARTIDA_TORNEO" EntityType="Self.PARTIDA_TORNEO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TIPO_CONTRINCANTE" EntityType="Self.TIPO_CONTRINCANTE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TIPO_PARTIDA" EntityType="Self.TIPO_PARTIDA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TIPO_TORNEO" EntityType="Self.TIPO_TORNEO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TORNEO" EntityType="Self.TORNEO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DETALLE_EQUIPO" EntityType="Self.DETALLE_EQUIPO" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [DETALLE_EQUIPO].[Codigo_equipo] AS [Codigo_equipo], 
+    [DETALLE_EQUIPO].[Codigo_Usuario] AS [Codigo_Usuario]
+    FROM [dbo].[DETALLE_EQUIPO] AS [DETALLE_EQUIPO]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__DETALLE_E__Codig__37A5467C" Association="Self.FK__DETALLE_E__Codig__37A5467C">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="DETALLE_EQUIPO" EntitySet="DETALLE_EQUIPO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DETALLE_E__Codig__38996AB5" Association="Self.FK__DETALLE_E__Codig__38996AB5">
+      <End Role="EQUIPO" EntitySet="EQUIPO" />
+      <End Role="DETALLE_EQUIPO" EntitySet="DETALLE_EQUIPO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ENCUENTRO__Codig__3B75D760" Association="Self.FK__ENCUENTRO__Codig__3B75D760">
+      <End Role="EQUIPO" EntitySet="EQUIPO" />
+      <End Role="ENCUENTRO" EntitySet="ENCUENTRO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ENCUENTRO__Codig__3C69FB99" Association="Self.FK__ENCUENTRO__Codig__3C69FB99">
+      <End Role="EQUIPO" EntitySet="EQUIPO" />
+      <End Role="ENCUENTRO" EntitySet="ENCUENTRO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__EQUIPO__Codigo_T__35BCFE0A" Association="Self.FK__EQUIPO__Codigo_T__35BCFE0A">
+      <End Role="TORNEO" EntitySet="TORNEO" />
+      <End Role="EQUIPO" EntitySet="EQUIPO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__Codigo___49C3F6B7" Association="Self.FK__PARTIDA__Codigo___49C3F6B7">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__CONTRIN__4BAC3F29" Association="Self.FK__PARTIDA__CONTRIN__4BAC3F29">
+      <End Role="TIPO_CONTRINCANTE" EntitySet="TIPO_CONTRINCANTE" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__MODO__4CA06362" Association="Self.FK__PARTIDA__MODO__4CA06362">
+      <End Role="MODO" EntitySet="MODO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__TIPO__4AB81AF0" Association="Self.FK__PARTIDA__TIPO__4AB81AF0">
+      <End Role="TIPO_PARTIDA" EntitySet="TIPO_PARTIDA" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA_T__Codig__4316F928" Association="Self.FK__PARTIDA_T__Codig__4316F928">
+      <End Role="ENCUENTRO" EntitySet="ENCUENTRO" />
+      <End Role="PARTIDA_TORNEO" EntitySet="PARTIDA_TORNEO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TORNEO__TIPO__32E0915F" Association="Self.FK__TORNEO__TIPO__32E0915F">
+      <End Role="TIPO_TORNEO" EntitySet="TIPO_TORNEO" />
+      <End Role="TORNEO" EntitySet="TORNEO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__USUARIO__Codigo___286302EC" Association="Self.FK__USUARIO__Codigo___286302EC">
+      <End Role="PAIS" EntitySet="PAIS" />
+      <End Role="USUARIO" EntitySet="USUARIO" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

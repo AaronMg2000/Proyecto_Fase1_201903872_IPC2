@@ -12,22 +12,25 @@ namespace ProyectoIPC22011903872.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TORNEO
+    public partial class ENCUENTRO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TORNEO()
+        public ENCUENTRO()
         {
-            this.EQUIPO = new HashSet<EQUIPO>();
+            this.PARTIDA_TORNEO = new HashSet<PARTIDA_TORNEO>();
         }
     
-        public int Codigo_Torneo { get; set; }
-        public string Nombre { get; set; }
-        public int TIPO { get; set; }
-        public System.DateTime fecha_inicio { get; set; }
-        public Nullable<int> Ganador { get; set; }
+        public int Codigo_Encuentro { get; set; }
+        public int Codigo_Equipo1 { get; set; }
+        public int Codigo_Equipo2 { get; set; }
+        public int Numero_Fase { get; set; }
+        public string Ganador { get; set; }
+        public int Punteo_Equipo1 { get; set; }
+        public int Punteo_Equipo2 { get; set; }
     
+        public virtual EQUIPO EQUIPO { get; set; }
+        public virtual EQUIPO EQUIPO1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EQUIPO> EQUIPO { get; set; }
-        public virtual TIPO_TORNEO TIPO_TORNEO { get; set; }
+        public virtual ICollection<PARTIDA_TORNEO> PARTIDA_TORNEO { get; set; }
     }
 }

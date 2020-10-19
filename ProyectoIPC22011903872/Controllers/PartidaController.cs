@@ -60,7 +60,7 @@ namespace ProyectoIPC22011903872.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Partida(List<string> color1, List<string> color2, string jugador2, int N, int M, string Tpartida, string modalidad)
+        public ActionResult Partida(List<string> color1, List<string> color2, string jugador2, int N, int M, string Tpartida, string modalidad, string apertura)
         {
             if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
             {
@@ -93,7 +93,7 @@ namespace ProyectoIPC22011903872.Controllers
             }
             if (!cargar)
             {
-                partida = Funciones.CrearPartida(modelo, color1, color2, siguiente, user.Usuario1, jugador2, N, M, Tpartida,modalidad);
+                partida = Funciones.CrearPartida(modelo, color1, color2, siguiente, user.Usuario1, jugador2, N, M, Tpartida,modalidad,apertura);
             }
             else
             {
@@ -124,12 +124,37 @@ namespace ProyectoIPC22011903872.Controllers
                         var par = new PARTIDA();
                         par.Codigo_Usuario_1 = 1;
                         par.Fecha = DateTime.Now;
-                        par.TIPO = 2;
                         par.Punteo_1 = partida.punteo_jugador1;
                         par.Punteo_2 = partida.punteo_jugador2;
                         par.Codigo_Usuario_1 = user.Codigo_Usuario;
                         par.movimientos_1 = partida.movimientos_1;
                         par.movimientos_2 = partida.movimientos_2;
+                        par.Tiempo_Jugador1 = partida.Ttiempo1;
+                        par.Tiempo_Jugador2 = partida.Ttiempo2;
+                        if (partida.modalidad=="Normal")
+                        {
+                            par.MODO = 2;
+                        }
+                        else
+                        {
+                            par.MODO = 1;
+                        }
+                        if (partida.TipoPartida=="Normal")
+                        {
+                            par.TIPO = 2;
+                        }
+                        else
+                        {
+                            par.TIPO = 1;
+                        }
+                        if (partida.tipo=="M")
+                        {
+                            par.CONTRINCANTE = 1;
+                        }
+                        else
+                        {
+                            par.CONTRINCANTE = 2;
+                        }
                         if ((partida.punteo_jugador1 > partida.punteo_jugador2 && partida.modalidad=="Normal")|| (partida.punteo_jugador1 < partida.punteo_jugador2 && partida.modalidad == "Inversa"))
                         {
                             par.ResultadoLocal = "Ganador";
@@ -365,6 +390,32 @@ namespace ProyectoIPC22011903872.Controllers
                         par.Codigo_Usuario_1 = user.Codigo_Usuario;
                         par.movimientos_1 = partida.movimientos_1;
                         par.movimientos_2 = partida.movimientos_2;
+                        par.Tiempo_Jugador1 = partida.Ttiempo1;
+                        par.Tiempo_Jugador2 = partida.Ttiempo2;
+                        if (partida.modalidad == "Normal")
+                        {
+                            par.MODO = 2;
+                        }
+                        else
+                        {
+                            par.MODO = 1;
+                        }
+                        if (partida.TipoPartida == "Normal")
+                        {
+                            par.TIPO = 2;
+                        }
+                        else
+                        {
+                            par.TIPO = 1;
+                        }
+                        if (partida.tipo == "M")
+                        {
+                            par.CONTRINCANTE = 1;
+                        }
+                        else
+                        {
+                            par.CONTRINCANTE = 2;
+                        }
                         if ((partida.punteo_jugador1 > partida.punteo_jugador2 && partida.modalidad == "Normal") || (partida.punteo_jugador1 < partida.punteo_jugador2 && partida.modalidad == "Inversa"))
                         {
                             par.ResultadoLocal = "Ganador";
@@ -393,6 +444,7 @@ namespace ProyectoIPC22011903872.Controllers
         [HttpPost]
         public ActionResult CargarPartida(HttpPostedFileBase archivo, string jugador22, string Tpartida)
         {
+            var apertura = "Normal";
             var N = 0;
             var M = 0;
             var p = 0;
@@ -564,7 +616,7 @@ namespace ProyectoIPC22011903872.Controllers
                     return RedirectToAction("Xtream", "Partida", new { mensaje = "Error en estructura de la partida" });
                 }
             }
-            PartidaCargada = Funciones.CrearPartida(modelo, color11, color22, "", user.Usuario1, jugador22, N, M, Tpartida, modalidad);
+            PartidaCargada = Funciones.CrearPartida(modelo, color11, color22, "", user.Usuario1, jugador22, N, M, Tpartida, modalidad,apertura);
             PartidaCargada.movimientos_1 = 0;
             PartidaCargada.movimientos_2 = 0;
             PartidaCargada.punteo_jugador1 = 0;
@@ -687,6 +739,8 @@ namespace ProyectoIPC22011903872.Controllers
                 }
                 else
                 {
+                    apertura = "Personalizada";
+                    PartidaCargada.apertura = apertura;
                     PartidaCargada.centro = false;
                     if (ficha1=="b")
                     {
@@ -838,7 +892,8 @@ namespace ProyectoIPC22011903872.Controllers
                 partida.tiempoJ1++;
             }
             
-            ViewBag.tiempo = Funciones.CalcularTiempo(partida.tiempoJ1);
+            partida.Ttiempo1 = Funciones.CalcularTiempo(partida.tiempoJ1);
+            ViewBag.tiempo = partida.Ttiempo1;
             if (partida.colores_jugador1.Contains(partida.siguiente_tiro))
             {
                 if (!partida.pt1)
@@ -866,7 +921,8 @@ namespace ProyectoIPC22011903872.Controllers
             {
                 partida.tiempoJ2++;
             }
-            ViewBag.tiempo = Funciones.CalcularTiempo(partida.tiempoJ2);
+            partida.Ttiempo2 = Funciones.CalcularTiempo(partida.tiempoJ2);
+            ViewBag.tiempo = partida.Ttiempo2;
             if (partida.colores_jugador2.Contains(partida.siguiente_tiro))
             {
                 if (!partida.pt2)

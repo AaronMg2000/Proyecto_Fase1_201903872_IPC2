@@ -12,14 +12,21 @@ namespace ProyectoIPC22011903872.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class BLOQUEO
+    public partial class PARTIDA_TORNEO
     {
-        public int Codigo_Bloqueo { get; set; }
+        public int Codigo { get; set; }
+        public int Codigo_Encuentro { get; set; }
         public int Codigo_Usuario_1 { get; set; }
-        public int Codigo_Usuario_Bloqueado { get; set; }
+        public Nullable<int> Codigo_Usuario_2 { get; set; }
+        public string ResultadoLocal { get; set; }
+        public Nullable<int> Punteo_1 { get; set; }
+        public Nullable<int> Punteo_2 { get; set; }
+        public Nullable<int> movimientos_1 { get; set; }
+        public Nullable<int> movimientos_2 { get; set; }
+        public string Tiempo_Jugador1 { get; set; }
+        public string Tiempo_Jugador2 { get; set; }
         public System.DateTime Fecha { get; set; }
     
-        public virtual USUARIO USUARIO { get; set; }
-        public virtual USUARIO USUARIO1 { get; set; }
+        public virtual ENCUENTRO ENCUENTRO { get; set; }
     }
 }

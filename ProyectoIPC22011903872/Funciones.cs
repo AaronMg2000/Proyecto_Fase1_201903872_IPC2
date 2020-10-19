@@ -20,7 +20,7 @@ namespace ProyectoIPC22011903872
             return returnActive ? "active" : "joo";
         }
 
-        public static PartidaViewModel CrearPartida(DatosModel dato, List<string> color1, List<string> color2, string siguiente, string jugador1, string jugador2, int N, int M, string TipoPartida, string modalidad)
+        public static PartidaViewModel CrearPartida(DatosModel dato, List<string> color1, List<string> color2, string siguiente, string jugador1, string jugador2, int N, int M, string TipoPartida, string modalidad, string apertura)
         {
             var centroF1 = (N / 2);
             var centroF2 = (N / 2) + 1;
@@ -37,6 +37,7 @@ namespace ProyectoIPC22011903872
             }
             partida.colores_jugador1 = color1;
             partida.colores_jugador2 = color2;
+            partida.apertura = apertura;
             partida.colorA1 = color1[0];
             partida.colorA2 = color2[0];
             partida.TipoPartida = TipoPartida;
@@ -54,6 +55,12 @@ namespace ProyectoIPC22011903872
             if (TipoPartida == "Xtream")
             {
                 siguiente = partida.colores_jugador1[0];
+                if (partida.apertura!="Personalizada")
+                {
+                    siguiente = partida.colorA1;
+                    partida.colores_contrario = partida.colores_jugador1;
+                    partida.centro = true;
+                }
             }
             else
             {
@@ -74,9 +81,13 @@ namespace ProyectoIPC22011903872
 
                     if (j == centroC1 && i == centroF1)
                     {
-                        if (TipoPartida == "Xtream")
+                        if (apertura == "Personalizada")
                         {
                             col.color = "";
+                        }
+                        else if (TipoPartida=="Xtream")
+                        {
+                            col.color = partida.colores_jugador1[0];
                         }
                         else
                         {
@@ -85,9 +96,13 @@ namespace ProyectoIPC22011903872
                     }
                     else if (j == centroC2 && i == centroF1)
                     {
-                        if (TipoPartida == "Xtream")
+                        if (apertura == "Personalizada")
                         {
                             col.color = "";
+                        }
+                        else if (TipoPartida=="Xtream")
+                        {
+                            col.color = partida.colores_jugador2[0];
                         }
                         else
                         {
@@ -96,9 +111,20 @@ namespace ProyectoIPC22011903872
                     }
                     else if (j == centroC1 && i == centroF2)
                     {
-                        if (TipoPartida == "Xtream")
+                        if (apertura == "Personalizada")
                         {
                             col.color = "";
+                        }
+                        else if (TipoPartida=="Xtream")
+                        {
+                            if (partida.colores_jugador2.Count() > 1)
+                            {
+                                col.color = partida.colores_jugador2[1];
+                            }
+                            else
+                            {
+                                col.color = partida.colores_jugador2[0];
+                            }
                         }
                         else
                         {
@@ -107,9 +133,20 @@ namespace ProyectoIPC22011903872
                     }
                     else if (j == centroC2 && i == centroF2)
                     {
-                        if (TipoPartida == "Xtream")
+                        if (apertura == "Personalizada")
                         {
                             col.color = "";
+                        }
+                        else if (TipoPartida == "Xtream")
+                        {
+                            if (partida.colores_jugador1.Count() > 1)
+                            {
+                                col.color = partida.colores_jugador1[1];
+                            }
+                            else
+                            {
+                                col.color = partida.colores_jugador1[0];
+                            }
                         }
                         else
                         {
@@ -125,7 +162,7 @@ namespace ProyectoIPC22011903872
                 }
                 partida.Filas.Add(fila);
             }
-            if (TipoPartida!= "Xtream")
+            if (apertura != "Personalizada")
             {
                 partida = Movimientos(partida);
             }

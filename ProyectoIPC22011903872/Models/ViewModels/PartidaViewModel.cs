@@ -21,6 +21,7 @@ namespace ProyectoIPC22011903872.Models.ViewModels
             this.tipo = "";
         }
         public int nombre { get; set; }
+        public string apertura { get; set; }
         public string terminado { get; set; }
         public string TipoPartida { get; set; }
         public string tipo { get; set; }
@@ -30,6 +31,8 @@ namespace ProyectoIPC22011903872.Models.ViewModels
         public bool pt2 { get; set; }
         public bool pt1 { get; set; }
         public int tiempoJ1 { get; set; }
+        public string Ttiempo1 { get; set; }
+        public string Ttiempo2 { get; set; }
         public int tiempoJ2 { get; set; }
         public string ultimafila { get; set; }
         public string ultimacolumna { get; set; }

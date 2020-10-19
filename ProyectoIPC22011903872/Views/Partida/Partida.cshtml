@@ -122,18 +122,34 @@
             <div class="col col-md-3">
                 <div class="row borde-naranja scroll" style="max-height:70vh">
                     <div class="col col-md-12">
-                        <div class="form-group mt-2 h-30">
+                        <div class="form-group mt-3 h-25">
                             <label class="h4 w-100 text-center text-white font-weight-bold">@Model.jugador1</label>
-                            <div class="row justify-content-center align-content-center mt-2 h-75">
-                                <div class="col col-sm-6 h-100">
-                                    <div class="row justify-content-center align-content-center bg-verde h-100">
-                                        <div class="ficha @Model.colorA1">
+                            <div class="row justify-content-center align-content-center" style="height:75%">
+                                @if (Model.TipoPartida == "Normal")
+                                {
+                                    <div class="col col-sm-6 h-100">
+                                        <div class="row justify-content-center align-content-center bg-verde h-100">
+                                            <div class="ficha @Model.colorA1">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                        }
+                                        else
+                                        {
+                                    <div class="col col-sm-12 h-100">
+                                        <div class="row justify-content-around align-content-center h-100">
+                                            @foreach (var color in Model.colores_jugador1)
+                                            {
+                                                <div class="bg-verde h-100" style="width:15%">
+                                                    <div class=" ficha @color w-100 h-100" ></div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
-                        <div class="form-group mt-2 h-25">
+                        <div class="form-group mt-4 h-25">
                             <label class="h4 w-100 text-center text-white font-weight-bold">Movimientos</label>
                             <div class="row justify-content-center align-content-center mt-2 h-75">
                                 <div class="col col-sm-6 h-100">
@@ -338,15 +354,31 @@
             <div class="col col-md-3">
                 <div class="row borde-naranja scroll" style="max-height:70vh">
                     <div class="col col-md-12">
-                        <div class="form-group mt-2 h-30">
-                            <label class="h4 w-100 text-center text-white font-weight-bold">@ViewBag.partida.jugador2</label>
-                            <div class="row justify-content-center align-content-center mt-2 h-75">
-                                <div class="col col-sm-6 h-100">
-                                    <div class="row justify-content-center align-content-center bg-verde h-75">
-                                        <div class="ficha @Model.colorA2">
+                        <div class="form-group mt-3 h-25">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">@Model.jugador2</label>
+                            <div class="row justify-content-center align-content-center" style="height:75%">
+                                @if (Model.TipoPartida == "Normal")
+                                {
+                                    <div class="col col-sm-6 h-100">
+                                        <div class="row justify-content-center align-content-center bg-verde h-100">
+                                            <div class="ficha @Model.colorA2">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
+                                else
+                                {
+                                    <div class="col col-sm-12 h-100">
+                                        <div class="row justify-content-around align-content-center h-100">
+                                            @foreach (var color in Model.colores_jugador2)
+                                            {
+                                                <div class="bg-verde h-100" style="width:15%">
+                                                    <div class=" ficha @color w-100 h-100"></div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                         <div class="form-group mt-2 h-25">

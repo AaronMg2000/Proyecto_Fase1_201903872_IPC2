@@ -12,22 +12,27 @@ namespace ProyectoIPC22011903872.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TORNEO
+    public partial class EQUIPO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TORNEO()
+        public EQUIPO()
         {
-            this.EQUIPO = new HashSet<EQUIPO>();
+            this.ENCUENTRO = new HashSet<ENCUENTRO>();
+            this.ENCUENTRO1 = new HashSet<ENCUENTRO>();
+            this.USUARIO = new HashSet<USUARIO>();
         }
     
+        public int Codigo_Equipo { get; set; }
         public int Codigo_Torneo { get; set; }
         public string Nombre { get; set; }
-        public int TIPO { get; set; }
-        public System.DateTime fecha_inicio { get; set; }
-        public Nullable<int> Ganador { get; set; }
+        public int PUNTEO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EQUIPO> EQUIPO { get; set; }
-        public virtual TIPO_TORNEO TIPO_TORNEO { get; set; }
+        public virtual ICollection<ENCUENTRO> ENCUENTRO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ENCUENTRO> ENCUENTRO1 { get; set; }
+        public virtual TORNEO TORNEO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<USUARIO> USUARIO { get; set; }
     }
 }

@@ -138,41 +138,53 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\BLOQUEO.cs">
-      <DependentUpon>Othello_Data.tt</DependentUpon>
+    <Compile Include="Models\ENCUENTRO.cs">
+      <DependentUpon>OthelloData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Othello_Data.Context.cs">
+    <Compile Include="Models\EQUIPO.cs">
+      <DependentUpon>OthelloData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MODO.cs">
+      <DependentUpon>OthelloData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OthelloData.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Othello_Data.Context.tt</DependentUpon>
+      <DependentUpon>OthelloData.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Othello_Data.cs">
+    <Compile Include="Models\OthelloData.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Othello_Data.tt</DependentUpon>
+      <DependentUpon>OthelloData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Othello_Data.Designer.cs">
+    <Compile Include="Models\OthelloData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Othello_Data.edmx</DependentUpon>
+      <DependentUpon>OthelloData.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\PAIS.cs">
-      <DependentUpon>Othello_Data.tt</DependentUpon>
+      <DependentUpon>OthelloData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PARTIDA.cs">
-      <DependentUpon>Othello_Data.tt</DependentUpon>
+      <DependentUpon>OthelloData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PARTIDA_TORNEO.cs">
+      <DependentUpon>OthelloData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TIPO_CONTRINCANTE.cs">
+      <DependentUpon>OthelloData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIPO_PARTIDA.cs">
-      <DependentUpon>Othello_Data.tt</DependentUpon>
+      <DependentUpon>OthelloData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIPO_TORNEO.cs">
-      <DependentUpon>Othello_Data.tt</DependentUpon>
+      <DependentUpon>OthelloData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TORNEO.cs">
-      <DependentUpon>Othello_Data.tt</DependentUpon>
+      <DependentUpon>OthelloData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\USUARIO.cs">
-      <DependentUpon>Othello_Data.tt</DependentUpon>
+      <DependentUpon>OthelloData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\addUserViewModel.cs" />
     <Compile Include="Models\ViewModels\ColumnaViewModel.cs" />
@@ -211,15 +223,15 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\Othello_Data.Context.tt">
+    <Content Include="Models\OthelloData.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Othello_Data.edmx</DependentUpon>
-      <LastGenOutput>Othello_Data.Context.cs</LastGenOutput>
+      <DependentUpon>OthelloData.edmx</DependentUpon>
+      <LastGenOutput>OthelloData.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\Othello_Data.tt">
+    <Content Include="Models\OthelloData.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Othello_Data.edmx</DependentUpon>
-      <LastGenOutput>Othello_Data.cs</LastGenOutput>
+      <DependentUpon>OthelloData.edmx</DependentUpon>
+      <LastGenOutput>OthelloData.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -258,12 +270,12 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <EntityDeploy Include="Models\Othello_Data.edmx">
+    <EntityDeploy Include="Models\OthelloData.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Othello_Data.Designer.cs</LastGenOutput>
+      <LastGenOutput>OthelloData.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Othello_Data.edmx.diagram">
-      <DependentUpon>Othello_Data.edmx</DependentUpon>
+    <Content Include="Models\OthelloData.edmx.diagram">
+      <DependentUpon>OthelloData.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />

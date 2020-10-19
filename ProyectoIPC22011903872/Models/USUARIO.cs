@@ -17,10 +17,8 @@ namespace ProyectoIPC22011903872.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public USUARIO()
         {
-            this.BLOQUEO = new HashSet<BLOQUEO>();
-            this.BLOQUEO1 = new HashSet<BLOQUEO>();
             this.PARTIDA = new HashSet<PARTIDA>();
-            this.PARTIDA1 = new HashSet<PARTIDA>();
+            this.EQUIPO = new HashSet<EQUIPO>();
         }
     
         public int Codigo_Usuario { get; set; }
@@ -32,14 +30,10 @@ namespace ProyectoIPC22011903872.Models
         public System.DateTime Fecha_nacimiento { get; set; }
         public string Correo_Electronico { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BLOQUEO> BLOQUEO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BLOQUEO> BLOQUEO1 { get; set; }
         public virtual PAIS PAIS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PARTIDA> PARTIDA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PARTIDA> PARTIDA1 { get; set; }
+        public virtual ICollection<EQUIPO> EQUIPO { get; set; }
     }
 }
