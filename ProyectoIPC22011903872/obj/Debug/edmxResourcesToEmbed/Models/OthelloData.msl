@@ -46,28 +46,13 @@
         <MappingFragment StoreEntitySet="PARTIDA">
           <ScalarProperty Name="Codigo_Partida" ColumnName="Codigo_Partida" />
           <ScalarProperty Name="Codigo_Usuario_1" ColumnName="Codigo_Usuario_1" />
+          <ScalarProperty Name="Codigo_Encuentro" ColumnName="Codigo_Encuentro" />
+          <ScalarProperty Name="Codigo_Usuario_2" ColumnName="Codigo_Usuario_2" />
           <ScalarProperty Name="ResultadoLocal" ColumnName="ResultadoLocal" />
+          <ScalarProperty Name="GanadorUsuario" ColumnName="GanadorUsuario" />
           <ScalarProperty Name="TIPO" ColumnName="TIPO" />
           <ScalarProperty Name="MODO" ColumnName="MODO" />
           <ScalarProperty Name="CONTRINCANTE" ColumnName="CONTRINCANTE" />
-          <ScalarProperty Name="Punteo_1" ColumnName="Punteo_1" />
-          <ScalarProperty Name="Punteo_2" ColumnName="Punteo_2" />
-          <ScalarProperty Name="movimientos_1" ColumnName="movimientos_1" />
-          <ScalarProperty Name="movimientos_2" ColumnName="movimientos_2" />
-          <ScalarProperty Name="Tiempo_Jugador1" ColumnName="Tiempo_Jugador1" />
-          <ScalarProperty Name="Tiempo_Jugador2" ColumnName="Tiempo_Jugador2" />
-          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PARTIDA_TORNEO">
-      <EntityTypeMapping TypeName="OthelloModel.PARTIDA_TORNEO">
-        <MappingFragment StoreEntitySet="PARTIDA_TORNEO">
-          <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-          <ScalarProperty Name="Codigo_Encuentro" ColumnName="Codigo_Encuentro" />
-          <ScalarProperty Name="Codigo_Usuario_1" ColumnName="Codigo_Usuario_1" />
-          <ScalarProperty Name="Codigo_Usuario_2" ColumnName="Codigo_Usuario_2" />
-          <ScalarProperty Name="ResultadoLocal" ColumnName="ResultadoLocal" />
           <ScalarProperty Name="Punteo_1" ColumnName="Punteo_1" />
           <ScalarProperty Name="Punteo_2" ColumnName="Punteo_2" />
           <ScalarProperty Name="movimientos_1" ColumnName="movimientos_1" />

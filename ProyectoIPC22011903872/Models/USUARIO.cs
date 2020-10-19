@@ -18,6 +18,7 @@ namespace ProyectoIPC22011903872.Models
         public USUARIO()
         {
             this.PARTIDA = new HashSet<PARTIDA>();
+            this.PARTIDA1 = new HashSet<PARTIDA>();
             this.EQUIPO = new HashSet<EQUIPO>();
         }
     
@@ -33,6 +34,8 @@ namespace ProyectoIPC22011903872.Models
         public virtual PAIS PAIS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PARTIDA> PARTIDA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PARTIDA> PARTIDA1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EQUIPO> EQUIPO { get; set; }
     }

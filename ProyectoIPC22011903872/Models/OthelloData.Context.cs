@@ -30,7 +30,6 @@ namespace ProyectoIPC22011903872.Models
         public virtual DbSet<MODO> MODO { get; set; }
         public virtual DbSet<PAIS> PAIS { get; set; }
         public virtual DbSet<PARTIDA> PARTIDA { get; set; }
-        public virtual DbSet<PARTIDA_TORNEO> PARTIDA_TORNEO { get; set; }
         public virtual DbSet<TIPO_CONTRINCANTE> TIPO_CONTRINCANTE { get; set; }
         public virtual DbSet<TIPO_PARTIDA> TIPO_PARTIDA { get; set; }
         public virtual DbSet<TIPO_TORNEO> TIPO_TORNEO { get; set; }

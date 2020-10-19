@@ -168,9 +168,6 @@
     <Compile Include="Models\PARTIDA.cs">
       <DependentUpon>OthelloData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PARTIDA_TORNEO.cs">
-      <DependentUpon>OthelloData.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TIPO_CONTRINCANTE.cs">
       <DependentUpon>OthelloData.tt</DependentUpon>
     </Compile>

@@ -52,27 +52,13 @@ advertencia 6002: La tabla o vista 'Othello.dbo.DETALLE_EQUIPO' no tiene definid
     </Key>
     <Property Name="Codigo_Partida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Codigo_Usuario_1" Type="int" Nullable="false" />
-    <Property Name="ResultadoLocal" Type="varchar" MaxLength="50" />
-    <Property Name="TIPO" Type="int" Nullable="false" />
-    <Property Name="MODO" Type="int" Nullable="false" />
-    <Property Name="CONTRINCANTE" Type="int" Nullable="false" />
-    <Property Name="Punteo_1" Type="int" />
-    <Property Name="Punteo_2" Type="int" />
-    <Property Name="movimientos_1" Type="int" />
-    <Property Name="movimientos_2" Type="int" />
-    <Property Name="Tiempo_Jugador1" Type="varchar" MaxLength="20" />
-    <Property Name="Tiempo_Jugador2" Type="varchar" MaxLength="20" />
-    <Property Name="Fecha" Type="date" Nullable="false" />
-  </EntityType>
-  <EntityType Name="PARTIDA_TORNEO">
-    <Key>
-      <PropertyRef Name="Codigo" />
-    </Key>
-    <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Codigo_Encuentro" Type="int" Nullable="false" />
-    <Property Name="Codigo_Usuario_1" Type="int" Nullable="false" />
+    <Property Name="Codigo_Encuentro" Type="int" />
     <Property Name="Codigo_Usuario_2" Type="int" />
     <Property Name="ResultadoLocal" Type="varchar" MaxLength="50" />
+    <Property Name="GanadorUsuario" Type="int" />
+    <Property Name="TIPO" Type="int" Nullable="false" />
+    <Property Name="MODO" Type="int" Nullable="false" />
+    <Property Name="CONTRINCANTE" Type="int" />
     <Property Name="Punteo_1" Type="int" />
     <Property Name="Punteo_2" Type="int" />
     <Property Name="movimientos_1" Type="int" />
@@ -186,7 +172,7 @@ advertencia 6002: La tabla o vista 'Othello.dbo.DETALLE_EQUIPO' no tiene definid
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PARTIDA__Codigo___49C3F6B7">
+  <Association Name="FK__PARTIDA__Codigo___4316F928">
     <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
     <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
     <ReferentialConstraint>
@@ -198,8 +184,32 @@ advertencia 6002: La tabla o vista 'Othello.dbo.DETALLE_EQUIPO' no tiene definid
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PARTIDA__CONTRIN__4BAC3F29">
-    <End Role="TIPO_CONTRINCANTE" Type="Self.TIPO_CONTRINCANTE" Multiplicity="1" />
+  <Association Name="FK__PARTIDA__Codigo___440B1D61">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="0..1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="Codigo_Usuario" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="Codigo_Usuario_2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__Codigo___44FF419A">
+    <End Role="ENCUENTRO" Type="Self.ENCUENTRO" Multiplicity="0..1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ENCUENTRO">
+        <PropertyRef Name="Codigo_Encuentro" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="Codigo_Encuentro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__CONTRIN__46E78A0C">
+    <End Role="TIPO_CONTRINCANTE" Type="Self.TIPO_CONTRINCANTE" Multiplicity="0..1" />
     <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TIPO_CONTRINCANTE">
@@ -210,7 +220,7 @@ advertencia 6002: La tabla o vista 'Othello.dbo.DETALLE_EQUIPO' no tiene definid
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PARTIDA__MODO__4CA06362">
+  <Association Name="FK__PARTIDA__MODO__47DBAE45">
     <End Role="MODO" Type="Self.MODO" Multiplicity="1" />
     <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
     <ReferentialConstraint>
@@ -222,7 +232,7 @@ advertencia 6002: La tabla o vista 'Othello.dbo.DETALLE_EQUIPO' no tiene definid
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PARTIDA__TIPO__4AB81AF0">
+  <Association Name="FK__PARTIDA__TIPO__45F365D3">
     <End Role="TIPO_PARTIDA" Type="Self.TIPO_PARTIDA" Multiplicity="1" />
     <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
     <ReferentialConstraint>
@@ -231,18 +241,6 @@ advertencia 6002: La tabla o vista 'Othello.dbo.DETALLE_EQUIPO' no tiene definid
       </Principal>
       <Dependent Role="PARTIDA">
         <PropertyRef Name="TIPO" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__PARTIDA_T__Codig__4316F928">
-    <End Role="ENCUENTRO" Type="Self.ENCUENTRO" Multiplicity="1" />
-    <End Role="PARTIDA_TORNEO" Type="Self.PARTIDA_TORNEO" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ENCUENTRO">
-        <PropertyRef Name="Codigo_Encuentro" />
-      </Principal>
-      <Dependent Role="PARTIDA_TORNEO">
-        <PropertyRef Name="Codigo_Encuentro" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -276,7 +274,6 @@ advertencia 6002: La tabla o vista 'Othello.dbo.DETALLE_EQUIPO' no tiene definid
     <EntitySet Name="MODO" EntityType="Self.MODO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PAIS" EntityType="Self.PAIS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PARTIDA" EntityType="Self.PARTIDA" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="PARTIDA_TORNEO" EntityType="Self.PARTIDA_TORNEO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TIPO_CONTRINCANTE" EntityType="Self.TIPO_CONTRINCANTE" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TIPO_PARTIDA" EntityType="Self.TIPO_PARTIDA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TIPO_TORNEO" EntityType="Self.TIPO_TORNEO" Schema="dbo" store:Type="Tables" />
@@ -308,25 +305,29 @@ advertencia 6002: La tabla o vista 'Othello.dbo.DETALLE_EQUIPO' no tiene definid
       <End Role="TORNEO" EntitySet="TORNEO" />
       <End Role="EQUIPO" EntitySet="EQUIPO" />
     </AssociationSet>
-    <AssociationSet Name="FK__PARTIDA__Codigo___49C3F6B7" Association="Self.FK__PARTIDA__Codigo___49C3F6B7">
+    <AssociationSet Name="FK__PARTIDA__Codigo___4316F928" Association="Self.FK__PARTIDA__Codigo___4316F928">
       <End Role="USUARIO" EntitySet="USUARIO" />
       <End Role="PARTIDA" EntitySet="PARTIDA" />
     </AssociationSet>
-    <AssociationSet Name="FK__PARTIDA__CONTRIN__4BAC3F29" Association="Self.FK__PARTIDA__CONTRIN__4BAC3F29">
+    <AssociationSet Name="FK__PARTIDA__Codigo___440B1D61" Association="Self.FK__PARTIDA__Codigo___440B1D61">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__Codigo___44FF419A" Association="Self.FK__PARTIDA__Codigo___44FF419A">
+      <End Role="ENCUENTRO" EntitySet="ENCUENTRO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__CONTRIN__46E78A0C" Association="Self.FK__PARTIDA__CONTRIN__46E78A0C">
       <End Role="TIPO_CONTRINCANTE" EntitySet="TIPO_CONTRINCANTE" />
       <End Role="PARTIDA" EntitySet="PARTIDA" />
     </AssociationSet>
-    <AssociationSet Name="FK__PARTIDA__MODO__4CA06362" Association="Self.FK__PARTIDA__MODO__4CA06362">
+    <AssociationSet Name="FK__PARTIDA__MODO__47DBAE45" Association="Self.FK__PARTIDA__MODO__47DBAE45">
       <End Role="MODO" EntitySet="MODO" />
       <End Role="PARTIDA" EntitySet="PARTIDA" />
     </AssociationSet>
-    <AssociationSet Name="FK__PARTIDA__TIPO__4AB81AF0" Association="Self.FK__PARTIDA__TIPO__4AB81AF0">
+    <AssociationSet Name="FK__PARTIDA__TIPO__45F365D3" Association="Self.FK__PARTIDA__TIPO__45F365D3">
       <End Role="TIPO_PARTIDA" EntitySet="TIPO_PARTIDA" />
       <End Role="PARTIDA" EntitySet="PARTIDA" />
-    </AssociationSet>
-    <AssociationSet Name="FK__PARTIDA_T__Codig__4316F928" Association="Self.FK__PARTIDA_T__Codig__4316F928">
-      <End Role="ENCUENTRO" EntitySet="ENCUENTRO" />
-      <End Role="PARTIDA_TORNEO" EntitySet="PARTIDA_TORNEO" />
     </AssociationSet>
     <AssociationSet Name="FK__TORNEO__TIPO__32E0915F" Association="Self.FK__TORNEO__TIPO__32E0915F">
       <End Role="TIPO_TORNEO" EntitySet="TIPO_TORNEO" />

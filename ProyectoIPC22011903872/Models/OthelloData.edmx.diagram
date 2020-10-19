@@ -4,27 +4,27 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1894ede25dd34409a8ec8341a9e05099" Name="Diagram1">
-        <EntityTypeShape EntityType="OthelloModel.ENCUENTRO" Width="1.5" PointX="7.5" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.EQUIPO" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.MODO" Width="1.5" PointX="6" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.PAIS" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.PARTIDA" Width="1.5" PointX="8.25" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.PARTIDA_TORNEO" Width="1.5" PointX="9.75" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.TIPO_CONTRINCANTE" Width="1.5" PointX="6" PointY="14.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.TIPO_PARTIDA" Width="1.5" PointX="6" PointY="16.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.TIPO_TORNEO" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.TORNEO" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OthelloModel.USUARIO" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+      <Diagram DiagramId="ee9a2f00c2c34905ab2aee9c18c11c89" Name="Diagram1">
+        <EntityTypeShape EntityType="OthelloModel.ENCUENTRO" Width="1.5" PointX="7.5" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.EQUIPO" Width="1.5" PointX="5.25" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.MODO" Width="1.5" PointX="7.5" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.PAIS" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.PARTIDA" Width="1.5" PointX="9.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.TIPO_CONTRINCANTE" Width="1.5" PointX="7.5" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.TIPO_PARTIDA" Width="1.5" PointX="7.5" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.TIPO_TORNEO" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.TORNEO" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OthelloModel.USUARIO" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
         <AssociationConnector Association="OthelloModel.FK__ENCUENTRO__Codig__3B75D760" ManuallyRouted="false" />
         <AssociationConnector Association="OthelloModel.FK__ENCUENTRO__Codig__3C69FB99" ManuallyRouted="false" />
-        <AssociationConnector Association="OthelloModel.FK__PARTIDA_T__Codig__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="OthelloModel.FK__PARTIDA__Codigo___44FF419A" ManuallyRouted="false" />
         <AssociationConnector Association="OthelloModel.FK__EQUIPO__Codigo_T__35BCFE0A" ManuallyRouted="false" />
-        <AssociationConnector Association="OthelloModel.FK__PARTIDA__MODO__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="OthelloModel.FK__PARTIDA__MODO__47DBAE45" ManuallyRouted="false" />
         <AssociationConnector Association="OthelloModel.FK__USUARIO__Codigo___286302EC" ManuallyRouted="false" />
-        <AssociationConnector Association="OthelloModel.FK__PARTIDA__Codigo___49C3F6B7" ManuallyRouted="false" />
-        <AssociationConnector Association="OthelloModel.FK__PARTIDA__CONTRIN__4BAC3F29" ManuallyRouted="false" />
-        <AssociationConnector Association="OthelloModel.FK__PARTIDA__TIPO__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="OthelloModel.FK__PARTIDA__Codigo___4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="OthelloModel.FK__PARTIDA__Codigo___440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="OthelloModel.FK__PARTIDA__CONTRIN__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="OthelloModel.FK__PARTIDA__TIPO__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="OthelloModel.FK__TORNEO__TIPO__32E0915F" ManuallyRouted="false" />
         <AssociationConnector Association="OthelloModel.DETALLE_EQUIPO" ManuallyRouted="false" />
       </Diagram>

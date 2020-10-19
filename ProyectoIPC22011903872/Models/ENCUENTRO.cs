@@ -17,7 +17,7 @@ namespace ProyectoIPC22011903872.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ENCUENTRO()
         {
-            this.PARTIDA_TORNEO = new HashSet<PARTIDA_TORNEO>();
+            this.PARTIDA = new HashSet<PARTIDA>();
         }
     
         public int Codigo_Encuentro { get; set; }
@@ -31,6 +31,6 @@ namespace ProyectoIPC22011903872.Models
         public virtual EQUIPO EQUIPO { get; set; }
         public virtual EQUIPO EQUIPO1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PARTIDA_TORNEO> PARTIDA_TORNEO { get; set; }
+        public virtual ICollection<PARTIDA> PARTIDA { get; set; }
     }
 }
