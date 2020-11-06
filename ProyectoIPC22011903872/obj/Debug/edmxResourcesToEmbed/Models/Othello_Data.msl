@@ -1,13 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="OthelloModelStoreContainer" CdmEntityContainer="OthelloEntities">
-    <EntitySetMapping Name="BLOQUEO">
-      <EntityTypeMapping TypeName="OthelloModel.BLOQUEO">
-        <MappingFragment StoreEntitySet="BLOQUEO">
-          <ScalarProperty Name="Codigo_Bloqueo" ColumnName="Codigo_Bloqueo" />
-          <ScalarProperty Name="Codigo_Usuario_1" ColumnName="Codigo_Usuario_1" />
-          <ScalarProperty Name="Codigo_Usuario_Bloqueado" ColumnName="Codigo_Usuario_Bloqueado" />
-          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+    <EntitySetMapping Name="DETALLE_EQUIPO">
+      <EntityTypeMapping TypeName="OthelloModel.DETALLE_EQUIPO">
+        <MappingFragment StoreEntitySet="DETALLE_EQUIPO">
+          <ScalarProperty Name="codigo_detalle" ColumnName="codigo_detalle" />
+          <ScalarProperty Name="Codigo_equipo" ColumnName="Codigo_equipo" />
+          <ScalarProperty Name="Codigo_Usuario" ColumnName="Codigo_Usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ENCUENTRO">
+      <EntityTypeMapping TypeName="OthelloModel.ENCUENTRO">
+        <MappingFragment StoreEntitySet="ENCUENTRO">
+          <ScalarProperty Name="Codigo_Encuentro" ColumnName="Codigo_Encuentro" />
+          <ScalarProperty Name="Codigo_Equipo1" ColumnName="Codigo_Equipo1" />
+          <ScalarProperty Name="Codigo_Equipo2" ColumnName="Codigo_Equipo2" />
+          <ScalarProperty Name="Numero_Fase" ColumnName="Numero_Fase" />
+          <ScalarProperty Name="Ganador" ColumnName="Ganador" />
+          <ScalarProperty Name="Punteo_Equipo1" ColumnName="Punteo_Equipo1" />
+          <ScalarProperty Name="Punteo_Equipo2" ColumnName="Punteo_Equipo2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EQUIPO">
+      <EntityTypeMapping TypeName="OthelloModel.EQUIPO">
+        <MappingFragment StoreEntitySet="EQUIPO">
+          <ScalarProperty Name="Codigo_Equipo" ColumnName="Codigo_Equipo" />
+          <ScalarProperty Name="Codigo_Torneo" ColumnName="Codigo_Torneo" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="PUNTEO" ColumnName="PUNTEO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MODO">
+      <EntityTypeMapping TypeName="OthelloModel.MODO">
+        <MappingFragment StoreEntitySet="MODO">
+          <ScalarProperty Name="Codigo_MODO" ColumnName="Codigo_MODO" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -25,16 +55,28 @@
         <MappingFragment StoreEntitySet="PARTIDA">
           <ScalarProperty Name="Codigo_Partida" ColumnName="Codigo_Partida" />
           <ScalarProperty Name="Codigo_Usuario_1" ColumnName="Codigo_Usuario_1" />
+          <ScalarProperty Name="Codigo_Encuentro" ColumnName="Codigo_Encuentro" />
           <ScalarProperty Name="Codigo_Usuario_2" ColumnName="Codigo_Usuario_2" />
-          <ScalarProperty Name="Codigo_Torneo" ColumnName="Codigo_Torneo" />
-          <ScalarProperty Name="GanadorOnline" ColumnName="GanadorOnline" />
           <ScalarProperty Name="ResultadoLocal" ColumnName="ResultadoLocal" />
+          <ScalarProperty Name="GanadorUsuario" ColumnName="GanadorUsuario" />
           <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+          <ScalarProperty Name="MODO" ColumnName="MODO" />
+          <ScalarProperty Name="CONTRINCANTE" ColumnName="CONTRINCANTE" />
           <ScalarProperty Name="Punteo_1" ColumnName="Punteo_1" />
           <ScalarProperty Name="Punteo_2" ColumnName="Punteo_2" />
           <ScalarProperty Name="movimientos_1" ColumnName="movimientos_1" />
           <ScalarProperty Name="movimientos_2" ColumnName="movimientos_2" />
+          <ScalarProperty Name="Tiempo_Jugador1" ColumnName="Tiempo_Jugador1" />
+          <ScalarProperty Name="Tiempo_Jugador2" ColumnName="Tiempo_Jugador2" />
           <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TIPO_CONTRINCANTE">
+      <EntityTypeMapping TypeName="OthelloModel.TIPO_CONTRINCANTE">
+        <MappingFragment StoreEntitySet="TIPO_CONTRINCANTE">
+          <ScalarProperty Name="Codigo_Tipo_Contrincante" ColumnName="Codigo_Tipo_Contrincante" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -62,6 +104,7 @@
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="TIPO" ColumnName="TIPO" />
           <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+          <ScalarProperty Name="Ganador" ColumnName="Ganador" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

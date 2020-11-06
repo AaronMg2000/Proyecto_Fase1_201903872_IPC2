@@ -17,9 +17,9 @@ namespace ProyectoIPC22011903872.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public EQUIPO()
         {
+            this.DETALLE_EQUIPO = new HashSet<DETALLE_EQUIPO>();
             this.ENCUENTRO = new HashSet<ENCUENTRO>();
             this.ENCUENTRO1 = new HashSet<ENCUENTRO>();
-            this.USUARIO = new HashSet<USUARIO>();
         }
     
         public int Codigo_Equipo { get; set; }
@@ -28,11 +28,11 @@ namespace ProyectoIPC22011903872.Models
         public int PUNTEO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DETALLE_EQUIPO> DETALLE_EQUIPO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ENCUENTRO> ENCUENTRO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ENCUENTRO> ENCUENTRO1 { get; set; }
         public virtual TORNEO TORNEO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<USUARIO> USUARIO { get; set; }
     }
 }

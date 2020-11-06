@@ -16,6 +16,8 @@ namespace ProyectoIPC22011903872.Models.ViewModels
             this.colores_contrario = new List<string>();
             this.colores_actual = new List<string>();
             this.terminado = "";
+            this.Ttiempo1 = "00:00:00";
+            this.Ttiempo2 = "00:00:00";
             this.modalidad = "";
             this.centro = false;
             this.tipo = "";

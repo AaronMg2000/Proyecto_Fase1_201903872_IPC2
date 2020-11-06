@@ -1,0 +1,478 @@
+﻿@model ProyectoIPC22011903872.Models.ViewModels.PartidaViewModel
+@{
+    ViewBag.Title = "Partida";
+    Layout = "~/Views/Shared/_LayoutJuego.cshtml";
+}
+@if (((Model.colores_jugador2.Contains(Model.siguiente_tiro) && Model.tipo != "M") || Model.colores_jugador1.Contains(Model.siguiente_tiro)) && ViewBag.terminado == null && ViewBag.saltar == null)
+{
+    <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-verde text-white font-weight-bold">
+                    <h5 class="modal-title text-center w-100" id="exampleModalLongTitle">Turno</h5>
+
+                </div>
+                <div class="modal-body">
+                    @{
+                        var turno = "";
+                        if (Model.colores_jugador2.Contains(Model.siguiente_tiro))
+                        {
+                            turno = Model.jugador2;
+                        }
+                        else
+                        {
+                            turno = Model.jugador1;
+                        }
+                    }
+                    <p class="w-100 text-center">Es el turno de: @turno.</p>
+                    <div class="w-100">
+                        <button type="button" class="btn btn-dark m-auto btn-block" data-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (ViewBag.saltar != null)
+{
+    <div class="modal fade" id="exampleModalCenter" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-verde text-white font-weight-bold">
+                    <h5 class="modal-title text-center w-100" id="exampleModalLongTitle">Saltar Turno</h5>
+
+                </div>
+                <div class="modal-body">
+                    <p class="w-100 text-center">No puede realizar ningun movimiento, debe saltarse su turno.</p>
+                    @using (Html.BeginForm("Partida", "Torneo", FormMethod.Post, new { @class = "w-100 h-100" }))
+                    {
+                        <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
+                        <input type="text" hidden name="fila" id="fila" value="saltar" />
+                        <input type="text" hidden name="columna" id="columna" value="" />
+                        <input type="text" name="nombre" value="@ViewBag.Torneo" class="d-none" />
+                        <input type="text" name="encuentro" value="@ViewBag.Encuentro" class="d-none" />
+                        <input type="text" name="fase" value="@ViewBag.Fase" class="d-none" />
+                        <input type="text" name="parti" value="@Model.nombre" class="d-none" />
+                        <input type="submit" class="btn btn-dark btn-block" value="Saltar Turno">
+                    }
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (ViewBag.terminado != null)
+{
+    <div class="modal fade" id="exampleModalCenter" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-verde text-white font-weight-bold">
+                    <h5 class="modal-title text-center w-100" id="exampleModalLongTitle">Partida Terminada</h5>
+
+                </div>
+                <div class="modal-body">
+                    @{ var ganador = "";
+                        if ((ViewBag.partida.punteo_jugador1 > ViewBag.partida.punteo_jugador2 && Model.modalidad == "Normal") || (ViewBag.partida.punteo_jugador1 < ViewBag.partida.punteo_jugador2 && Model.modalidad == "Inversa"))
+                        {
+                            ganador = "El ganador fue: " + ViewBag.partida.jugador1;
+                        }
+                        else if ((ViewBag.partida.punteo_jugador1 < ViewBag.partida.punteo_jugador2 && Model.modalidad == "Normal") || (ViewBag.partida.punteo_jugador1 > ViewBag.partida.punteo_jugador2 && Model.modalidad == "Inversa"))
+                        {
+                            ganador = "El ganador fue: " + ViewBag.partida.jugador2;
+                        }
+                        else
+                        {
+                            ganador = "La partida termino en empate";
+                        }
+                    }
+                    <p class="w-100 text-center">@ganador</p>
+                    <form action="/Torneo/Esquema" id="EnviarGanador" method="post">
+                        <input type="text" name="nombre" value="@ViewBag.Torneo" class="d-none" />
+                        <input type="button" name="name" value="Aceptar" onclick="Ganador()" class="btn btn-dark btn-block redondear" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (ViewBag.maquina != null)
+{
+    using (Html.BeginForm("Partida", "Torneo", FormMethod.Post, new { @class = "w-100 h-100", @id = "F_maquina" }))
+    {
+        <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
+        <input type="text" hidden name="fila" id="fila" value="" />
+        <input type="text" hidden name="columna" id="columna" value="" />
+        <input type="text" name="nombre" value="@ViewBag.Torneo" class="d-none" />
+        <input type="text" name="encuentro" value="@ViewBag.Encuentro" class="d-none" />
+        <input type="text" name="fase" value="@ViewBag.Fase" class="d-none" />
+        <input type="text" name="parti" value="@Model.nombre" class="d-none" />
+        <input hidden type="submit" class="btn btn-block btn-ficha" value="">
+    }
+}
+@if (ViewBag.maquina != null)
+{
+    <div id="danger" style='display:none' class="alert alert-danger bg-naranja alert-dismissible" role="alert">
+        <div id="texto">
+            <h4 class="text-white font-weight-bold text-center">
+                La maquina esta analizando el movimiento.
+            </h4>
+        </div>
+
+    </div>
+}
+<div class="row justify-content-center align-content-center " style="height:90vh">
+    <div class="col col-12 bg-negro-80" style="height:100%">
+        <div class="row h-100">
+            <div class="col col-md-3">
+                <div class="row borde-naranja scroll" style="max-height:70vh">
+                    <div class="col col-md-12">
+                        <div class="form-group mt-3 h-25">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">@Model.jugador1</label>
+                            <div class="row justify-content-center align-content-center" style="height:75%">
+                                @if (Model.TipoPartida == "Normal")
+                                {
+                                    <div class="col col-sm-6 h-100">
+                                        <div class="row justify-content-center align-content-center bg-verde h-100">
+                                            <div class="ficha h-100 @Model.colorA1" style="width:30%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col col-sm-12 h-100">
+                                        <div class="row justify-content-around align-content-center h-100">
+                                            @foreach (var color in Model.colores_jugador1)
+                                            {
+                                                <div class="bg-verde h-100" style="width:15%">
+                                                    <div class=" ficha @color w-100 h-100"></div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group mt-4 h-25">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Movimientos</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-75">
+                                        <p class="font-weight-bold text-white h1">@Model.movimientos_1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ml-2 mt-2 h-25">
+                            <div class="row justify-content-around align-content-around mt-2 h-75">
+                                <div class="col col-sm-5 h-100">
+                                    <label class="h4 w-100 text-center text-white font-weight-bold">Puntaje</label>
+                                    <div class="row justify-content-center align-content-center bg-verde h-75">
+                                        <p class="font-weight-bold text-white h1">@ViewBag.partida.punteo_jugador1</p>
+                                    </div>
+                                </div>
+                                <div class="col col-sm-5 h-100" id="Cronometro1">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row scroll" style="max-height:40vh">
+                    <div class="col col-md-12 h-100">
+                        <div class="form-group mt-4 h-100">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">TURNO</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <div class="ficha @ViewBag.partida.siguiente_tiro">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-4 h-100">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Modalidad</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-100">
+                                        <p class="text-white font-weight-bold h3">@Model.modalidad</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-6 h-100">
+                <div class="row h-100">
+                    <div class="col col-12 h-100">
+                        <div class="row justify-content-center h-100">
+                            <div class="col col-12 bg-negro-80 h-100">
+                                <div class="row justify-content-center align-content-center h-100">
+                                    @{
+                                        float ft = 16;
+                                        string tamaño = "";
+                                        if (Model.N > Model.M)
+                                        {
+                                            if (Model.N == 6)
+                                            {
+                                                ft = 40;
+                                            }
+                                            else if (Model.N > 6 && Model.N < 10)
+                                            {
+                                                ft = 25;
+                                            }
+                                            else if (Model.N >= 10 && Model.N < 15)
+                                            {
+                                                ft = 18;
+                                            }
+                                            else if (Model.N >= 15 && Model.N <= 20)
+                                            {
+                                                ft = 13;
+                                            }
+                                            tamaño = Model.NP;
+                                        }
+                                        else
+                                        {
+                                            if (Model.M == 6)
+                                            {
+                                                ft = 40;
+                                            }
+                                            else if (Model.M > 6 && Model.M < 10)
+                                            {
+                                                ft = 25;
+                                            }
+                                            else if (Model.M >= 10 && Model.M < 15)
+                                            {
+                                                ft = 18;
+                                            }
+                                            else if (Model.M >= 15 && Model.M <= 20)
+                                            {
+                                                ft = 16;
+                                            }
+                                            tamaño = Model.MP;
+                                        }
+                                        var font = ft + "px";
+                                    }
+                                    <div class="col col-12" style="height:@tamaño">
+                                        <div class="row h-100 justify-content-center">
+
+                                            @{
+                                                var cc = Model.Filas[0].columnas;
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
+                                                </div>
+                                                foreach (var col in cc)
+                                                {
+                                                    <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                        <div class="row h-100 align-items-center">
+                                                            <div class="col col-12">
+                                                                @col.nombre
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    @foreach (var fila in ViewBag.partida.Filas)
+                                    {
+                                        <div class="col col-12" style="height:@tamaño">
+                                            <div class="row h-100 justify-content-center">
+                                                <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                    <div class="row h-100 align-items-center">
+                                                        <div class="col col-12">
+                                                            @fila.nombre
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @foreach (var columna in fila.columnas)
+                                                {
+                                                    <div class="bg-verde h-100" style="width:@tamaño;border: solid 4px gray">
+                                                        @if (String.IsNullOrEmpty(columna.color))
+                                                        {
+                                                            if ((Model.tipo != "M" && !Model.colores_jugador2.Contains(Model.siguiente_tiro)) || Model.tipo == "" || Model.tipo == "M" && Model.colores_jugador1.Contains(Model.siguiente_tiro))
+                                                            {
+                                                                using (Html.BeginForm("Partida", "Torneo", FormMethod.Post, new { @class = "w-100 h-100" }))
+                                                                {
+                                                                    <input type="text" hidden name="nom" id="nom" value="@ViewBag.partida.nombre" />
+                                                                    <input type="text" hidden name="fila" id="fila" value="@fila.nombre" />
+                                                                    <input type="text" hidden name="columna" id="columna" value="@columna.nombre" />
+                                                                    <input type="text" name="nombre" value="@ViewBag.Torneo" class="d-none" />
+                                                                    <input type="text" name="encuentro" value="@ViewBag.Encuentro" class="d-none" />
+                                                                    <input type="text" name="fase" value="@ViewBag.Fase" class="d-none" />
+                                                                    <input type="text" name="parti" value="@Model.nombre" class="d-none" />
+                                                                    <input type="submit" class="btn btn-block btn-ficha" value="">
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class=" btn-block btn-ficha"></div>
+                                                            }
+                                                        }
+                                                        else if (fila.nombre == Model.ultimafila && columna.nombre == Model.ultimacolumna && columna.color != "b")
+                                                        {
+                                                            <div class="w-100 btn-ficha @columna.color bg-tra ultimaF"></div>
+                                                        }
+                                                        else if (columna.color != "b")
+                                                        {
+                                                            <div class="w-100 btn-ficha @columna.color bg-tra"></div>
+                                                        }
+                                                    </div>
+                                                }
+                                                <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                    <div class="row h-100 align-items-center">
+                                                        <div class="col col-12">
+                                                            @fila.nombre
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="col col-12" style="height:@tamaño">
+                                        <div class="row h-100 justify-content-center">
+
+                                            @{
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
+                                                </div>
+                                                foreach (var col in cc)
+                                                {
+                                                    <div class="text-center bg-naranja font-weight-bold text-white" style="width:@tamaño;font-size:@font">
+                                                        <div class="row h-100 align-items-center">
+                                                            <div class="col col-12">
+                                                                @col.nombre
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="bg-verde h-100 text-center bg-naranja text-white" style="width:@tamaño">
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-3">
+                <div class="row borde-naranja scroll" style="max-height:70vh">
+                    <div class="col col-md-12">
+                        <div class="form-group mt-3 h-25">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">@Model.jugador2</label>
+                            <div class="row justify-content-center align-content-center" style="height:75%">
+                                @if (Model.TipoPartida == "Normal")
+                                {
+                                    <div class="col col-sm-6 h-100">
+                                        <div class="row justify-content-center align-content-center bg-verde h-100">
+                                            <div class="ficha h-100 @Model.colorA2" style="width:30%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col col-sm-12 h-100">
+                                        <div class="row justify-content-around align-content-center h-100">
+                                            @foreach (var color in Model.colores_jugador2)
+                                            {
+                                                <div class="bg-verde h-100" style="width:15%">
+                                                    <div class=" ficha @color w-100 h-100"></div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group mt-2 h-25">
+                            <label class="h4 w-100 text-center text-white font-weight-bold">Movimientos</label>
+                            <div class="row justify-content-center align-content-center mt-2 h-75">
+                                <div class="col col-sm-6 h-100">
+                                    <div class="row justify-content-center align-content-center bg-verde h-75">
+                                        <p class="font-weight-bold text-white h1">@Model.movimientos_2</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2 ml-2 h-25">
+                            <div class="row justify-content-around align-content-around mt-2 h-75">
+                                <div class="col col-sm-5 h-100">
+                                    <label class="h4 w-100 text-center text-white font-weight-bold">Puntaje</label>
+                                    <div class="row justify-content-center align-content-center bg-verde h-75">
+                                        <p class="font-weight-bold text-white h1">@ViewBag.partida.punteo_jugador2</p>
+                                    </div>
+                                </div>
+                                <div class="col col-sm-5 h-100" id="Cronometro2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row scroll" style="max-height:40vh">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#danger").show();
+            $("#exampleModalCenter").modal({ backdrop: 'static', keyboard: false });
+            $("#exampleModalCenter").modal('show');
+            $("#exampleModalCenter3").modal('show');
+            setTimeout(enviarMaquina, 1000)
+            function enviarMaquina() {
+                $("#F_maquina").submit();
+            }
+            cronometros();
+            setInterval(cronometros, 1000)
+
+
+        });
+        function Ganador() {
+            $.ajax({
+                url: "/Torneo/DeterminarGanador",
+                data: { part: @Model.nombre, punteo1: @Model.punteo_jugador1,punteo2: @Model.punteo_jugador2 , nombre: @ViewBag.Torneo, encuentro: @ViewBag.encuentro, fase: @ViewBag.fase},
+                type: "POST",
+                success: function (response) {
+                    $("#EnviarGanador").submit();
+                }
+            });
+        }
+        function cronometros() {
+            $.ajax({
+                url: "/Torneo/Cronometro1",
+                data: { part: @Model.nombre, nombre: @ViewBag.Torneo, encuentro: @ViewBag.encuentro, fase: @ViewBag.fase},
+                type: "POST",
+                success: function (response) {
+                    $('#Cronometro1').html(response);
+                }
+            });
+            $.ajax({
+                url: "/Torneo/Cronometro2",
+                data: { part: @Model.nombre, nombre: @ViewBag.Torneo, encuentro: @ViewBag.encuentro, fase: @ViewBag.fase},
+                type: "POST",
+                success: function (response) {
+                    $('#Cronometro2').html(response);
+                }
+            });
+        }
+    </script>
+}
+
+
+

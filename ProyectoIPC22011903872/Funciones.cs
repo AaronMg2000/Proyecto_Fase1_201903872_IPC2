@@ -65,7 +65,14 @@ namespace ProyectoIPC22011903872
             else
             {
                 siguiente = "negro";
-                partida.colores_contrario = partida.colores_jugador1;
+                if (partida.colores_jugador1.Contains(siguiente))
+                {
+                    partida.colores_contrario = partida.colores_jugador1;
+                }
+                else
+                {
+                    partida.colores_contrario = partida.colores_jugador2;
+                }
                 partida.centro = true;
             }
             partida.siguiente_tiro = siguiente;

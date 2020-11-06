@@ -25,6 +25,7 @@ namespace ProyectoIPC22011903872.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<DETALLE_EQUIPO> DETALLE_EQUIPO { get; set; }
         public virtual DbSet<ENCUENTRO> ENCUENTRO { get; set; }
         public virtual DbSet<EQUIPO> EQUIPO { get; set; }
         public virtual DbSet<MODO> MODO { get; set; }

@@ -1,0 +1,1247 @@
+﻿@model ProyectoIPC22011903872.Models.ViewModels.TorneoViewModel
+
+@{
+    Layout = Request.IsAjaxRequest() ? null : "";
+}
+@{
+    int x0 = 0;
+    int x1 = 0;
+    int x2 = 0;
+    int x3 = 0;
+    int y = 0;
+    var EncuentroActual = new ProyectoIPC22011903872.Models.ViewModels.Encuentro();
+    var FaseActual = new ProyectoIPC22011903872.Models.ViewModels.Fase();
+    var partidaActual = new ProyectoIPC22011903872.Models.ViewModels.PartidaViewModel();
+    foreach (var Fase in Model.Fases)
+    {
+        var ac = false;
+        foreach (var encuentro in Fase.Encuentros)
+        {
+            if (encuentro.Ganador == "")
+            {
+                FaseActual = Fase;
+                encuentro.actual = "actual";
+                EncuentroActual = encuentro;
+                ac = true;
+                foreach (var partida in encuentro.Partidas.partidas)
+                {
+                    if (partida.terminado != "si")
+                    {
+                        partidaActual = partida;
+                        break;
+                    }
+                }
+                break;
+            }
+            else
+            {
+                encuentro.actual = "";
+            }
+        }
+        if (ac)
+        {
+            break;
+        }
+    }
+}
+
+@if (ViewBag.empate != null)
+{
+    <div class="modal fade" id="exampleModalCenter" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-verde text-white font-weight-bold">
+                    <h5 class="modal-title text-center w-100" id="exampleModalLongTitle">Saltar Turno</h5>
+
+                </div>
+                <div class="modal-body">
+                    <p class="w-100 text-center">El Encuentro quedo en empate, se generara una nueva partida</p>
+                    <div class="row">
+                        <div class="col col-6">
+                            <label>Jugador @EncuentroActual.Equipo1</label>
+                            <select class="form-control" id="jugador1">
+                                @foreach (var equipo in Model.Equipos)
+                                {
+                                    if (equipo.nombre == EncuentroActual.Equipo1)
+                                    {
+                                        foreach (var jug in equipo.jugadores)
+                                        {
+                                            <option value="@jug">@jug</option>
+                                        }
+                                        break;
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col col-6">
+                            <label>Jugador @EncuentroActual.Equipo2</label>
+                            <select class="form-control" id="jugador2">
+                                @foreach (var equipo in Model.Equipos)
+                                {
+                                    if (equipo.nombre == EncuentroActual.Equipo2)
+                                    {
+                                        foreach (var jug in equipo.jugadores)
+                                        {
+                                            <option value="@jug">@jug</option>
+                                        }
+                                        break;
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-dark btn-block mt-1" onclick="EmpateE('@Model.codigo','@EncuentroActual.codigo','@FaseActual.nombre','@partidaActual.nombre')">Definir Encuentro</button>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (ViewBag.Terminado != null)
+{
+    <div class="modal fade" id="exampleModalCenter" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-verde text-white font-weight-bold">
+                    <h5 class="modal-title text-center w-100" id="exampleModalLongTitle">Partida Terminada</h5>
+
+                </div>
+                <div class="modal-body">
+                    @{ 
+                        var equipoGanador = new ProyectoIPC22011903872.Models.ViewModels.Equipo();
+                        foreach (var equ in Model.Equipos)
+                        {
+                            if (equ.nombre == Model.Ganador)
+                            {
+                                equipoGanador = equ;
+                                break;
+                            }
+                        }
+                        var ganador = "El equipo ganador es: "+Model.Ganador;
+                        var ganadorP = "Punteo total de: " + equipoGanador.puntaje;
+                    }
+                    <p class="w-100 text-center">@ganador</p>
+                    <p class="w-100 text-center">@ganadorP</p>
+                    @Html.ActionLink("Aceptar", "Index", "Partida", new { @class = "btn btn-dark btn-block redondear" })
+                </div>
+                <div class="modal-footer">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="row justify-content-center align-content-center h-100">
+    <div class="col bg-negro-90 col-11" style="height:75%">
+        <div class="row justify-content-center align-content-center text-white text-center font-weight-bold h-100">
+
+            @if (Model.Tipo == 16)
+            {
+                <div class="col h-100 col-T10 text-center text-white font-weight-bold">
+                    <div class="row align-content-around h-100">
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-end justify-content-end h-100">
+                                <div class="col bg-verde col-8 mt-1 @Model.Fases[y].Encuentros[x0].resultado1 @Model.Fases[y].Encuentros[x0].actual" style="height:85%">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        <div class="row h-100 justify-content-center align-content-center">
+                                            <div class="col col-12 text-white font-weight-bold text-center">
+                                                @Model.Fases[y].Encuentros[x0].Equipo1
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50 text-center text-white font-weight-bold" style="border-top:solid 2px orange;border-right:solid 2px orange">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-end justify-content-end h-100">
+                                <div class="col bg-verde col-8 mt-1 @Model.Fases[y].Encuentros[x0].resultado2 @Model.Fases[y].Encuentros[x0].actual" style="height:85%">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        <div class="row h-100 justify-content-center align-content-center">
+                                            <div class="col col-12 text-white font-weight-bold text-center">
+                                                @Model.Fases[y].Encuentros[x0].Equipo2
+                                            </div>
+                                        </div>
+
+                                    }
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-right:solid 2px orange">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo2
+                                                x0++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-end justify-content-end h-100">
+                                <div class="col bg-verde col-8 mt-1 @Model.Fases[y].Encuentros[x0].resultado1 @Model.Fases[y].Encuentros[x0].actual" style="height:85%">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        <div class="row h-100 justify-content-center align-content-center">
+                                            <div class="col col-12 text-white font-weight-bold text-center">
+                                                @Model.Fases[y].Encuentros[x0].Equipo1
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-top:solid 2px orange;border-right:solid 2px orange">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-end justify-content-end h-100">
+                                <div class="col bg-verde col-8 mt-1 @Model.Fases[y].Encuentros[x0].resultado2 @Model.Fases[y].Encuentros[x0].actual" style="height:85%">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        <div class="row h-100 justify-content-center align-content-center">
+                                            <div class="col col-12 text-white font-weight-bold text-center">
+                                                @Model.Fases[y].Encuentros[x0].Equipo2
+                                            </div>
+                                        </div>
+
+                                    }
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-right:solid 2px orange">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo2
+                                                x0++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-end justify-content-end h-100">
+                                <div class="col bg-verde col-8 mt-1 @Model.Fases[y].Encuentros[x0].resultado1 @Model.Fases[y].Encuentros[x0].actual" style="height:85%">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        <div class="row h-100 justify-content-center align-content-center">
+                                            <div class="col col-12 text-white font-weight-bold text-center">
+                                                @Model.Fases[y].Encuentros[x0].Equipo1
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-top:solid 2px orange;border-right:solid 2px orange">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-end justify-content-end h-100">
+                                <div class="col bg-verde col-8 mt-1 @Model.Fases[y].Encuentros[x0].resultado2 @Model.Fases[y].Encuentros[x0].actual" style="height:85%">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        <div class="row h-100 justify-content-center align-content-center">
+                                            <div class="col col-12 text-white font-weight-bold text-center">
+                                                @Model.Fases[y].Encuentros[x0].Equipo2
+                                            </div>
+                                        </div>
+
+                                    }
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-right:solid 2px orange">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo2
+                                                x0++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-end justify-content-end h-100">
+                                <div class="col bg-verde col-8 mt-1 @Model.Fases[y].Encuentros[x0].resultado1 @Model.Fases[y].Encuentros[x0].actual" style="height:85%">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        <div class="row h-100 justify-content-center align-content-center">
+                                            <div class="col col-12 text-white font-weight-bold text-center">
+                                                @Model.Fases[y].Encuentros[x0].Equipo1
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-top:solid 2px orange;border-right:solid 2px orange">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-end justify-content-end h-100">
+                                <div class="col bg-verde col-8 mt-1 @Model.Fases[y].Encuentros[x0].resultado2 @Model.Fases[y].Encuentros[x0].actual" style="height:85%">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        <div class="row h-100 align-content-center">
+                                            <div class="col col-12 text-white font-weight-bold text-center">
+                                                @Model.Fases[y].Encuentros[x0].Equipo2
+                                            </div>
+                                        </div>
+
+                                    }
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-right:solid 2px orange">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo2
+                                                x0++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                y++;
+
+                <div class="col h-100 col-T2281">
+                    <div class="row justify-content-center h-100 align-content-around">
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                    </div>
+                </div>
+            }
+            @{ var GG1 = "";
+                var acctual = "";}
+            @if (Model.Tipo == 16 || Model.Tipo == 8)
+            {
+                <div class="col h-100 col-T10 font-weight-bold text-center text-white">
+                    <div class="row align-content-around h-100">
+                        <div class="col col-12" style="height:25%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x1].resultado1;
+                                            acctual = Model.Fases[y].Encuentros[x1].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:42.5%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x1].Equipo1
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-top:solid 2px orange;border-right:solid 2px orange">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x1].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:25%;">
+                            <div class="row align-content-end justify-content-end h-100">
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x1].resultado2;
+                                            acctual = Model.Fases[y].Encuentros[x1].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:42.5%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x1].Equipo2
+                                                    </div>
+                                                </div>
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-right:solid 2px orange">
+                                            <div class="row h-100 justify-content-center align-content-end">
+                                                @if (Model.Fases.Count() > y)
+                                                {
+                                                    @Model.Fases[y].Encuentros[x1].punteo2
+                                                    x1++;
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:25%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x1].resultado1;
+                                            acctual = Model.Fases[y].Encuentros[x1].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:42.5%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x1].Equipo1
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-top:solid 2px orange;border-right:solid 2px orange">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x1].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:25%;">
+                            <div class="row align-content-end justify-content-end h-100">
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x1].resultado2;
+                                            acctual = Model.Fases[y].Encuentros[x1].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:42.5%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x1].Equipo2
+                                                    </div>
+                                                </div>
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-right:solid 2px orange">
+                                            <div class="row h-100 justify-content-center align-content-end">
+                                                @if (Model.Fases.Count() > y)
+                                                {
+                                                    @Model.Fases[y].Encuentros[x1].punteo2
+                                                    x1++;
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col h-100 col-T2281">
+                    <div class="row justify-content-center h-100 align-content-around">
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                    </div>
+                </div>
+                y++;
+            }
+            <div class="col h-100 col-T10">
+                <div class="row align-content-around h-100">
+                    <div class="col col-12" style="height:50%;">
+                        <div class="row align-content-center justify-content-end h-100">
+                            <div class="col col-8 h-100">
+                                <div class="row justify-content-center h-100 align-content-center">
+
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        GG1 = Model.Fases[y].Encuentros[x2].resultado1;
+                                        acctual = Model.Fases[y].Encuentros[x2].actual;
+                                    }
+                                    <div class="col bg-verde col-12 @GG1 @acctual" style="height:21.25%;">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            <div class="row h-100 justify-content-center align-content-center">
+                                                <div class="col col-12 text-white font-weight-bold">
+                                                    @Model.Fases[y].Encuentros[x2].Equipo1
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-4 h-100">
+                                <div class="row align-content-end justify-content-end h-100">
+                                    <div class="col col-12 h-50" style="border-top:solid 2px orange;border-right:solid 2px orange">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            @Model.Fases[y].Encuentros[x2].punteo1
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-12" style="height:50%;">
+                        <div class="row align-content-end justify-content-end h-100">
+                            <div class="col col-8 h-100">
+                                <div class="row justify-content-center h-100 align-content-center">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        GG1 = Model.Fases[y].Encuentros[x2].resultado2;
+                                        acctual = Model.Fases[y].Encuentros[x2].actual;
+                                    }
+                                    <div class="col bg-verde col-12 @GG1 @acctual" style="height:21.25%;">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            <div class="row h-100 justify-content-center align-content-center">
+                                                <div class="col col-12 text-white font-weight-bold">
+                                                    @Model.Fases[y].Encuentros[x2].Equipo2
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-4 h-100">
+                                <div class="row align-content-start justify-content-end h-100">
+                                    <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-right:solid 2px orange">
+                                        <div class="row h-100 justify-content-center align-content-end">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x2].punteo2
+                                                x2++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @{ y += 1;}
+            <div class="col h-100 col-T2281">
+                <div class="row justify-content-center h-100 align-content-around">
+                    <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                </div>
+            </div>
+            <div class="col h-100 col-T10">
+                <div class="row align-content-around h-100">
+                    <div class="col col-12" style="height:100%;">
+                        <div class="row align-content-center justify-content-end h-100">
+                            <div class="col col-8 h-100">
+                                <div class="row justify-content-center h-100 align-content-center">
+                                    @{ var G1 = "";
+                                        var actual = "";}
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        G1 = Model.Fases[y].Encuentros[x3].resultado1;
+                                        actual = Model.Fases[y].Encuentros[x3].actual;
+                                    }
+                                    <div class="col bg-verde col-12 @G1 @actual" style="height:10.625%;">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            <div class="row h-100 justify-content-center align-content-center">
+                                                <div class="col col-12 text-white font-weight-bold">
+                                                    @Model.Fases[y].Encuentros[x3].Equipo1
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-4 h-100">
+                                <div class="row align-content-end justify-content-end h-100">
+                                    <div class="col col-12 h-50" style="border-top:solid 2px orange;">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            @Model.Fases[y].Encuentros[x3].punteo1
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (Model.Tipo == 16) { y = 3; }
+            @if (Model.Tipo == 8) { y = 2; }
+            @if (Model.Tipo == 4) { y = 1; }
+            <div class="col h-100 col-T10">
+                <div class="row align-content-around h-100">
+                    <div class="col col-12" style="height:100%;">
+                        <div class="row align-content-center justify-content-end h-100">
+                            <div class="col col-4 h-100">
+                                <div class="row align-content-end justify-content-end h-100">
+                                    <div class="col col-12 h-50" style="border-top:solid 2px orange;">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            @Model.Fases[y].Encuentros[x3].punteo2
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-8 h-100">
+                                <div class="row justify-content-center h-100 align-content-center">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        G1 = Model.Fases[y].Encuentros[x3].resultado2;
+                                    }
+                                    <div class="col bg-verde col-12 @G1 @actual" style="height:10.625%;">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            <div class="row h-100 justify-content-center align-content-center">
+                                                <div class="col col-12 text-white font-weight-bold">
+                                                    @Model.Fases[y].Encuentros[x3].Equipo2
+                                                </div>
+                                            </div>
+                                            x3++;
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (Model.Tipo == 16) { y = 2; }
+            @if (Model.Tipo == 8) { y = 1; }
+            @if (Model.Tipo == 4) { y = 0; }
+            <div class="col h-100 col-T2281">
+                <div class="row justify-content-center h-100 align-content-around">
+                    <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                </div>
+            </div>
+            <div class="col h-100 col-T10">
+                <div class="row align-content-around h-100">
+                    <div class="col col-12" style="height:50%;">
+                        <div class="row align-content-center justify-content-end h-100">
+                            <div class="col col-4 h-100">
+                                <div class="row align-content-end justify-content-end h-100">
+                                    <div class="col col-12 h-50" style="border-top:solid 2px orange;border-left:solid 2px orange;">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            @Model.Fases[y].Encuentros[x2].punteo1
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-8 h-100">
+                                <div class="row justify-content-center h-100 align-content-center">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        GG1 = Model.Fases[y].Encuentros[x2].resultado1;
+                                        acctual = Model.Fases[y].Encuentros[x2].actual;
+                                    }
+                                    <div class="col bg-verde col-12 @GG1 @acctual" style="height:21.25%;">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            <div class="row h-100 justify-content-center align-content-center">
+                                                <div class="col col-12 text-white font-weight-bold">
+                                                    @Model.Fases[y].Encuentros[x2].Equipo1
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-12" style="height:50%;">
+                        <div class="row align-content-center justify-content-end h-100">
+                            <div class="col col-4 h-100">
+                                <div class="row align-content-start justify-content-end h-100">
+                                    <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-left:solid 2px orange;">
+                                        <div class="row h-100 justify-content-center align-content-end">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x2].punteo2
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-8 h-100">
+                                <div class="row justify-content-center h-100 align-content-center">
+                                    @if (Model.Fases.Count() > y)
+                                    {
+                                        GG1 = Model.Fases[y].Encuentros[x2].resultado2;
+                                        acctual = Model.Fases[y].Encuentros[x2].actual;
+                                    }
+                                    <div class="col bg-verde col-12 @GG1 @acctual" style="height:21.25%;">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            <div class="row h-100 justify-content-center align-content-center">
+                                                <div class="col col-12 text-white font-weight-bold">
+                                                    @Model.Fases[y].Encuentros[x2].Equipo2
+                                                </div>
+                                            </div>
+                                            x2++;
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (Model.Tipo == 16) { y = 1; }
+            @if (Model.Tipo == 8) { y = 0; }
+            @if (Model.Tipo == 16 || Model.Tipo == 8)
+            {
+                <div class="col h-100 col-T2281">
+                    <div class="row justify-content-center h-100 align-content-around">
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                    </div>
+
+                </div>
+                <div class="col h-100 col-T10 text-white text-center font-weight-bold">
+                    <div class="row align-content-around h-100">
+                        <div class="col col-12" style="height:25%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-top:solid 2px orange;border-left:solid 2px orange;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x1].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x1].resultado1;
+                                            acctual = Model.Fases[y].Encuentros[x1].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:42.5%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x1].Equipo1
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:25%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-left:solid 2px orange;">
+                                            <div class="row h-100 justify-content-center align-content-end">
+                                                @if (Model.Fases.Count() > y)
+                                                {
+                                                    @Model.Fases[y].Encuentros[x1].punteo2
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x1].resultado2;
+                                            acctual = Model.Fases[y].Encuentros[x1].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:42.5%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x1].Equipo2
+                                                    </div>
+                                                </div>
+                                                x1++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:25%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-top:solid 2px orange;border-left:solid 2px orange;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x1].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x1].resultado1;
+                                            acctual = Model.Fases[y].Encuentros[x1].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:42.5%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x1].Equipo1
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:25%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-left:solid 2px orange;">
+                                            <div class="row h-100 justify-content-center align-content-end">
+                                                @if (Model.Fases.Count() > y)
+                                                {
+                                                    @Model.Fases[y].Encuentros[x1].punteo2
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x1].resultado2;
+                                            acctual = Model.Fases[y].Encuentros[x1].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:42.5%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x1].Equipo2
+                                                    </div>
+                                                </div>
+                                                x1++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.Tipo == 16) { y = 0; }
+            @if (Model.Tipo == 16)
+            {
+                <div class="col h-100 col-T2281">
+                    <div class="row justify-content-center h-100 align-content-around">
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                        <div class="col col-12 bg-naranja" style="height:0.2%;"></div>
+                    </div>
+
+                </div>
+                <div class="col h-100 col-T10 text-center text-white font-weight-bold">
+                    <div class="row align-content-around h-100">
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-top:solid 2px orange;border-left:solid 2px orange;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x0].resultado1;
+                                            acctual = Model.Fases[y].Encuentros[x0].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:85%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x0].Equipo1
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-left:solid 2px orange;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo2
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x0].resultado2;
+                                            acctual = Model.Fases[y].Encuentros[x0].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:85%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x0].Equipo2
+                                                    </div>
+                                                </div>
+                                                x0++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-top:solid 2px orange;border-left:solid 2px orange;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x0].resultado1;
+                                            acctual = Model.Fases[y].Encuentros[x0].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:85%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x0].Equipo1
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-left:solid 2px orange;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo2
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x0].resultado2;
+                                            acctual = Model.Fases[y].Encuentros[x0].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:85%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x0].Equipo2
+                                                    </div>
+                                                </div>
+                                                x0++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-top:solid 2px orange;border-left:solid 2px orange;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x0].resultado1;
+                                            acctual = Model.Fases[y].Encuentros[x0].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:85%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x0].Equipo1
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-left:solid 2px orange;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo2
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x0].resultado2;
+                                            acctual = Model.Fases[y].Encuentros[x0].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:85%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x0].Equipo2
+                                                    </div>
+                                                </div>
+                                                x0++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-end justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-top:solid 2px orange;border-left:solid 2px orange;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo1
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x0].resultado1;
+                                            acctual = Model.Fases[y].Encuentros[x0].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:85%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x0].Equipo1
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12" style="height:12.5%;">
+                            <div class="row align-content-center justify-content-end h-100">
+                                <div class="col col-4 h-100">
+                                    <div class="row align-content-start justify-content-end h-100">
+                                        <div class="col col-12 h-50" style="border-bottom:solid 2px orange;border-left:solid 2px orange;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                @Model.Fases[y].Encuentros[x0].punteo2
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-8 h-100">
+                                    <div class="row justify-content-center h-100 align-content-center">
+                                        @if (Model.Fases.Count() > y)
+                                        {
+                                            GG1 = Model.Fases[y].Encuentros[x0].resultado2;
+                                            acctual = Model.Fases[y].Encuentros[x0].actual;
+                                        }
+                                        <div class="col bg-verde col-12 @GG1 @acctual" style="height:85%;">
+                                            @if (Model.Fases.Count() > y)
+                                            {
+                                                <div class="row h-100 justify-content-center align-content-center">
+                                                    <div class="col col-12 text-white font-weight-bold">
+                                                        @Model.Fases[y].Encuentros[x0].Equipo2
+                                                    </div>
+                                                </div>
+                                                x0++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col col-11 bg-negro-90" style="height:25%">
+        <div class="row justify-content-center align-content-center h-100">
+            <div class="col bg-dark col-6" style="height:80%">
+                <div class="row justify-content-around align-content-around h-100">
+                    <div class="col col-3 w-100">
+                        <div class="row h-100">
+                            <div class="col col-12 bg-verde text-center text-white font-weight-bold" style="height:50%">
+                                <div class="row h-100 align-items-center">
+                                    <div class="col col-12">
+                                        @EncuentroActual.Equipo1
+                                        <div class="w-100"></div>
+                                        @partidaActual.jugador1
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-12 p-0">
+                                <input type="text" class="form-control text-center" name="punteo1" id="punteo1" value="0" placeholder="Punteo Equipo" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-4" style="height:80%">
+                        <form action="/Torneo/Partida" method="get" class="mb-1">
+                            <input type="text" name="nombre" value="@Model.codigo" class="d-none" />
+                            <input type="text" name="encuentro" value="@EncuentroActual.codigo" class="d-none" />
+                            <input type="text" name="fase" value="@FaseActual.nombre" class="d-none" />
+                            <input type="text" name="part" value="@partidaActual.nombre" class="d-none" />
+                            <input type="submit" class="btn btt-yellow btn-block" value="Iniciar Encuentro">
+                        </form>
+                        <input class="btn btt-n2 btn-block" type="button" onclick="Definir('@Model.codigo','@EncuentroActual.codigo','@FaseActual.nombre','@partidaActual.nombre')" value="Definir Ganador">
+                        <p class="text-center text-white font-weight-bold mt-1 h3">@Model.Nombre</p>
+                    </div>
+                    <div class="col col-3 w-100">
+                        <div class="row h-100">
+                            <div class="col col-12 bg-verde text-center text-white font-weight-bold" style="height:50%">
+                                <div class="row h-100 align-items-center">
+                                    <div class="col col-12">
+                                        @EncuentroActual.Equipo2
+                                        <div class="w-100"></div>
+                                        @partidaActual.jugador2
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-12 p-0">
+                                <input type="text" class="form-control text-center" name="punteo2" id="punteo2" value="0" placeholder="Punteo Equipo" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

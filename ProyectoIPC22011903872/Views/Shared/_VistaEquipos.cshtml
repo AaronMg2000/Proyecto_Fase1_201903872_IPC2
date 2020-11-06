@@ -1,0 +1,52 @@
+﻿@model List<ProyectoIPC22011903872.Models.ViewModels.getUserViewModel>
+
+@{
+    Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    int x = 0;
+    int y = 0;
+}
+@while (x < ViewBag.cantidad)
+{
+    <hr/>
+    <div class="form-group">
+        <label class="font-weight-bold w-100 text-center">Equipo @(x+1)</label>
+        <input type="text" class="form-control" id="nombre@(x)" onkeyup="VerificarEquipo(@(x))" required name="Equipos[@x].nombre" value="" />
+        <div class="row">
+            <div class="col col-4">
+                <label>Jugador 1</label>
+                <select class="form-control" style="width:100%;" onchange="ComprobarSelect('@y')" id="select@(y)" name="Equipos[@x].jugadores" required>
+                    <option value="">Seleccione</option>
+                    @foreach (var usuario in Model)
+                    {
+                        <option value="@usuario.Usuario">@usuario.Usuario</option>
+                    }
+                </select>
+            </div>
+            <div class="col col-4">
+                <label>Jugador 2</label>
+                <select class="form-controls" style="width:100%;"  onchange="ComprobarSelect('@(y+1)')" id="select@(y+1)" name="Equipos[@x].jugadores" required>
+                    <option value="">Seleccione</option>
+                    @foreach (var usuario in Model)
+                    {
+                        <option value="@usuario.Usuario">@usuario.Usuario</option>
+                    }
+                </select>
+            </div>
+            <div class="col col-4">
+                <label>Jugador 3</label>
+                <select class="form-control" style="width:100%;" id="select@(y+2)" onchange="ComprobarSelect('@(y+2)')" name="Equipos[@x].jugadores" required>
+                    <option value="">Seleccione</option>
+                    @foreach (var usuario in Model)
+                    {
+                        <option value="@usuario.Usuario">@usuario.Usuario</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    x++;
+    y += 3;
+}

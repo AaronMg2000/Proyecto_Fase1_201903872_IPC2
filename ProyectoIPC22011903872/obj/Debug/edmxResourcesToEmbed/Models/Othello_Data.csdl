@@ -1,15 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="OthelloModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="BLOQUEO">
+  <EntityType Name="DETALLE_EQUIPO">
     <Key>
-      <PropertyRef Name="Codigo_Bloqueo" />
+      <PropertyRef Name="codigo_detalle" />
     </Key>
-    <Property Name="Codigo_Bloqueo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Codigo_Usuario_1" Type="Int32" Nullable="false" />
-    <Property Name="Codigo_Usuario_Bloqueado" Type="Int32" Nullable="false" />
-    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-    <NavigationProperty Name="USUARIO" Relationship="Self.FK__BLOQUEO__Codigo___31EC6D26" FromRole="BLOQUEO" ToRole="USUARIO" />
-    <NavigationProperty Name="USUARIO1" Relationship="Self.FK__BLOQUEO__Codigo___32E0915F" FromRole="BLOQUEO" ToRole="USUARIO" />
+    <Property Name="codigo_detalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Codigo_equipo" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Usuario" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.FK__DETALLE_E__Codig__4AB81AF0" FromRole="DETALLE_EQUIPO" ToRole="USUARIO" />
+    <NavigationProperty Name="EQUIPO" Relationship="Self.FK__DETALLE_E__Codig__4BAC3F29" FromRole="DETALLE_EQUIPO" ToRole="EQUIPO" />
+  </EntityType>
+  <EntityType Name="ENCUENTRO">
+    <Key>
+      <PropertyRef Name="Codigo_Encuentro" />
+    </Key>
+    <Property Name="Codigo_Encuentro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Codigo_Equipo1" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Equipo2" Type="Int32" Nullable="false" />
+    <Property Name="Numero_Fase" Type="Int32" Nullable="false" />
+    <Property Name="Ganador" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Punteo_Equipo1" Type="Int32" Nullable="false" />
+    <Property Name="Punteo_Equipo2" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="EQUIPO" Relationship="Self.FK__ENCUENTRO__Codig__3B75D760" FromRole="ENCUENTRO" ToRole="EQUIPO" />
+    <NavigationProperty Name="EQUIPO1" Relationship="Self.FK__ENCUENTRO__Codig__3C69FB99" FromRole="ENCUENTRO" ToRole="EQUIPO" />
+    <NavigationProperty Name="PARTIDA" Relationship="Self.FK__PARTIDA__Codigo___44FF419A" FromRole="ENCUENTRO" ToRole="PARTIDA" />
+  </EntityType>
+  <EntityType Name="EQUIPO">
+    <Key>
+      <PropertyRef Name="Codigo_Equipo" />
+    </Key>
+    <Property Name="Codigo_Equipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Codigo_Torneo" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PUNTEO" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DETALLE_EQUIPO" Relationship="Self.FK__DETALLE_E__Codig__4BAC3F29" FromRole="EQUIPO" ToRole="DETALLE_EQUIPO" />
+    <NavigationProperty Name="ENCUENTRO" Relationship="Self.FK__ENCUENTRO__Codig__3B75D760" FromRole="EQUIPO" ToRole="ENCUENTRO" />
+    <NavigationProperty Name="ENCUENTRO1" Relationship="Self.FK__ENCUENTRO__Codig__3C69FB99" FromRole="EQUIPO" ToRole="ENCUENTRO" />
+    <NavigationProperty Name="TORNEO" Relationship="Self.FK__EQUIPO__Codigo_T__35BCFE0A" FromRole="EQUIPO" ToRole="TORNEO" />
+  </EntityType>
+  <EntityType Name="MODO">
+    <Key>
+      <PropertyRef Name="Codigo_MODO" />
+    </Key>
+    <Property Name="Codigo_MODO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="PARTIDA" Relationship="Self.FK__PARTIDA__MODO__47DBAE45" FromRole="MODO" ToRole="PARTIDA" />
   </EntityType>
   <EntityType Name="PAIS">
     <Key>
@@ -26,20 +61,34 @@
     </Key>
     <Property Name="Codigo_Partida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Codigo_Usuario_1" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Encuentro" Type="Int32" />
     <Property Name="Codigo_Usuario_2" Type="Int32" />
-    <Property Name="Codigo_Torneo" Type="Int32" />
-    <Property Name="GanadorOnline" Type="Int32" />
     <Property Name="ResultadoLocal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GanadorUsuario" Type="Int32" />
     <Property Name="TIPO" Type="Int32" Nullable="false" />
+    <Property Name="MODO" Type="Int32" Nullable="false" />
+    <Property Name="CONTRINCANTE" Type="Int32" />
     <Property Name="Punteo_1" Type="Int32" />
     <Property Name="Punteo_2" Type="Int32" />
     <Property Name="movimientos_1" Type="Int32" />
     <Property Name="movimientos_2" Type="Int32" />
+    <Property Name="Tiempo_Jugador1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Tiempo_Jugador2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-    <NavigationProperty Name="USUARIO" Relationship="Self.FK__PARTIDA__Codigo___398D8EEE" FromRole="PARTIDA" ToRole="USUARIO" />
-    <NavigationProperty Name="USUARIO1" Relationship="Self.FK__PARTIDA__Codigo___3A81B327" FromRole="PARTIDA" ToRole="USUARIO" />
-    <NavigationProperty Name="TORNEO" Relationship="Self.FK__PARTIDA__Codigo___3B75D760" FromRole="PARTIDA" ToRole="TORNEO" />
-    <NavigationProperty Name="TIPO_PARTIDA" Relationship="Self.FK__PARTIDA__TIPO__3C69FB99" FromRole="PARTIDA" ToRole="TIPO_PARTIDA" />
+    <NavigationProperty Name="ENCUENTRO" Relationship="Self.FK__PARTIDA__Codigo___44FF419A" FromRole="PARTIDA" ToRole="ENCUENTRO" />
+    <NavigationProperty Name="MODO1" Relationship="Self.FK__PARTIDA__MODO__47DBAE45" FromRole="PARTIDA" ToRole="MODO" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.FK__PARTIDA__Codigo___4316F928" FromRole="PARTIDA" ToRole="USUARIO" />
+    <NavigationProperty Name="USUARIO1" Relationship="Self.FK__PARTIDA__Codigo___440B1D61" FromRole="PARTIDA" ToRole="USUARIO" />
+    <NavigationProperty Name="TIPO_CONTRINCANTE" Relationship="Self.FK__PARTIDA__CONTRIN__46E78A0C" FromRole="PARTIDA" ToRole="TIPO_CONTRINCANTE" />
+    <NavigationProperty Name="TIPO_PARTIDA" Relationship="Self.FK__PARTIDA__TIPO__45F365D3" FromRole="PARTIDA" ToRole="TIPO_PARTIDA" />
+  </EntityType>
+  <EntityType Name="TIPO_CONTRINCANTE">
+    <Key>
+      <PropertyRef Name="Codigo_Tipo_Contrincante" />
+    </Key>
+    <Property Name="Codigo_Tipo_Contrincante" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="PARTIDA" Relationship="Self.FK__PARTIDA__CONTRIN__46E78A0C" FromRole="TIPO_CONTRINCANTE" ToRole="PARTIDA" />
   </EntityType>
   <EntityType Name="TIPO_PARTIDA">
     <Key>
@@ -47,7 +96,7 @@
     </Key>
     <Property Name="Codigo_Tipo_Partida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="PARTIDA" Relationship="Self.FK__PARTIDA__TIPO__3C69FB99" FromRole="TIPO_PARTIDA" ToRole="PARTIDA" />
+    <NavigationProperty Name="PARTIDA" Relationship="Self.FK__PARTIDA__TIPO__45F365D3" FromRole="TIPO_PARTIDA" ToRole="PARTIDA" />
   </EntityType>
   <EntityType Name="TIPO_TORNEO">
     <Key>
@@ -56,7 +105,7 @@
     <Property Name="Codigo_Tipo_Torneo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Numero_participantes" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="TORNEO" Relationship="Self.FK__TORNEO__TIPO__2F10007B" FromRole="TIPO_TORNEO" ToRole="TORNEO" />
+    <NavigationProperty Name="TORNEO" Relationship="Self.FK__TORNEO__TIPO__32E0915F" FromRole="TIPO_TORNEO" ToRole="TORNEO" />
   </EntityType>
   <EntityType Name="TORNEO">
     <Key>
@@ -66,8 +115,9 @@
     <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="TIPO" Type="Int32" Nullable="false" />
     <Property Name="fecha_inicio" Type="DateTime" Nullable="false" Precision="0" />
-    <NavigationProperty Name="PARTIDA" Relationship="Self.FK__PARTIDA__Codigo___3B75D760" FromRole="TORNEO" ToRole="PARTIDA" />
-    <NavigationProperty Name="TIPO_TORNEO" Relationship="Self.FK__TORNEO__TIPO__2F10007B" FromRole="TORNEO" ToRole="TIPO_TORNEO" />
+    <Property Name="Ganador" Type="Int32" />
+    <NavigationProperty Name="EQUIPO" Relationship="Self.FK__EQUIPO__Codigo_T__35BCFE0A" FromRole="TORNEO" ToRole="EQUIPO" />
+    <NavigationProperty Name="TIPO_TORNEO" Relationship="Self.FK__TORNEO__TIPO__32E0915F" FromRole="TORNEO" ToRole="TIPO_TORNEO" />
   </EntityType>
   <EntityType Name="USUARIO">
     <Key>
@@ -81,33 +131,92 @@
     <Property Name="Contraseña" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Fecha_nacimiento" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Correo_Electronico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="BLOQUEO" Relationship="Self.FK__BLOQUEO__Codigo___31EC6D26" FromRole="USUARIO" ToRole="BLOQUEO" />
-    <NavigationProperty Name="BLOQUEO1" Relationship="Self.FK__BLOQUEO__Codigo___32E0915F" FromRole="USUARIO" ToRole="BLOQUEO" />
+    <NavigationProperty Name="DETALLE_EQUIPO" Relationship="Self.FK__DETALLE_E__Codig__4AB81AF0" FromRole="USUARIO" ToRole="DETALLE_EQUIPO" />
     <NavigationProperty Name="PAIS" Relationship="Self.FK__USUARIO__Codigo___286302EC" FromRole="USUARIO" ToRole="PAIS" />
-    <NavigationProperty Name="PARTIDA" Relationship="Self.FK__PARTIDA__Codigo___398D8EEE" FromRole="USUARIO" ToRole="PARTIDA" />
-    <NavigationProperty Name="PARTIDA1" Relationship="Self.FK__PARTIDA__Codigo___3A81B327" FromRole="USUARIO" ToRole="PARTIDA" />
+    <NavigationProperty Name="PARTIDA" Relationship="Self.FK__PARTIDA__Codigo___4316F928" FromRole="USUARIO" ToRole="PARTIDA" />
+    <NavigationProperty Name="PARTIDA1" Relationship="Self.FK__PARTIDA__Codigo___440B1D61" FromRole="USUARIO" ToRole="PARTIDA" />
   </EntityType>
-  <Association Name="FK__BLOQUEO__Codigo___31EC6D26">
+  <Association Name="FK__DETALLE_E__Codig__4AB81AF0">
     <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
-    <End Role="BLOQUEO" Type="Self.BLOQUEO" Multiplicity="*" />
+    <End Role="DETALLE_EQUIPO" Type="Self.DETALLE_EQUIPO" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USUARIO">
         <PropertyRef Name="Codigo_Usuario" />
       </Principal>
-      <Dependent Role="BLOQUEO">
-        <PropertyRef Name="Codigo_Usuario_1" />
+      <Dependent Role="DETALLE_EQUIPO">
+        <PropertyRef Name="Codigo_Usuario" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BLOQUEO__Codigo___32E0915F">
-    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
-    <End Role="BLOQUEO" Type="Self.BLOQUEO" Multiplicity="*" />
+  <Association Name="FK__DETALLE_E__Codig__4BAC3F29">
+    <End Role="EQUIPO" Type="Self.EQUIPO" Multiplicity="1" />
+    <End Role="DETALLE_EQUIPO" Type="Self.DETALLE_EQUIPO" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="USUARIO">
-        <PropertyRef Name="Codigo_Usuario" />
+      <Principal Role="EQUIPO">
+        <PropertyRef Name="Codigo_Equipo" />
       </Principal>
-      <Dependent Role="BLOQUEO">
-        <PropertyRef Name="Codigo_Usuario_Bloqueado" />
+      <Dependent Role="DETALLE_EQUIPO">
+        <PropertyRef Name="Codigo_equipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ENCUENTRO__Codig__3B75D760">
+    <End Role="EQUIPO" Type="Self.EQUIPO" Multiplicity="1" />
+    <End Role="ENCUENTRO" Type="Self.ENCUENTRO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EQUIPO">
+        <PropertyRef Name="Codigo_Equipo" />
+      </Principal>
+      <Dependent Role="ENCUENTRO">
+        <PropertyRef Name="Codigo_Equipo1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ENCUENTRO__Codig__3C69FB99">
+    <End Role="EQUIPO" Type="Self.EQUIPO" Multiplicity="1" />
+    <End Role="ENCUENTRO" Type="Self.ENCUENTRO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EQUIPO">
+        <PropertyRef Name="Codigo_Equipo" />
+      </Principal>
+      <Dependent Role="ENCUENTRO">
+        <PropertyRef Name="Codigo_Equipo2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__Codigo___44FF419A">
+    <End Role="ENCUENTRO" Type="Self.ENCUENTRO" Multiplicity="0..1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ENCUENTRO">
+        <PropertyRef Name="Codigo_Encuentro" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="Codigo_Encuentro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__EQUIPO__Codigo_T__35BCFE0A">
+    <End Role="TORNEO" Type="Self.TORNEO" Multiplicity="1" />
+    <End Role="EQUIPO" Type="Self.EQUIPO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TORNEO">
+        <PropertyRef Name="Codigo_Torneo" />
+      </Principal>
+      <Dependent Role="EQUIPO">
+        <PropertyRef Name="Codigo_Torneo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PARTIDA__MODO__47DBAE45">
+    <End Role="MODO" Type="Self.MODO" Multiplicity="1" />
+    <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MODO">
+        <PropertyRef Name="Codigo_MODO" />
+      </Principal>
+      <Dependent Role="PARTIDA">
+        <PropertyRef Name="MODO" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -123,7 +232,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PARTIDA__Codigo___398D8EEE">
+  <Association Name="FK__PARTIDA__Codigo___4316F928">
     <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
     <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
     <ReferentialConstraint>
@@ -135,7 +244,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PARTIDA__Codigo___3A81B327">
+  <Association Name="FK__PARTIDA__Codigo___440B1D61">
     <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="0..1" />
     <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
     <ReferentialConstraint>
@@ -147,19 +256,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PARTIDA__Codigo___3B75D760">
-    <End Role="TORNEO" Type="Self.TORNEO" Multiplicity="0..1" />
+  <Association Name="FK__PARTIDA__CONTRIN__46E78A0C">
+    <End Role="TIPO_CONTRINCANTE" Type="Self.TIPO_CONTRINCANTE" Multiplicity="0..1" />
     <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TORNEO">
-        <PropertyRef Name="Codigo_Torneo" />
+      <Principal Role="TIPO_CONTRINCANTE">
+        <PropertyRef Name="Codigo_Tipo_Contrincante" />
       </Principal>
       <Dependent Role="PARTIDA">
-        <PropertyRef Name="Codigo_Torneo" />
+        <PropertyRef Name="CONTRINCANTE" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PARTIDA__TIPO__3C69FB99">
+  <Association Name="FK__PARTIDA__TIPO__45F365D3">
     <End Role="TIPO_PARTIDA" Type="Self.TIPO_PARTIDA" Multiplicity="1" />
     <End Role="PARTIDA" Type="Self.PARTIDA" Multiplicity="*" />
     <ReferentialConstraint>
@@ -171,7 +280,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__TORNEO__TIPO__2F10007B">
+  <Association Name="FK__TORNEO__TIPO__32E0915F">
     <End Role="TIPO_TORNEO" Type="Self.TIPO_TORNEO" Multiplicity="1" />
     <End Role="TORNEO" Type="Self.TORNEO" Multiplicity="*" />
     <ReferentialConstraint>
@@ -184,42 +293,66 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="OthelloEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="BLOQUEO" EntityType="Self.BLOQUEO" />
+    <EntitySet Name="DETALLE_EQUIPO" EntityType="Self.DETALLE_EQUIPO" />
+    <EntitySet Name="ENCUENTRO" EntityType="Self.ENCUENTRO" />
+    <EntitySet Name="EQUIPO" EntityType="Self.EQUIPO" />
+    <EntitySet Name="MODO" EntityType="Self.MODO" />
     <EntitySet Name="PAIS" EntityType="Self.PAIS" />
     <EntitySet Name="PARTIDA" EntityType="Self.PARTIDA" />
+    <EntitySet Name="TIPO_CONTRINCANTE" EntityType="Self.TIPO_CONTRINCANTE" />
     <EntitySet Name="TIPO_PARTIDA" EntityType="Self.TIPO_PARTIDA" />
     <EntitySet Name="TIPO_TORNEO" EntityType="Self.TIPO_TORNEO" />
     <EntitySet Name="TORNEO" EntityType="Self.TORNEO" />
     <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
-    <AssociationSet Name="FK__BLOQUEO__Codigo___31EC6D26" Association="Self.FK__BLOQUEO__Codigo___31EC6D26">
+    <AssociationSet Name="FK__DETALLE_E__Codig__4AB81AF0" Association="Self.FK__DETALLE_E__Codig__4AB81AF0">
       <End Role="USUARIO" EntitySet="USUARIO" />
-      <End Role="BLOQUEO" EntitySet="BLOQUEO" />
+      <End Role="DETALLE_EQUIPO" EntitySet="DETALLE_EQUIPO" />
     </AssociationSet>
-    <AssociationSet Name="FK__BLOQUEO__Codigo___32E0915F" Association="Self.FK__BLOQUEO__Codigo___32E0915F">
-      <End Role="USUARIO" EntitySet="USUARIO" />
-      <End Role="BLOQUEO" EntitySet="BLOQUEO" />
+    <AssociationSet Name="FK__DETALLE_E__Codig__4BAC3F29" Association="Self.FK__DETALLE_E__Codig__4BAC3F29">
+      <End Role="EQUIPO" EntitySet="EQUIPO" />
+      <End Role="DETALLE_EQUIPO" EntitySet="DETALLE_EQUIPO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ENCUENTRO__Codig__3B75D760" Association="Self.FK__ENCUENTRO__Codig__3B75D760">
+      <End Role="EQUIPO" EntitySet="EQUIPO" />
+      <End Role="ENCUENTRO" EntitySet="ENCUENTRO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ENCUENTRO__Codig__3C69FB99" Association="Self.FK__ENCUENTRO__Codig__3C69FB99">
+      <End Role="EQUIPO" EntitySet="EQUIPO" />
+      <End Role="ENCUENTRO" EntitySet="ENCUENTRO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__Codigo___44FF419A" Association="Self.FK__PARTIDA__Codigo___44FF419A">
+      <End Role="ENCUENTRO" EntitySet="ENCUENTRO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__EQUIPO__Codigo_T__35BCFE0A" Association="Self.FK__EQUIPO__Codigo_T__35BCFE0A">
+      <End Role="TORNEO" EntitySet="TORNEO" />
+      <End Role="EQUIPO" EntitySet="EQUIPO" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PARTIDA__MODO__47DBAE45" Association="Self.FK__PARTIDA__MODO__47DBAE45">
+      <End Role="MODO" EntitySet="MODO" />
+      <End Role="PARTIDA" EntitySet="PARTIDA" />
     </AssociationSet>
     <AssociationSet Name="FK__USUARIO__Codigo___286302EC" Association="Self.FK__USUARIO__Codigo___286302EC">
       <End Role="PAIS" EntitySet="PAIS" />
       <End Role="USUARIO" EntitySet="USUARIO" />
     </AssociationSet>
-    <AssociationSet Name="FK__PARTIDA__Codigo___398D8EEE" Association="Self.FK__PARTIDA__Codigo___398D8EEE">
+    <AssociationSet Name="FK__PARTIDA__Codigo___4316F928" Association="Self.FK__PARTIDA__Codigo___4316F928">
       <End Role="USUARIO" EntitySet="USUARIO" />
       <End Role="PARTIDA" EntitySet="PARTIDA" />
     </AssociationSet>
-    <AssociationSet Name="FK__PARTIDA__Codigo___3A81B327" Association="Self.FK__PARTIDA__Codigo___3A81B327">
+    <AssociationSet Name="FK__PARTIDA__Codigo___440B1D61" Association="Self.FK__PARTIDA__Codigo___440B1D61">
       <End Role="USUARIO" EntitySet="USUARIO" />
       <End Role="PARTIDA" EntitySet="PARTIDA" />
     </AssociationSet>
-    <AssociationSet Name="FK__PARTIDA__Codigo___3B75D760" Association="Self.FK__PARTIDA__Codigo___3B75D760">
-      <End Role="TORNEO" EntitySet="TORNEO" />
+    <AssociationSet Name="FK__PARTIDA__CONTRIN__46E78A0C" Association="Self.FK__PARTIDA__CONTRIN__46E78A0C">
+      <End Role="TIPO_CONTRINCANTE" EntitySet="TIPO_CONTRINCANTE" />
       <End Role="PARTIDA" EntitySet="PARTIDA" />
     </AssociationSet>
-    <AssociationSet Name="FK__PARTIDA__TIPO__3C69FB99" Association="Self.FK__PARTIDA__TIPO__3C69FB99">
+    <AssociationSet Name="FK__PARTIDA__TIPO__45F365D3" Association="Self.FK__PARTIDA__TIPO__45F365D3">
       <End Role="TIPO_PARTIDA" EntitySet="TIPO_PARTIDA" />
       <End Role="PARTIDA" EntitySet="PARTIDA" />
     </AssociationSet>
-    <AssociationSet Name="FK__TORNEO__TIPO__2F10007B" Association="Self.FK__TORNEO__TIPO__2F10007B">
+    <AssociationSet Name="FK__TORNEO__TIPO__32E0915F" Association="Self.FK__TORNEO__TIPO__32E0915F">
       <End Role="TIPO_TORNEO" EntitySet="TIPO_TORNEO" />
       <End Role="TORNEO" EntitySet="TORNEO" />
     </AssociationSet>

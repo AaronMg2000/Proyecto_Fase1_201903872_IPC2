@@ -130,7 +130,7 @@
                         <input required type="text" class="form-control bg-light redondear" name="jugador2" id="jugador2" value="" placeholder="Nombre de Jugador Invitado" />
                     </div>
                     <hr />
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label for="Ncolores">Cantidad de colores por Jugador</label>
                         <select class="form-control bg-light" id="Ncolores">
                             <option value="1">1</option>
@@ -139,7 +139,7 @@
                             <option value="4">4</option>
                             <option value="5">5</option>
                         </select>
-                    </div>
+                    </div>*@
                     <div id="c1" class="form-group">
                         <label>Usuario</label>
                         <div class="row font-weight-bold">
@@ -375,7 +375,7 @@
             });
             $("input[type=checkbox][name=color1]").click(function () {
                 if (!$("#" + $(this).data("contrario")).prop('checked')) {
-                    if ($(this).prop('checked') && numeroc1 < $('#Ncolores').val()) {
+                    if ($(this).prop('checked') && numeroc1 < 5) {
                         numeroc1++;
                         document.getElementById('iniciar').disabled = true;
                     }
@@ -386,7 +386,7 @@
                     else {
                         $(this).prop('checked', false);
                     }
-                    if (numeroc1 == $('#Ncolores').val() && numeroc2 == $('#Ncolores').val()) {
+                    if (numeroc1 >= 1 && numeroc1 <= 5 && numeroc2 <= 5 && numeroc2 >= 1) {
                         document.getElementById('iniciar').disabled = false;
                     }
                 }
@@ -398,7 +398,7 @@
 
             $("input[type=checkbox][name=color2]").click(function () {
                 if (!$("#" + $(this).data("contrario")).prop('checked')) {
-                    if ($(this).prop('checked') && numeroc2 < $('#Ncolores').val()) {
+                    if ($(this).prop('checked') && numeroc2 <5) {
                         numeroc2++;
                         document.getElementById('iniciar').disabled = true;
                     }
@@ -409,7 +409,7 @@
                     else {
                         $(this).prop('checked', false);
                     }
-                    if (numeroc1 == $('#Ncolores').val() && numeroc2 == $('#Ncolores').val()) {
+                    if (numeroc1 >= 1 && numeroc1<= 5 && numeroc2 <= 5 && numeroc2 >= 1) {
                         document.getElementById('iniciar').disabled = false;
                     }
                 }

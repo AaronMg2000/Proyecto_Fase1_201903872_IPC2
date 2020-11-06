@@ -10,6 +10,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/MisEstilos.css" rel="stylesheet" />
+    <link href="~/Content/css/select2.min.css" rel="stylesheet" />
     <style>
         body {
             background: url('/Public/IMG/Fondo2.jpg') no-repeat center center fixed;
@@ -32,16 +33,15 @@
             <ul class="navbar-nav ml-auto">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    if (ViewBag.user!=null)
+                    if (ViewBag.user != null)
                     {
                         <li class="nav-link">
                             <a href="" class="nav-link">@ViewBag.user.Nombre @ViewBag.user.Apellido</a>
                         </li>
                     }
-                    <li class="nav-link">
-                        <a href="/Principal/Logout" class="nav-link">Salir</a>
-                    </li>
-                }
+    <li class="nav-link">
+        <a href="/Principal/Logout" class="nav-link">Salir</a>
+    </li>}
             </ul>
         </div>
     </nav>
@@ -55,6 +55,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/select2.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

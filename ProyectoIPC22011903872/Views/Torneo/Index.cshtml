@@ -1,0 +1,299 @@
+﻿@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutJuego.cshtml";
+ }
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-verde text-white font-weight-bold">
+                <h5 class="modal-title text-center" id="exampleModalLongTitle">Cargar Partida</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/Partida/CargarPartida" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" required class="form-control-file w-100 m-auto" name="archivo" id="archivo" accept="archivo XML, .xml" />
+                    </div>
+                        <hr />
+                    <div class="form-group">
+                        <div class="row justify-content-center  align-content-around">
+                            <input type="text" hidden name="Tpartida" id="Tpartida" value="Normal" />
+                            <input type="submit" name="name" value="Cargar" class="btn btt-yellow m-auto" />
+                            <button type="button" class="btn btn-dark m-auto" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-verde text-white font-weight-bold">
+                <h5 class="modal-title text-center" id="exampleModalLongTitle">Nueva Partida Solitario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body scroll" style="max-height:80vh">
+                <form action="/Torneo/CrearTorneo" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Nombre del Torneo</label>
+                        <input type="text" name="NT" class="form-control" value="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="">Cantidad de equipos</label>
+                        <div class="row">
+                            <div class="col col-4">
+                                <input type="radio" class="mr-1" id="Tipo1" name="Tipo" value="16" />16 Equipo
+                            </div>
+                            <div class="col col-4">
+                                <input type="radio" class="mr-1" id="Tipo2" name="Tipo" value="8" />8 Equipos
+                            </div>
+                            <div class="col col-4">
+                                <input type="radio" class="mr-1" id="Tipo3" checked name="Tipo" value="4" />4 Equipos
+                            </div>
+                        </div>
+                    </div>
+                    <div id="FormEquipo">
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <div class="row justify-content-center  align-content-around">
+                            <input type="submit" name="botonInicio" id="botonInicio" value="Iniciar" class="btn btt-yellow m-auto" />
+                            <button type="button" class="btn btn-dark m-auto" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(ViewBag.mensaje))
+{
+<div id="danger" style='display:none' class="alert alert-danger bg-naranja alert-dismissible" role="alert">
+    <div id="texto">
+        <h3 class="text-white font-weight-bold text-center">
+            @ViewBag.mensaje
+        </h3>
+    </div>
+
+</div>}
+<div class="row justify-content-center align-content-center" style="height:85vh">
+    <div class="col col-md-4">
+        <div class="card bg-transparent">
+            <div class="card-header" style="background-color:rgba(255, 255, 255,0.57)">
+                <h1 style="font-family: Script MT" class="text-white display-2 font-weight-bold text-center borde-texto">Torneos</h1>
+            </div>
+            <div class="card-body" style="background-color:rgba(255, 255, 255,0.57)">
+                <div class="mb-5">
+                    <button type="button" class="btn btt-n1 btn-block redondear" data-toggle="modal" data-target="#exampleModalCenter2">
+                        Nuevo Torneo
+                    </button>
+                </div>
+                <div class="mb-5">
+                    <button type="button" class="btn btt-n2 btn-block redondear" data-toggle="modal" data-target="#exampleModalCenter">
+                        Cargar Torneo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            
+            $.ajax({
+                url: "/Torneo/CantidadEquipo",
+                data: { Cantidad: 4},
+                type: "POST",
+                success: function (response) {
+                    $('#FormEquipo').html(response);
+                    $("#select0").select2();
+                    $("#select1").select2();
+                    $("#select2").select2();
+                    $("#select3").select2();
+                    $("#select4").select2();
+                    $("#select5").select2();
+                    $("#select6").select2();
+                    $("#select7").select2();
+                    $("#select8").select2();
+                    $("#select9").select2();
+                    $("#select10").select2();
+                    $("#select11").select2();
+                    $("#select12").select2();
+                    $("#select13").select2();
+                    $("#select14").select2();
+                    $("#select15").select2();
+                    $("#select16").select2();
+                    $("#select17").select2();
+                    $("#select18").select2();
+                    $("#select19").select2();
+                    $("#select20").select2();
+                    $("#select21").select2();
+                    $("#select22").select2();
+                    $("#select23").select2();
+                    $("#select24").select2();
+                    $("#select25").select2();
+                    $("#select26").select2();
+                    $("#select27").select2();
+                    $("#select28").select2();
+                    $("#select29").select2();
+                    $("#select30").select2();
+                    $("#select31").select2();
+                    $("#select32").select2();
+                    $("#select33").select2();
+                    $("#select34").select2();
+                    $("#select35").select2();
+                    $("#select36").select2();
+                    $("#select37").select2();
+                    $("#select38").select2();
+                    $("#select39").select2();
+                    $("#select40").select2();
+                    $("#select41").select2();
+                    $("#select42").select2();
+                    $("#select43").select2();
+                    $("#select44").select2();
+                    $("#select45").select2();
+                    $("#select46").select2();
+                    $("#select47").select2();
+                    while (x <= 47) {
+                        $("#select" + x).val('').trigger('change');
+                        x++;
+                    }
+                }
+            });
+            $("input[type=radio][name=Tipo]").change(function () {
+                if (this.value == "") {
+                    document.getElementById('botonInicio').disabled = true;
+                } else {
+                    document.getElementById('botonInicio').disabled = false;
+                }
+
+                $.ajax({
+                    url: "/Torneo/CantidadEquipo",
+                    data: { Cantidad: this.value },
+                    type: "POST",
+                    success: function (response) {
+                        $('#FormEquipo').html(response);
+                        $("#select0").select2();
+                        $("#select1").select2();
+                        $("#select2").select2();
+                        $("#select3").select2();
+                        $("#select4").select2();
+                        $("#select5").select2();
+                        $("#select6").select2();
+                        $("#select7").select2();
+                        $("#select8").select2();
+                        $("#select9").select2();
+                        $("#select10").select2();
+                        $("#select11").select2();
+                        $("#select12").select2();
+                        $("#select13").select2();
+                        $("#select14").select2();
+                        $("#select15").select2();
+                        $("#select16").select2();
+                        $("#select17").select2();
+                        $("#select18").select2();
+                        $("#select19").select2();
+                        $("#select20").select2();
+                        $("#select21").select2();
+                        $("#select22").select2();
+                        $("#select23").select2();
+                        $("#select24").select2();
+                        $("#select25").select2();
+                        $("#select26").select2();
+                        $("#select27").select2();
+                        $("#select28").select2();
+                        $("#select29").select2();
+                        $("#select30").select2();
+                        $("#select31").select2();
+                        $("#select32").select2();
+                        $("#select33").select2();
+                        $("#select34").select2();
+                        $("#select35").select2();
+                        $("#select36").select2();
+                        $("#select37").select2();
+                        $("#select38").select2();
+                        $("#select39").select2();
+                        $("#select40").select2();
+                        $("#select41").select2();
+                        $("#select42").select2();
+                        $("#select43").select2();
+                        $("#select44").select2();
+                        $("#select45").select2();
+                        $("#select46").select2();
+                        $("#select47").select2();
+                        while (x <= 47) {
+                            $("#select" + x).val('').trigger('change');
+                            x++;
+                        }
+                    }
+                });
+            });
+            var x = 0;
+            
+        });
+        function ComprobarSelect(numero) {
+            $("#select" + numero).change(function () {
+                var x = 0;
+                var valorP = $("#select" + numero).val();
+                console.log(valorP);
+                while (x <= 47) {
+                    var valorN = $("#select" + x).val();
+                    console.log(valorN);
+                    if (valorN != "" && valorP != "") {
+                        if (numero != x) {
+                            if (valorP == valorN) {
+                                $("#select" + numero).val('').trigger('change');
+                                break;
+                            }
+                        }
+                    }
+                    x++;
+
+                }
+            });
+        }
+
+        function VerificarEquipo(numero) {
+            var x = 0;
+            while (x <= 16) {
+                var y = 0;
+                var nombre = $('#nombre' + x).val();
+                if (nombre!=null) {
+                    while (y <= 16) {
+                        if (x != y) {
+                            var dato = $('#nombre' + y).val();
+                            if (dato == nombre) {
+                                console.log("bloqueado");
+                                document.getElementById("botonInicio").disabled = true;
+                                break;
+                            }
+                            else {
+                                console.log("desbloqueado");
+                                document.getElementById("botonInicio").disabled = false;
+                            }
+                        }
+                        y++;
+                    }
+                }
+                x++;
+            }
+        }
+    </script>
+}
+

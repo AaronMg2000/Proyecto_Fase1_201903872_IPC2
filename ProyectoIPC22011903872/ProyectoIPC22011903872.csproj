@@ -132,64 +132,75 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PartidaController.cs" />
     <Compile Include="Controllers\PrincipalController.cs" />
+    <Compile Include="Controllers\TorneoController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Encriptar.cs" />
     <Compile Include="Funciones.cs" />
+    <Compile Include="FuncionesTorneo.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DETALLE_EQUIPO.cs">
+      <DependentUpon>Othello_Data.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ENCUENTRO.cs">
-      <DependentUpon>OthelloData.tt</DependentUpon>
+      <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EQUIPO.cs">
-      <DependentUpon>OthelloData.tt</DependentUpon>
+      <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MODO.cs">
-      <DependentUpon>OthelloData.tt</DependentUpon>
+      <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OthelloData.Context.cs">
+    <Compile Include="Models\Othello_Data.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OthelloData.Context.tt</DependentUpon>
+      <DependentUpon>Othello_Data.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OthelloData.cs">
+    <Compile Include="Models\Othello_Data.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OthelloData.tt</DependentUpon>
+      <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OthelloData.Designer.cs">
+    <Compile Include="Models\Othello_Data.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OthelloData.edmx</DependentUpon>
+      <DependentUpon>Othello_Data.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\PAIS.cs">
-      <DependentUpon>OthelloData.tt</DependentUpon>
+      <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PARTIDA.cs">
-      <DependentUpon>OthelloData.tt</DependentUpon>
+      <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIPO_CONTRINCANTE.cs">
-      <DependentUpon>OthelloData.tt</DependentUpon>
+      <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIPO_PARTIDA.cs">
-      <DependentUpon>OthelloData.tt</DependentUpon>
+      <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIPO_TORNEO.cs">
-      <DependentUpon>OthelloData.tt</DependentUpon>
+      <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TORNEO.cs">
-      <DependentUpon>OthelloData.tt</DependentUpon>
+      <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\USUARIO.cs">
-      <DependentUpon>OthelloData.tt</DependentUpon>
+      <DependentUpon>Othello_Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\addUserViewModel.cs" />
     <Compile Include="Models\ViewModels\ColumnaViewModel.cs" />
     <Compile Include="Models\ViewModels\DatosModel.cs" />
+    <Compile Include="Models\ViewModels\Encuentro.cs" />
+    <Compile Include="Models\ViewModels\Equipo.cs" />
+    <Compile Include="Models\ViewModels\EquiposGetViewModel.cs" />
+    <Compile Include="Models\ViewModels\Fase.cs" />
     <Compile Include="Models\ViewModels\FilaViewModel.cs" />
     <Compile Include="Models\ViewModels\getPaisViewModel.cs" />
     <Compile Include="Models\ViewModels\getUserViewModel.cs" />
     <Compile Include="Models\ViewModels\PartidaViewModel.cs" />
+    <Compile Include="Models\ViewModels\TorneoGetViewModel.cs" />
+    <Compile Include="Models\ViewModels\TorneoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +212,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\brands.css" />
     <Content Include="Content\brands.min.css" />
+    <Content Include="Content\css\select2.css" />
+    <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\fontawesome-all.css" />
     <Content Include="Content\fontawesome-all.min.css" />
     <Content Include="Content\fontawesome.css" />
@@ -220,15 +233,15 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\OthelloData.Context.tt">
+    <Content Include="Models\Othello_Data.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OthelloData.edmx</DependentUpon>
-      <LastGenOutput>OthelloData.Context.cs</LastGenOutput>
+      <DependentUpon>Othello_Data.edmx</DependentUpon>
+      <LastGenOutput>Othello_Data.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\OthelloData.tt">
+    <Content Include="Models\Othello_Data.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OthelloData.edmx</DependentUpon>
-      <LastGenOutput>OthelloData.cs</LastGenOutput>
+      <DependentUpon>Othello_Data.edmx</DependentUpon>
+      <LastGenOutput>Othello_Data.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -252,6 +265,65 @@
     <Content Include="Scripts\fontawesome\solid.min.js" />
     <Content Include="Scripts\fontawesome\v4-shims.js" />
     <Content Include="Scripts\fontawesome\v4-shims.min.js" />
+    <Content Include="Scripts\i18n\af.js" />
+    <Content Include="Scripts\i18n\ar.js" />
+    <Content Include="Scripts\i18n\az.js" />
+    <Content Include="Scripts\i18n\bg.js" />
+    <Content Include="Scripts\i18n\bn.js" />
+    <Content Include="Scripts\i18n\bs.js" />
+    <Content Include="Scripts\i18n\ca.js" />
+    <Content Include="Scripts\i18n\cs.js" />
+    <Content Include="Scripts\i18n\da.js" />
+    <Content Include="Scripts\i18n\de.js" />
+    <Content Include="Scripts\i18n\dsb.js" />
+    <Content Include="Scripts\i18n\el.js" />
+    <Content Include="Scripts\i18n\en.js" />
+    <Content Include="Scripts\i18n\es.js" />
+    <Content Include="Scripts\i18n\et.js" />
+    <Content Include="Scripts\i18n\eu.js" />
+    <Content Include="Scripts\i18n\fa.js" />
+    <Content Include="Scripts\i18n\fi.js" />
+    <Content Include="Scripts\i18n\fr.js" />
+    <Content Include="Scripts\i18n\gl.js" />
+    <Content Include="Scripts\i18n\he.js" />
+    <Content Include="Scripts\i18n\hi.js" />
+    <Content Include="Scripts\i18n\hr.js" />
+    <Content Include="Scripts\i18n\hsb.js" />
+    <Content Include="Scripts\i18n\hu.js" />
+    <Content Include="Scripts\i18n\hy.js" />
+    <Content Include="Scripts\i18n\id.js" />
+    <Content Include="Scripts\i18n\is.js" />
+    <Content Include="Scripts\i18n\it.js" />
+    <Content Include="Scripts\i18n\ja.js" />
+    <Content Include="Scripts\i18n\ka.js" />
+    <Content Include="Scripts\i18n\km.js" />
+    <Content Include="Scripts\i18n\ko.js" />
+    <Content Include="Scripts\i18n\lt.js" />
+    <Content Include="Scripts\i18n\lv.js" />
+    <Content Include="Scripts\i18n\mk.js" />
+    <Content Include="Scripts\i18n\ms.js" />
+    <Content Include="Scripts\i18n\nb.js" />
+    <Content Include="Scripts\i18n\ne.js" />
+    <Content Include="Scripts\i18n\nl.js" />
+    <Content Include="Scripts\i18n\pl.js" />
+    <Content Include="Scripts\i18n\ps.js" />
+    <Content Include="Scripts\i18n\pt-BR.js" />
+    <Content Include="Scripts\i18n\pt.js" />
+    <Content Include="Scripts\i18n\ro.js" />
+    <Content Include="Scripts\i18n\ru.js" />
+    <Content Include="Scripts\i18n\sk.js" />
+    <Content Include="Scripts\i18n\sl.js" />
+    <Content Include="Scripts\i18n\sq.js" />
+    <Content Include="Scripts\i18n\sr-Cyrl.js" />
+    <Content Include="Scripts\i18n\sr.js" />
+    <Content Include="Scripts\i18n\sv.js" />
+    <Content Include="Scripts\i18n\th.js" />
+    <Content Include="Scripts\i18n\tk.js" />
+    <Content Include="Scripts\i18n\tr.js" />
+    <Content Include="Scripts\i18n\uk.js" />
+    <Content Include="Scripts\i18n\vi.js" />
+    <Content Include="Scripts\i18n\zh-CN.js" />
+    <Content Include="Scripts\i18n\zh-TW.js" />
     <Content Include="Scripts\index.js.flow" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
@@ -267,12 +339,12 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <EntityDeploy Include="Models\OthelloData.edmx">
+    <EntityDeploy Include="Models\Othello_Data.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>OthelloData.Designer.cs</LastGenOutput>
+      <LastGenOutput>Othello_Data.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\OthelloData.edmx.diagram">
-      <DependentUpon>OthelloData.edmx</DependentUpon>
+    <Content Include="Models\Othello_Data.edmx.diagram">
+      <DependentUpon>Othello_Data.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
@@ -291,6 +363,8 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\select2.js" />
+    <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />
@@ -406,6 +480,11 @@
     <Content Include="Views\Partida\Partida.cshtml" />
     <Content Include="Views\Partida\Xtream.cshtml" />
     <Content Include="Views\Shared\_Cronometro.cshtml" />
+    <Content Include="Views\Torneo\Index.cshtml" />
+    <Content Include="Views\Torneo\Esquema.cshtml" />
+    <Content Include="Views\Shared\_VistaEquipos.cshtml" />
+    <Content Include="Views\Shared\_TablaTorneo.cshtml" />
+    <Content Include="Views\Torneo\Partida.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

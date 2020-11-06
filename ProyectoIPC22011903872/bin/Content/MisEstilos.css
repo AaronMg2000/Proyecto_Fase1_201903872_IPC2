@@ -8,12 +8,31 @@
     text-align: center;
 }
 
+.Ganador {
+    background-color: cornflowerblue !important;
+}
+.Perdedor {
+    background-color: red !important;
+}
+.actual{
+    color: black !important;
+    background-color: darkcyan !important;
+}
+
 .bg-celeste-75 {
     background-color: rgba(151,150,190,0.75);
 }
 
+.bg-blanco-75 {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+
 .bg-negro-80 {
     background-color: rgba(57,102,96,0.8);
+}
+.bg-negro-90 {
+    background-color: rgba(57,102,96,0.95);
 }
 
 .bg-verde {
@@ -207,4 +226,15 @@
 }
 .h-25 {
     height: 25%;
+}
+
+.col-T10 {
+    -ms-flex: 0 0 10%;
+    flex: 0 0 10%;
+    max-width: 10%;
+}
+.col-T2281 {
+    -ms-flex: 0 0 2.857142857%;
+    flex: 0 0 2.857142857%;
+    max-width: 2.857142857%;
 }

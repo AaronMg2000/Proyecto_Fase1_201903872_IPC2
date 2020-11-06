@@ -1,0 +1,57 @@
+﻿@model ProyectoIPC22011903872.Models.ViewModels.TorneoViewModel
+@{
+    ViewBag.Title = "Esquema";
+    Layout = "~/Views/Shared/_LayoutJuego.cshtml";
+}
+
+<div class="row justify-content-center align-content-center " style="height:90.5vh">
+    <div class="col col-12 bg-blanco-75 h-100" id="Tablero">
+        @Html.Partial("_TablaTorneo",Model)
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#exampleModalCenter").modal({ backdrop: 'static', keyboard: false });
+            $("#exampleModalCenter").modal('show');
+        });
+        function Definir(nombre, equipo, fase, part) {
+            var punteo1 = $("#punteo1").val();
+            var punteo2 = $("#punteo2").val();
+            $.ajax({
+                url: "/Torneo/DeterminarGanador",
+                data: { nombre: nombre, punteo1: punteo1, punteo2: punteo2, encuentro: equipo, fase: fase, part: part },
+                type: "POST",
+                success: function (response) {
+                    $('#Tablero').html(response);
+                    $("#exampleModalCenter").modal({ backdrop: 'static', keyboard: false });
+                    $("#exampleModalCenter").modal('show');
+                }
+            });
+        }
+        function EmpateE(nombre, equipo, fase, part) {
+            $("#exampleModalCenter").modal({ backdrop: 'static', keyboard: true });
+            $("#exampleModalCenter").modal('hide');
+            setTimeout(esperar, 500);
+            function esperar() {
+                EmpateX(nombre, equipo, fase, part);
+            };
+        }
+
+        function EmpateX(nombre, equipo, fase, part) {
+            console.log("hola");
+            var jugador1 = $("#jugador1").val();
+            var jugador2 = $("#jugador2").val();
+            $.ajax({
+                url: "/Torneo/Empate",
+                data: { nombre: nombre, jugador1: jugador1, jugador2: jugador2, encuentro: equipo, fase: fase, part: part },
+                type: "POST",
+                success: function (response) {
+                    $('#Tablero').html(response);
+                }
+            });
+        }
+    </script>
+}
+

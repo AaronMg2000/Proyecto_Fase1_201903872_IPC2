@@ -10,6 +10,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/MisEstilos.css" rel="stylesheet" />
+    <link href="~/Content/css/select2.min.css" rel="stylesheet" />
     <style>
         body {
             background: url('/Public/IMG/Fondo2.jpg') no-repeat center center fixed;
@@ -36,34 +37,34 @@
                 <li class="nav-item mr-5 @Html.IsActive("Partida","Xtream")">
                     <a href="~/Partida/Xtream" class="nav-link ">Othello Xtream</a>
                 </li>
-                <li class="nav-item mr-5 @Html.IsActive("Partida","Index2")">
-                    <a href="#" class="nav-link ">Torneos</a>
+                <li class="nav-item mr-5 @Html.IsActive("Torneo","Index")">
+                    <a href="~/Torneo/Index" class="nav-link ">Torneos</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    if (ViewBag.user!=null)
+                    if (ViewBag.user != null)
                     {
                         <li class="nav-link">
                             <a href="" class="nav-link">@ViewBag.user.Nombre @ViewBag.user.Apellido</a>
                         </li>
                     }
-                    <li class="nav-link">
-                        <a href="/Principal/Logout" class="nav-link">Salir</a>
-                    </li>
-                }
+    <li class="nav-link">
+        <a href="/Principal/Logout" class="nav-link">Salir</a>
+    </li>}
             </ul>
         </div>
     </nav>
     <div class="container-fluid">
         @RenderBody()
     </div>
-    
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/select2.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
