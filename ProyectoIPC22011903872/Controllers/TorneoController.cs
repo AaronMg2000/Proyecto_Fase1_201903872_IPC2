@@ -1,10 +1,14 @@
 ﻿using ProyectoIPC22011903872.Models;
 using ProyectoIPC22011903872.Models.ViewModels;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
+using System.Data.Entity.Migrations;
 
 namespace ProyectoIPC22011903872.Controllers
 {
@@ -12,13 +16,14 @@ namespace ProyectoIPC22011903872.Controllers
     {
         // GET: Torneo
         public static List<TorneoViewModel> Torneos = new List<TorneoViewModel>();
-
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(string mensaje)
         {
             if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
             {
                 return RedirectToAction("Login", "User");
             }
+            ViewBag.mensaje = mensaje;
             ViewBag.user = this.Session["user"];
             return View();
         }
@@ -26,11 +31,11 @@ namespace ProyectoIPC22011903872.Controllers
         [HttpPost]
         public ActionResult CrearTorneo(string NT, int Tipo, List<Equipo> Equipos)
         {
-            /*if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
+            if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
             {
                 return RedirectToAction("Login", "User");
             }
-            ViewBag.user = this.Session["user"];*/
+            ViewBag.user = this.Session["user"];
             List<getUserViewModel> ListaUsuarios;
             List<TorneoGetViewModel> ListaTorneo;
             using (OthelloEntities db = new OthelloEntities())
@@ -49,10 +54,19 @@ namespace ProyectoIPC22011903872.Controllers
             {
                 if(torneo.nombre == NT)
                 {
-                    ViewBag.mensaje = "El nombre del torneo ya esta regitrado en la base de datos";
-                    return View("Index");
+                    string mensaje = "El nombre del torneo ya esta regitrado en la base de datos";
+                    return RedirectToAction("Index","Torneo", new { mensaje = mensaje });
                 }
             }
+            foreach (var torneo in Torneos)
+            {
+                if (torneo.Nombre == NT)
+                {
+                    string mensaje = "El nombre del torneo ya esta regitrado en la base de datos";
+                    return RedirectToAction("Index", "Torneo", new { mensaje = mensaje });
+                }
+            }
+            
             using (OthelloEntities db = new OthelloEntities())
             {
                 ListaUsuarios = (from d in db.USUARIO
@@ -486,6 +500,7 @@ namespace ProyectoIPC22011903872.Controllers
                             {
                                 enc.Equipo2 = Equipo2.nombre;
                                 colocado = true;
+                                FuncionesTorneo.CrearPartidas(Torneo, fas, enc);
                                 break;
                             }
                         }
@@ -578,7 +593,7 @@ namespace ProyectoIPC22011903872.Controllers
                         nuevoEquipo.Codigo_Torneo = TorneoActual.Codigo_Torneo;
                         db.EQUIPO.Add(nuevoEquipo);
                         db.SaveChanges();
-                        var EquipoUti = db.EQUIPO.FirstOrDefault(e => e.Nombre == eq.nombre);
+                        var EquipoUti = db.EQUIPO.FirstOrDefault(e => e.Nombre == eq.nombre && e.Codigo_Torneo == TorneoActual.Codigo_Torneo);
                         using (OthelloEntities db2 = new OthelloEntities())
                         {
                             foreach (var jug in eq.jugadores)
@@ -591,7 +606,8 @@ namespace ProyectoIPC22011903872.Controllers
                             }
                             if (eq.nombre == Torneo.Ganador)
                             {
-                                TorneoActual.Ganador = EquipoActual.Codigo_Equipo;
+                                TorneoActual.Ganador = EquipoUti.Codigo_Equipo;
+                                db2.TORNEO.AddOrUpdate(TorneoActual);
                             }
                             db2.SaveChanges();
                         }
@@ -615,8 +631,8 @@ namespace ProyectoIPC22011903872.Controllers
                             using (OthelloEntities db3 = new OthelloEntities())
                             {
                                 ENCUENTRO nuevoEncuentro = new ENCUENTRO();
-                                var E1 = db3.EQUIPO.FirstOrDefault(e => e.Nombre == encu.Equipo1);
-                                var E2 = db3.EQUIPO.FirstOrDefault(e => e.Nombre == encu.Equipo2);
+                                var E1 = db3.EQUIPO.FirstOrDefault(e => e.Nombre == encu.Equipo1 && e.Codigo_Torneo == TorneoActual.Codigo_Torneo);
+                                var E2 = db3.EQUIPO.FirstOrDefault(e => e.Nombre == encu.Equipo2 && e.Codigo_Torneo == TorneoActual.Codigo_Torneo);
                                 nuevoEncuentro.Codigo_Equipo1 = E1.Codigo_Equipo;
                                 nuevoEncuentro.Codigo_Equipo2 = E2.Codigo_Equipo;
                                 nuevoEncuentro.Numero_Fase = fas.nombre;
@@ -752,6 +768,162 @@ namespace ProyectoIPC22011903872.Controllers
             partidaActual.jugador1 = jugador1;
             partidaActual.jugador2 = jugador2;
             return View("_TablaTorneo", Torneo);
+        }
+    
+        public ActionResult CargarTorneo(HttpPostedFileBase archivo)
+        {
+            if (!User.Identity.IsAuthenticated || this.Session["user"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            var Filename = Path.GetFileName(archivo.FileName);
+            var path = Path.Combine(Server.MapPath("~/Public/Torneo"), Filename);
+            archivo.SaveAs(path);
+            XmlDocument documento = new XmlDocument();
+            documento.Load(path);
+            List<string> color11 = new List<string>();
+            List<string> color22 = new List<string>();
+            USUARIO user = (USUARIO)this.Session["user"];
+
+            List<getUserViewModel> ListaUsuarios;
+            List<TorneoGetViewModel> ListaTorneo;
+            List<string> usuariosUsados = new List<string>();
+            List<string> EquiposUsados = new List<string>();
+            using (OthelloEntities db = new OthelloEntities())
+            {
+                ListaTorneo = (from d in db.TORNEO
+                               select new TorneoGetViewModel
+                               {
+                                   codigo_Torneo = d.Codigo_Torneo,
+                                   nombre = d.Nombre,
+                                   Tipo = d.TIPO,
+                                   fecha = d.fecha_inicio,
+                                   ganador = d.Ganador
+                               }).ToList();
+            }
+            
+            using (OthelloEntities db = new OthelloEntities())
+            {
+                ListaUsuarios = (from d in db.USUARIO
+                                 select new getUserViewModel
+                                 {
+                                     Nombre = d.Nombre,
+                                     Apellido = d.Apellido,
+                                     Usuario = d.Usuario1,
+                                     Correo_Electronico = d.Correo_Electronico,
+                                     Codigo_Pais = d.Codigo_Pais,
+                                     Fecha_nacimiento = d.Fecha_nacimiento
+                                 }).ToList();
+            }
+            /*nombre*/
+            var nombre = "";
+            List<Equipo> equipos = new List<Equipo>();
+            int Tipo = 0;
+            foreach (XmlNode node in documento.SelectNodes("/campeonato/nombre"))
+            {
+                if (nombre!="")
+                {
+                    string mensaje = "Formato de Torneo erroeno";
+                    return RedirectToAction("Index", "Torneo", new { mensaje = mensaje });
+                }
+                else
+                {
+                    nombre = node.InnerText;
+                    foreach (var torneo in ListaTorneo)
+                    {
+                        if (torneo.nombre == nombre)
+                        {
+                            string mensaje = "El nombre del torneo ya esta regitrado en la base de datos";
+                            return RedirectToAction("Index", "Torneo", new { mensaje = mensaje });
+                        }
+                    }
+                    foreach (var torneo in Torneos)
+                    {
+                        if (torneo.Nombre == nombre)
+                        {
+                            string mensaje = "El nombre del torneo ya esta regitrado en la base de datos";
+                            return RedirectToAction("Index", "Torneo", new { mensaje = mensaje });
+                        }
+                    }
+
+                }
+            }
+            foreach (XmlNode node in documento.SelectNodes("/campeonato/equipo"))
+            {
+                var Equipo = new Equipo();
+                var ne = node["nombreEquipo"].InnerText;
+                if (EquiposUsados.Contains(ne))
+                {
+                    string mensaje = "Equipos con nombres repetidos";
+                    return RedirectToAction("Index", "Torneo", new { mensaje = mensaje });
+                }
+                else
+                {
+                    EquiposUsados.Add(ne);
+                }
+                foreach (XmlNode node2 in node.SelectNodes("jugador"))
+                {
+                    var crear = false;
+                    var jugador = node2.InnerText;
+                    foreach (var j in ListaUsuarios)
+                    {
+                        if (j.Usuario==jugador)
+                        {
+                            crear = false;
+                            break;
+                        }
+                        else
+                        {
+                            crear = true;
+                        }
+                    }
+                    if (crear)
+                    {
+                        using (OthelloEntities db = new OthelloEntities())
+                        {
+                            var Usuario = new USUARIO();
+                            Usuario.Nombre = jugador;
+                            Usuario.Apellido = jugador;
+                            Usuario.Correo_Electronico = jugador+"."+jugador+"@gmail.com";
+                            Usuario.Usuario1 = jugador;
+                            Usuario.Contraseña = Encriptar.CrearHASH("Marroquin1");
+                            Usuario.Codigo_Pais = 22;
+                            Usuario.Fecha_nacimiento = DateTime.Now;
+                            db.USUARIO.Add(Usuario);
+                            db.SaveChanges();
+                        }
+
+                    }
+                    if (usuariosUsados.Contains(jugador))
+                    {
+                        string mensaje = "Usuarios repetidos en los equipos";
+                        return RedirectToAction("Index", "Torneo", new { mensaje = mensaje });
+                    }
+                    else
+                    {
+                        usuariosUsados.Add(jugador);
+                        Equipo.jugadores.Add(jugador);
+                    }
+                }
+                Equipo.nombre = ne;
+                Equipo.puntaje = 0;
+                equipos.Add(Equipo);
+                Tipo++;
+            }
+            TorneoViewModel Torneo = new TorneoViewModel();
+            int x = 0;
+            foreach (var tor in Torneos)
+            {
+                x++;
+            }
+            if (Tipo!=16 && Tipo != 8 && Tipo != 4)
+            {
+                string mensaje = "Numero de Equipos invalidos";
+                return RedirectToAction("Index", "Torneo", new { mensaje = mensaje });
+            }
+            Torneo = FuncionesTorneo.CrearTorneo(x,equipos,nombre, Tipo);
+            Torneos.Add(Torneo);
+            return View("Esquema",Torneo);
         }
     }
 }

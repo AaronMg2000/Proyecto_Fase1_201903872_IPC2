@@ -17,7 +17,7 @@
         var ac = false;
         foreach (var encuentro in Fase.Encuentros)
         {
-            if (encuentro.Ganador == "")
+            if (encuentro.Ganador == "" || encuentro.Ganador==null)
             {
                 FaseActual = Fase;
                 encuentro.actual = "actual";
@@ -134,7 +134,7 @@
     </div>
 }
 <div class="row justify-content-center align-content-center h-100">
-    <div class="col bg-negro-90 col-11" style="height:75%">
+    <div class="col bg-negro-90 col-12" style="height:75%">
         <div class="row justify-content-center align-content-center text-white text-center font-weight-bold h-100">
 
             @if (Model.Tipo == 16)
@@ -1193,9 +1193,9 @@
             }
         </div>
     </div>
-    <div class="col col-11 bg-negro-90" style="height:25%">
+    <div class="col col-12 bg-negro-90" style="height:25%">
         <div class="row justify-content-center align-content-center h-100">
-            <div class="col bg-dark col-6" style="height:80%">
+            <div class="col bg-dark col-8" style="height:80%">
                 <div class="row justify-content-around align-content-around h-100">
                     <div class="col col-3 w-100">
                         <div class="row h-100">
@@ -1222,7 +1222,7 @@
                             <input type="submit" class="btn btt-yellow btn-block" value="Iniciar Encuentro">
                         </form>
                         <input class="btn btt-n2 btn-block" type="button" onclick="Definir('@Model.codigo','@EncuentroActual.codigo','@FaseActual.nombre','@partidaActual.nombre')" value="Definir Ganador">
-                        <p class="text-center text-white font-weight-bold mt-1 h3">@Model.Nombre</p>
+                        <p class="text-center text-white font-weight-bold mt-1 h5">@Model.Nombre</p>
                     </div>
                     <div class="col col-3 w-100">
                         <div class="row h-100">

@@ -1,0 +1,51 @@
+<campeonato>
+    <nombre>Campeonato Mundial 3</nombre>
+    <equipo>       
+        <nombreEquipo>Guatemala</nombreEquipo>
+        <jugador>Juan Pablo Juarez</jugador>
+        <jugador>Mauro Herrera</jugador>
+        <jugador>Kevin Cruz</jugador>          
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Peru</nombreEquipo>
+        <jugador>Pedro Castillo</jugador>
+        <jugador>Maria Castro</jugador>
+        <jugador>Lorena Paz</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Honduras</nombreEquipo>
+        <jugador>Humberto Orozco</jugador>
+        <jugador>Nancy Lopez</jugador>
+        <jugador>Tatiana Perez</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Argentina</nombreEquipo>
+        <jugador>Gonzalo Martinez</jugador>
+        <jugador>Carla Cruz</jugador>
+        <jugador>Mariano Martinez</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo0</nombreEquipo>
+        <jugador>AaronMG2000</jugador>
+        <jugador>Usuario1</jugador>
+        <jugador>Usuario2</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo1</nombreEquipo>
+        <jugador>Usuario3</jugador>
+        <jugador>Usuario4</jugador>
+        <jugador>Usuario5</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo2</nombreEquipo>
+        <jugador>Usuario47</jugador>
+        <jugador>Usuario46</jugador>
+        <jugador>Usuario45</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo3</nombreEquipo>
+        <jugador>Usuario6</jugador>
+        <jugador>Usuario7</jugador>
+        <jugador>Usuario8</jugador>
+    </equipo>
+</campeonato>

@@ -1,0 +1,132 @@
+﻿@model ProyectoIPC22011903872.Models.USUARIO
+@{
+    ViewBag.Title = "VerPerfil";
+    Layout = "~/Views/Shared/_LayoutJuego.cshtml";
+}
+
+<div class="row justify-content-center align-content-center" style="height:90.5vh">
+    <div class="col col-md-11 bg-negro-90" style="height:90%">
+        <div class="row justify-content-around align-content-center h-100">
+            <div class="col col-7 redondear bg-light" style="height:30%">
+                <div class="row align-content-center h-100">
+                    <div class="col col-12">
+                        <h1 class="w-100">@Model.Nombre @Model.Apellido</h1>
+                    </div>
+                    <div class="col col-12">
+                        <h4 class="w-100">@Model.Correo_Electronico</h4>
+                    </div>
+                    <div class="col col-12">
+                        <h4 class="w-100">Pais: @ViewBag.Pais</h4>
+                    </div>
+                    <div class="col col-12">
+                        <h4 class="w-100">Cumpleaños: @Model.Fecha_nacimiento.Day/@Model.Fecha_nacimiento.Month/@Model.Fecha_nacimiento.Year</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-3 redondear bg-light" style="height:30%">
+                <div class="row justify-content-center text-center align-content-center h-100">
+                    <h1 class="w-100 font-weight-bold">Usuario:</h1>
+                    <h3>@Model.Usuario1</h3>
+                </div>
+            </div>
+            <div class="col col-11 bg-light redondear mt-2 scroll" style="height:65%">
+                <div class="row h-100 justify-content-center p-1">
+                    <div class="col col-6">
+                        <div class="card">
+                            <div class="card-header bg-danger text-center text-white font-weight-bold h4">
+                                Partidas Othello
+                            </div>
+                            <div class="card-body">
+                                <div class="row h-100 justify-content-center align-content-center">
+                                    <table class="table table-bordered text-center">
+                                        <tr>
+                                            <td class="bg-verde text-white font-weight-bold h5">Partidas Ganadas</td>
+                                            <td>@ViewBag.OG</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-verde text-white font-weight-bold h5">Partidas Perdidas</td>
+                                            <td>@ViewBag.OP</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-verde text-white font-weight-bold h5">Partidas Empatadas</td>
+                                            <td>@ViewBag.OE</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-6">
+                        <div class="card">
+                            <div class="card-header bg-danger text-center text-white font-weight-bold h4">
+                                Partidas Xtream
+                            </div>
+                            <div class="card-body">
+                                <div class="row h-100 justify-content-center align-content-center">
+                                    <table class="table table-bordered text-center">
+                                        <tr>
+                                            <td class="bg-verde text-white font-weight-bold h5">Partidas Ganadas</td>
+                                            <td>@ViewBag.XG</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-verde text-white font-weight-bold h5">Partidas Perdidas</td>
+                                            <td>@ViewBag.XP</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-verde text-white font-weight-bold h5">Partidas Empatadas</td>
+                                            <td>@ViewBag.XE</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-12">
+                        <div class="card">
+                            <div class="card-header bg-danger text-center text-white font-weight-bold h4">
+                                Torneos
+                            </div>
+                            <div class="card-body">
+                                <div class="row h-100 justify-content-center align-content-center">
+                                    <table class="table table-bordered text-center">
+                                        <tr>
+                                            <td colspan="3" class="bg-naranja text-white font-weight-bold h5">Torneos Participados</td>
+                                            <td>@(ViewBag.TorG+ViewBag.TorP)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-verde text-white font-weight-bold h5">Torneos Ganados</td>
+                                            <td>@ViewBag.TorG</td>
+                                            <td class="bg-verde text-white font-weight-bold h5">Torneos Perdidos</td>
+                                            <td>@ViewBag.TorP</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-verde text-white font-weight-bold h5">Partidas Ganadas</td>
+                                            <td>@ViewBag.TG</td>
+                                            <td class="bg-verde text-white font-weight-bold h5">Partidas Perdidas</td>
+                                            <td>@ViewBag.TP</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-verde text-white font-weight-bold h5">Partidas Empatadas</td>
+                                            <td>@ViewBag.TE</td>
+                                            <td class="bg-verde text-white font-weight-bold h5">Puntos Obtenidos</td>
+                                            <td>@ViewBag.PT</td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

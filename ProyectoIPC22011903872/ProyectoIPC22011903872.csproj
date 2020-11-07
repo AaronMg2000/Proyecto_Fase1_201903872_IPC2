@@ -191,13 +191,16 @@
     <Compile Include="Models\ViewModels\addUserViewModel.cs" />
     <Compile Include="Models\ViewModels\ColumnaViewModel.cs" />
     <Compile Include="Models\ViewModels\DatosModel.cs" />
+    <Compile Include="Models\ViewModels\DetalleViewModel.cs" />
     <Compile Include="Models\ViewModels\Encuentro.cs" />
+    <Compile Include="Models\ViewModels\EncuentroGet.cs" />
     <Compile Include="Models\ViewModels\Equipo.cs" />
     <Compile Include="Models\ViewModels\EquiposGetViewModel.cs" />
     <Compile Include="Models\ViewModels\Fase.cs" />
     <Compile Include="Models\ViewModels\FilaViewModel.cs" />
     <Compile Include="Models\ViewModels\getPaisViewModel.cs" />
     <Compile Include="Models\ViewModels\getUserViewModel.cs" />
+    <Compile Include="Models\ViewModels\PartidaGet.cs" />
     <Compile Include="Models\ViewModels\PartidaViewModel.cs" />
     <Compile Include="Models\ViewModels\TorneoGetViewModel.cs" />
     <Compile Include="Models\ViewModels\TorneoViewModel.cs" />
@@ -485,10 +488,12 @@
     <Content Include="Views\Shared\_VistaEquipos.cshtml" />
     <Content Include="Views\Shared\_TablaTorneo.cshtml" />
     <Content Include="Views\Torneo\Partida.cshtml" />
+    <Content Include="Views\User\VerPerfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Public\IMG\" />
+    <Folder Include="Public\Torneo\" />
     <Folder Include="Public\XML\" />
   </ItemGroup>
   <ItemGroup>

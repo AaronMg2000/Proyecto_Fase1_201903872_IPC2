@@ -2,15 +2,12 @@
 	<filas>8</filas>
     <columnas>8</columnas>
     <Jugador1>
-        <color>blanco</color>
-        <color>rojo</color>
-        <color>azul</color>   
+        <color>blanco</color>   
     </Jugador1>
     <Jugador2>
 	    <color>negro</color>
-	    <color>verde</color>
     </Jugador2>
-    <Modalidad>Inversa</Modalidad>
+    <Modalidad>Normal</Modalidad>
 	<tablero>
 		<ficha>
 			<color>blanco</color>

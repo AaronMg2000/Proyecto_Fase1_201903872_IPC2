@@ -1,0 +1,27 @@
+<campeonato>
+    <nombre>Campeonato Mundial</nombre>
+    <equipo>       
+        <nombreEquipo>Guatemala</nombreEquipo>
+        <jugador>Juan Pablo Juarez</jugador>
+        <jugador>Mauro Herrera</jugador>
+        <jugador>Kevin Cruz</jugador>          
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Peru</nombreEquipo>
+        <jugador>Pedro Castillo</jugador>
+        <jugador>Maria Castro</jugador>
+        <jugador>Lorena Paz</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Honduras</nombreEquipo>
+        <jugador>Humberto Orozco</jugador>
+        <jugador>Nancy Lopez</jugador>
+        <jugador>Tatiana Perez</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Argentina</nombreEquipo>
+        <jugador>Gonzalo Martinez</jugador>
+        <jugador>Carla Cruz</jugador>
+        <jugador>Mariano Martinez</jugador>
+    </equipo>
+</campeonato>

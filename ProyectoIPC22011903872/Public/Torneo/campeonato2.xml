@@ -1,0 +1,99 @@
+<campeonato>
+    <nombre>Campeonato Mundial 2</nombre>
+    <equipo>       
+        <nombreEquipo>Guatemala</nombreEquipo>
+        <jugador>Juan Pablo Juarez</jugador>
+        <jugador>Mauro Herrera</jugador>
+        <jugador>Kevin Cruz</jugador>          
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Peru</nombreEquipo>
+        <jugador>Pedro Castillo</jugador>
+        <jugador>Maria Castro</jugador>
+        <jugador>Lorena Paz</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Honduras</nombreEquipo>
+        <jugador>Humberto Orozco</jugador>
+        <jugador>Nancy Lopez</jugador>
+        <jugador>Tatiana Perez</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Argentina</nombreEquipo>
+        <jugador>Gonzalo Martinez</jugador>
+        <jugador>Carla Cruz</jugador>
+        <jugador>Mariano Martinez</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo0</nombreEquipo>
+        <jugador>AaronMG2000</jugador>
+        <jugador>Usuario1</jugador>
+        <jugador>Usuario2</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo1</nombreEquipo>
+        <jugador>Usuario3</jugador>
+        <jugador>Usuario4</jugador>
+        <jugador>Usuario5</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo2</nombreEquipo>
+        <jugador>Usuario47</jugador>
+        <jugador>Usuario46</jugador>
+        <jugador>Usuario45</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo3</nombreEquipo>
+        <jugador>Usuario6</jugador>
+        <jugador>Usuario7</jugador>
+        <jugador>Usuario8</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo4</nombreEquipo>
+        <jugador>Usuario9</jugador>
+        <jugador>Usuario10</jugador>
+        <jugador>Usuario11</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo5</nombreEquipo>
+        <jugador>Usuario12</jugador>
+        <jugador>Usuario13</jugador>
+        <jugador>Usuario14</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo6</nombreEquipo>
+        <jugador>Usuario15</jugador>
+        <jugador>Usuario16</jugador>
+        <jugador>Usuario17</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo7</nombreEquipo>
+        <jugador>Usuario18</jugador>
+        <jugador>Usuario19</jugador>
+        <jugador>Usuario20</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo8</nombreEquipo>
+        <jugador>Usuario21</jugador>
+        <jugador>Usuario22</jugador>
+        <jugador>Usuario23</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo9</nombreEquipo>
+        <jugador>Usuario24</jugador>
+        <jugador>Usuario25</jugador>
+        <jugador>Usuario26</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo10</nombreEquipo>
+        <jugador>Usuario27</jugador>
+        <jugador>Usuario28</jugador>
+        <jugador>Usuario29</jugador>
+    </equipo>
+    <equipo>       
+        <nombreEquipo>Equipo11</nombreEquipo>
+        <jugador>Usuario30</jugador>
+        <jugador>Usuario31</jugador>
+        <jugador>Usuario32</jugador>
+    </equipo>
+</campeonato>
