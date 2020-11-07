@@ -15,7 +15,28 @@
         $(document).ready(function () {
             $("#exampleModalCenter").modal({ backdrop: 'static', keyboard: false });
             $("#exampleModalCenter").modal('show');
+            $("#punteo1").keyup(function () {
+                var punteo1 = $("#punteo1").val();
+                var punteo2 = $("#punteo2").val();
+                if (punteo1 < 0) {
+                    $("#punteo1").val("0");
+                }
+                if ((punteo1 + punteo2) > 64) {
+                    $("#punteo1").val("0");
+                }
+            });
+            $("#punteo2").keyup(function () {
+                var punteo1 = $("#punteo1").val();
+                var punteo2 = $("#punteo2").val();
+                if (punteo2 < 0) {
+                    $("#punteo2").val("0");
+                }
+                if ((punteo1 + punteo2) > 64) {
+                    $("#punteo2").val("0");
+                }
+            });
         });
+       
         function Definir(nombre, equipo, fase, part) {
             var punteo1 = $("#punteo1").val();
             var punteo2 = $("#punteo2").val();
