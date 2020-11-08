@@ -1120,7 +1120,6 @@ namespace ProyectoIPC22011903872
                                 n = cc;
                                 G = N;
                             }
-
                         }
                         else
                         {
