@@ -775,7 +775,7 @@ namespace ProyectoIPC22011903872
             {
                 if (nc2 > nf)
                 {
-                    if (M - 1 - (nc2 - nf) <= N - 1)
+                    if (M - 1 - (nc2 - nf) < N - 1)
                     {
                         cc = M - 1 - (nc2 - nf);
                         ff = M - 1 - (nc2 - nf);
@@ -1267,7 +1267,7 @@ namespace ProyectoIPC22011903872
                         {
                             if (nc2 > nf)
                             {
-                                if (M - 1 - (nc2 - nf) <= N - 1)
+                                if (M - 1 - (nc2 - nf) < N - 1)
                                 {
                                     cc = M - 1 - (nc2 - nf);
                                     ff = M - 1 - (nc2 - nf);

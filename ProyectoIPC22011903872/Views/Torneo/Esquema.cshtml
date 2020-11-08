@@ -15,14 +15,21 @@
         $(document).ready(function () {
             $("#exampleModalCenter").modal({ backdrop: 'static', keyboard: false });
             $("#exampleModalCenter").modal('show');
+            
+        });
+        @*function detectar() {
             $("#punteo1").keyup(function () {
                 var punteo1 = $("#punteo1").val();
                 var punteo2 = $("#punteo2").val();
                 if (punteo1 < 0) {
                     $("#punteo1").val("0");
+                    console.log("1menor0");
                 }
                 if ((punteo1 + punteo2) > 64) {
                     $("#punteo1").val("0");
+                    console.log(punteo1);
+                    console.log(punteo2);
+                    console.log("1mayor64");
                 }
             });
             $("#punteo2").keyup(function () {
@@ -30,13 +37,14 @@
                 var punteo2 = $("#punteo2").val();
                 if (punteo2 < 0) {
                     $("#punteo2").val("0");
+                    console.log("2menor0");
                 }
                 if ((punteo1 + punteo2) > 64) {
-                    $("#punteo2").val("0");
+                    console.log("2mayor64");
+
                 }
             });
-        });
-       
+        }*@ 
         function Definir(nombre, equipo, fase, part) {
             var punteo1 = $("#punteo1").val();
             var punteo2 = $("#punteo2").val();
